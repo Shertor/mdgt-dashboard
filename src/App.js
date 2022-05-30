@@ -7,9 +7,11 @@ import Navigation from './Components/Navigation/Navigation'
 
 function App() {
 	return (
-		<div>
+		<div className="content-wrapper">
 			<LogInBar />
-			<Navigation />
+			<div className="content">
+				<Navigation />
+			</div>
 		</div>
 	)
 }

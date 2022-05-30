@@ -1,5 +1,13 @@
 import { React, Component } from 'react'
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import {
+	BrowserRouter as Router,
+	Routes,
+	Route,
+	Link,
+	NavLink,
+} from 'react-router-dom'
+
+import './Navigation.css'
 
 import Prise from '../Prise/Prise'
 import Reports from '../Reports/Reports'
@@ -11,15 +19,33 @@ export default class Navigation extends Component {
 			<>
 				<Router>
 					<nav className="navigation">
-						<Link as={Link} to="/" className="nav-link">
+						<NavLink
+							as={Link}
+							to="/"
+							className={({ isActive }) =>
+								isActive ? 'nav-link is-active' : 'nav-link'
+							}
+						>
 							Премия
-						</Link>
-						<Link as={Link} to="/Reports" className="nav-link">
+						</NavLink>
+						<NavLink
+							as={Link}
+							to="/Reports"
+							className={({ isActive }) =>
+								isActive ? 'nav-link is-active' : 'nav-link'
+							}
+						>
 							Отчёты
-						</Link>
-						<Link as={Link} to="/Payments" className="nav-link">
+						</NavLink>
+						<NavLink
+							as={Link}
+							to="/Payments"
+							className={({ isActive }) =>
+								isActive ? 'nav-link is-active' : 'nav-link'
+							}
+						>
 							Выплаты
-						</Link>
+						</NavLink>
 					</nav>
 
 					<Routes>

@@ -1,0 +1,11 @@
+.content-wrapper {
+	height: 100vh;
+	display: grid;
+
+	grid-template-rows: min-content;
+}
+
+.content {
+	display: grid;
+	grid-template-columns: 1fr 4fr;
+}
