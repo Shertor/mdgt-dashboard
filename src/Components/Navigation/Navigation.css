@@ -8,7 +8,8 @@
 
 	font-size: var(--h2-font-size);
 
-	background-color: var(--body-color);
+	background-color: var(--container-color);
+	border-radius: 0.5rem;
 
 	box-shadow: 1px 0px 4px hsla(var(--hue), 24%, 15%, 0.1);
 }

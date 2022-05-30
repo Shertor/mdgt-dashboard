@@ -12,6 +12,10 @@
 	align-items: center;
 	justify-content: flex-end;
 
+	background-color: var(--container-color);
+
+	border-radius: 0.5rem;
+
 	box-shadow: 1px 1px 4px hsla(var(--hue), 24%, 15%, 0.1);
 }
 

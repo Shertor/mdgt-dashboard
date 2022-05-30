@@ -1,6 +1,10 @@
 .content-wrapper {
 	height: 100vh;
+	max-width: 968px;
+	margin: 0 auto;
 	display: grid;
+
+	row-gap: 0.15rem;
 
 	grid-template-rows: min-content;
 }
