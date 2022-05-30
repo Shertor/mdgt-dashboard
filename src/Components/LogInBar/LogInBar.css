@@ -16,7 +16,8 @@
 
 	border-radius: 0.5rem;
 
-	box-shadow: 1px 1px 4px hsla(var(--hue), 24%, 15%, 0.1);
+	box-shadow: 1px 1px 4px hsla(var(--hue), 24%, 15%, 0.1),
+		-1px -1px 4px hsla(var(--hue), 24%, 15%, 0.1);
 }
 
 .login-form {

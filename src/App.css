@@ -6,10 +6,19 @@
 
 	row-gap: 0.15rem;
 
-	grid-template-rows: min-content;
+	grid-template-rows: min-content auto min-content;
 }
 
 .content {
 	display: grid;
 	grid-template-columns: 1fr 4fr;
+}
+
+.footer__copy {
+	height: var(--mb-1-5);
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: var(--smaller-font-size);
+	color: var(--text-color);
 }
