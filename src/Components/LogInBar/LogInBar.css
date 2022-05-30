@@ -5,6 +5,8 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: flex-end;
+
+	box-shadow: 1px 1px 4px hsla(var(--hue), 24%, 15%, 0.1);
 }
 
 .login-form {
