@@ -1,4 +1,4 @@
-import { React, useState } from 'react'
+import React, { useState } from 'react'
 
 import './App.css'
 
@@ -17,7 +17,7 @@ function App() {
 				<div className="content">
 					<Navigation />
 				</div>
-				<p className="footer__copy">&#169; by MDGT</p>
+				<p className="footer__copy"> &#169; by MDGT </p>
 			</div>
 		</Context.Provider>
 	)
