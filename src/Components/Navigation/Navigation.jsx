@@ -28,6 +28,9 @@ export default class Navigation extends Component {
 								isActive ? 'nav-link is-active' : 'nav-link'
 							}
 						>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+								<path d="M4 13h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1zm-1 7a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v4zm10 0a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-7a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v7zm1-10h6a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-6a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1z"></path>
+							</svg>{' '}
 							Сводка
 						</NavLink>
 						<NavLink
@@ -37,6 +40,9 @@ export default class Navigation extends Component {
 								isActive ? 'nav-link is-active' : 'nav-link'
 							}
 						>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+								<path d="M21 4h-3V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1v1H3a1 1 0 0 0-1 1v3c0 4.31 1.8 6.91 4.82 7A6 6 0 0 0 11 17.91V20H9v2h6v-2h-2v-2.09A6 6 0 0 0 17.18 15c3-.1 4.82-2.7 4.82-7V5a1 1 0 0 0-1-1zM4 8V6h2v6.83C4.22 12.08 4 9.3 4 8zm14 4.83V6h2v2c0 1.3-.22 4.08-2 4.83z"></path>
+							</svg>{' '}
 							Премия
 						</NavLink>
 						<NavLink
@@ -46,6 +52,9 @@ export default class Navigation extends Component {
 								isActive ? 'nav-link is-active' : 'nav-link'
 							}
 						>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+								<path d="m20 8-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM9 19H7v-9h2v9zm4 0h-2v-6h2v6zm4 0h-2v-3h2v3zM14 9h-1V4l5 5h-4z"></path>
+							</svg>{' '}
 							Отчёты
 						</NavLink>
 						<NavLink
@@ -55,6 +64,9 @@ export default class Navigation extends Component {
 								isActive ? 'nav-link is-active' : 'nav-link'
 							}
 						>
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+								<path d="M20 4H4c-1.103 0-2 .897-2 2v2h20V6c0-1.103-.897-2-2-2zM2 18c0 1.103.897 2 2 2h16c1.103 0 2-.897 2-2v-6H2v6zm3-3h6v2H5v-2z"></path>
+							</svg>{' '}
 							Выплаты
 						</NavLink>
 					</nav>

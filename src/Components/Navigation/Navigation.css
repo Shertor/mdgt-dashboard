@@ -2,18 +2,35 @@
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	row-gap: 0.5rem;
+	row-gap: 1rem;
 
-	padding: 0.5rem 1.25rem;
+	padding: 1.5rem 1.25rem;
 
-	font-size: var(--h2-font-size);
+	font-size: var(--h1-font-size);
 }
 
 .nav-link {
-	color: var(--text-color);
-	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	column-gap: 0.15rem;
 }
 
-.is-active {
+.nav-link,
+.nav-link svg {
+	color: var(--text-color);
+	fill: var(--text-color);
+
+	text-decoration: none;
+
+	transition: 0.4s;
+}
+
+.nav-link.is-active,
+.nav-link.is-active svg {
+	fill: var(--title-color);
 	color: var(--title-color);
+}
+
+.nav-link:hover svg {
+	transform: translateY(-0.2rem);
 }
