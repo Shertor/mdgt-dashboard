@@ -103,3 +103,11 @@ img {
 #root {
 	background-color: var(--body-color);
 }
+
+.card-item {
+	background-color: var(--container-color);
+	border-radius: 0.5rem;
+	/* border: none; */
+	box-shadow: 1px 0px 4px hsla(var(--hue), 24%, 15%, 0.1),
+		-1px 0px 4px hsla(var(--hue), 24%, 15%, 0.1);
+}

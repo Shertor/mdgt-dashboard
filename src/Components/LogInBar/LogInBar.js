@@ -69,7 +69,7 @@ export default function LogInBar() {
 
 	return (
 		<React.Fragment>
-			<div className="login-wrapper">
+			<div className="login-wrapper card-item">
 				{isLogged ? (
 					<div className="login-form">
 						<div className="login-user">{userName}</div>

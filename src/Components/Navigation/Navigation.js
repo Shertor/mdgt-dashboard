@@ -9,19 +9,30 @@ import {
 
 import './Navigation.css'
 
+import Summary from '../Summary/Summary'
 import Prise from '../Prise/Prise'
 import Reports from '../Reports/Reports'
 import Payments from '../Payments/Payments'
+import NotFound from '../NotFound/NotFound'
 
 export default class Navigation extends Component {
 	render() {
 		return (
 			<>
 				<Router>
-					<nav className="navigation">
+					<nav className="navigation card-item">
 						<NavLink
 							as={Link}
 							to="/"
+							className={({ isActive }) =>
+								isActive ? 'nav-link is-active' : 'nav-link'
+							}
+						>
+							Сводка
+						</NavLink>
+						<NavLink
+							as={Link}
+							to="/Prise"
 							className={({ isActive }) =>
 								isActive ? 'nav-link is-active' : 'nav-link'
 							}
@@ -49,7 +60,11 @@ export default class Navigation extends Component {
 					</nav>
 
 					<Routes>
-						<Route path="/" element={<Prise />} />
+						{/* 404 Page */}
+						<Route path="*" element={<NotFound />} />
+
+						<Route path="/" element={<Summary />} />
+						<Route path="/Prise" element={<Prise />} />
 						<Route path="/Reports" element={<Reports />} />
 						<Route path="/Payments" element={<Payments />} />
 					</Routes>
