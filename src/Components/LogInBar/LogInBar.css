@@ -18,18 +18,18 @@
 	align-items: center;
 	justify-content: center;
 
-	column-gap: 0.25rem;
+	column-gap: var(--col-gap);
 
 	height: fit-content;
-	min-height: 2.5rem;
+	min-height: var(--login-height);
 
-	margin-right: 1.5rem;
-	margin-left: 1.5rem;
+	margin-right: var(--mb-1-5);
+	margin-left: var(--mb-1-5);
 }
 
 .form-item,
 .login-user {
-	height: 2.5rem;
+	height: var(--login-height);
 	width: var(--form-item-width);
 
 	border: 1px solid white;
@@ -45,7 +45,7 @@
 
 .form-submit,
 .login-logout {
-	height: 2.5rem;
+	height: var(--login-height);
 	padding: 0.5rem 1rem;
 
 	border-radius: 0.5rem;
@@ -55,7 +55,7 @@
 
 .form-submit {
 	background-color: var(--first-color);
-	color: white;
+	color: var(--container-color);
 	font-size: var(--normal-font-size);
 	font-weight: var(--font-semi-bold);
 
@@ -78,7 +78,7 @@
 	background-color: var(--first-color-light);
 	box-shadow: 3px 3px 4px hsla(var(--hue), 24%, 15%, 0.1),
 		-3px -3px 4px hsla(var(--hue), 24%, 15%, 0.1);
-	color: white;
+	color: var(--container-color);
 }
 
 .login-user {

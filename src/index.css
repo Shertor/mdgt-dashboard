@@ -38,10 +38,20 @@
 	--mb-2: 2rem;
 	--mb-2-5: 2.5rem;
 
+	/* login height */
+	--login-height: 2.5rem;
+
+	/* grid gap */
+	--row-gap: 0.25rem;
+	--col-gap: 0.25rem
+
 	/* z index */
 
 	--z-tooltip: 10;
 	--z-fixed: 100;
+
+	/* app width */
+	--app-max-width: 968px;
 }
 
 *,
