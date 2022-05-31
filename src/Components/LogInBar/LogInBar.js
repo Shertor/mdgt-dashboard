@@ -1,5 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import './LogInBar.css'
+
+import Context from '../../context'
 
 function useInputValue(defaultValue = '') {
 	const [value, setValue] = useState(defaultValue)
@@ -22,7 +24,8 @@ async function login(username, password) {
 }
 
 export default function LogInBar() {
-	const [isLogged, setLogged] = useState(false)
+	const { isLogged, setLogged } = useContext(Context)
+
 	const [userName, setUserName] = useState('')
 	const [errClass, setErrClass] = useState('')
 
@@ -30,6 +33,11 @@ export default function LogInBar() {
 
 	const user = useInputValue('')
 	const password = useInputValue('')
+
+	function clearInput() {
+		user.clear()
+		password.clear()
+	}
 
 	function onFormSubmit(event) {
 		if (pending) return
@@ -47,12 +55,14 @@ export default function LogInBar() {
 					setUserName(user.value())
 					setLogged(response)
 					setErrClass('')
+					clearInput()
 					pending = false
 				} else {
 					setErrClass('login-err')
 					setTimeout(() => {
 						setErrClass('')
 					}, 2000)
+					clearInput()
 					pending = false
 				}
 			}, 0)
