@@ -2,9 +2,10 @@
 	height: 100vh;
 	max-width: 968px;
 	margin: 0 auto;
+	padding: 0 0.25rem;
 	display: grid;
 
-	row-gap: 0.15rem;
+	gap: 0.25rem;
 
 	grid-template-rows: min-content auto min-content;
 }
