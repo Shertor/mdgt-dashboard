@@ -7,15 +7,16 @@ import PriseChart from './PriseChart'
 import './Prise.css'
 
 async function getPrises() {
+	const range = 300
 	return {
 		prises: [
-			Math.random() * 100,
-			Math.random() * 100,
-			Math.random() * 100,
-			Math.random() * 100,
-			Math.random() * 100,
-			Math.random() * 100,
-			Math.random() * 100,
+			Math.round(Math.random() * range),
+			Math.round(Math.random() * range),
+			Math.round(Math.random() * range),
+			Math.round(Math.random() * range),
+			Math.round(Math.random() * range),
+			Math.round(Math.random() * range),
+			Math.round(Math.random() * range),
 		],
 		dates: [
 			'01.2022',
@@ -33,18 +34,25 @@ export default function Prise() {
 	const { isLogged } = useContext(Context)
 	const [prises, setPrises] = useState({ prises: [], dates: [] })
 
+	const [chartLoaded, setChartLoaded] = useState(false)
+
 	useEffect(() => {
-		console.log('useEffect ')
-		const interval = setInterval(() => {
+		function updatePriseChart() {
 			if (isLogged) {
 				setTimeout(() => {
 					getPrises().then((response) => {
 						console.log(response)
 						setPrises(response)
+						setChartLoaded(true)
 					})
 				}, 1000)
 			}
-		}, 5000)
+		}
+
+		updatePriseChart()
+
+		console.log('useEffect ')
+		const interval = setInterval(updatePriseChart, 100000)
 
 		return () => {
 			clearInterval(interval)
@@ -60,9 +68,24 @@ export default function Prise() {
 	return (
 		<>
 			{isLogged ? (
-				<div className="transparent-item">
-					<div className="prise-chart-card card-item">
-						<PriseChart dataset={prises} />
+				<div className="transparent-item prise-grid">
+					<div className="chart-card card-item">
+						{chartLoaded ? (
+							<PriseChart dataset={prises} />
+						) : (
+							<div className="blank-page-ar-2"></div>
+						)}
+					</div>
+					<div className="current-prise card-item">
+						<div className="current-prise__title">Текущая премия</div>
+						<div className="current-prise__prise">
+							{chartLoaded
+								? prises.prises[prises.prises.length - 1] + '%'
+								: null}
+						</div>
+						<div className="current-prise__date">
+							{prises.dates[prises.prises.length - 1]}
+						</div>
 					</div>
 				</div>
 			) : (

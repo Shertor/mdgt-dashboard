@@ -135,3 +135,21 @@ img {
 
 	background-color: transparent;
 }
+
+.chart-card {
+	position: relative;
+	min-height: 16vh;
+	min-width: 9vw;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	padding: 1.15rem 1.15rem 0 1.15rem;
+}
+
+@media screen and (max-width: 425px) {
+	.chart-card {
+		padding: 0rem 0.5rem 0 0.5rem;
+	}
+}

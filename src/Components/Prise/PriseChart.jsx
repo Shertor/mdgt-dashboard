@@ -48,10 +48,10 @@ export default function PriseChart({ dataset }) {
 				display: true,
 				title: {
 					display: true,
-					text: 'Value',
+					text: 'Премия, %',
 				},
-				suggestedMin: Math.min(...dataset.prises) * 0.9,
-				suggestedMax: Math.max(...dataset.prises) * 1.1,
+				suggestedMin: 0,
+				suggestedMax: Math.max(...dataset.prises),
 			},
 		},
 	}
