@@ -1,6 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
-export default function CurrentPrise({ prise, date, chartLoaded }) {
+function CurrentPrise({ prise, date, chartLoaded }) {
 	return (
 		<>
 			<div className="current-prise card-item">
@@ -13,3 +14,11 @@ export default function CurrentPrise({ prise, date, chartLoaded }) {
 		</>
 	)
 }
+
+CurrentPrise.propTypes = {
+	prise: PropTypes.number,
+	date: PropTypes.string,
+	chartLoaded: PropTypes.bool.isRequired,
+}
+
+export default CurrentPrise
