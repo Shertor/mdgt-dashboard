@@ -24,6 +24,7 @@ ChartJS.register(
 export default function PriseChart({ dataset }) {
 	const options = {
 		responsive: true,
+		// maintainAspectRatio: false,
 		plugins: {
 			title: {
 				display: false,
@@ -70,9 +71,6 @@ export default function PriseChart({ dataset }) {
 			},
 		],
 	}
-
-	console.log('Here')
-	console.log(dataset)
 
 	return (
 		<React.Fragment>
