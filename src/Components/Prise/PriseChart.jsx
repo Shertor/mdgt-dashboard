@@ -41,7 +41,10 @@ export default function PriseChart({ dataset }) {
 			x: {
 				display: true,
 				title: {
-					display: true,
+					display: false,
+				},
+				ticks: {
+					color: 'black',
 				},
 			},
 			y: {
@@ -49,9 +52,16 @@ export default function PriseChart({ dataset }) {
 				title: {
 					display: true,
 					text: 'Премия, %',
+					font: {
+						size: 14,
+					},
+					color: 'black',
 				},
 				suggestedMin: 0,
 				suggestedMax: Math.max(...dataset.prises),
+				ticks: {
+					color: 'black',
+				},
 			},
 		},
 	}
@@ -62,9 +72,9 @@ export default function PriseChart({ dataset }) {
 		labels,
 		datasets: [
 			{
-				label: 'Dataset 1',
+				label: 'Премия',
 				data: dataset.prises,
-				borderColor: 'rgb(255, 99, 132)',
+				borderColor: 'hsl(221, 24%, 32%)',
 				fill: false,
 				cubicInterpolationMode: 'monotone',
 				tension: 0.4,
