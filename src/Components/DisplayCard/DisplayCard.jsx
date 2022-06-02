@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-function CurrentPrise({ prise, date, chartLoaded }) {
+import './DisplayCard.css'
+
+function DisplayCard({ title, prise, date, chartLoaded }) {
 	return (
 		<>
 			<div className="current-prise card-item">
-				<div className="current-prise__title">Текущая премия</div>
+				<div className="current-prise__title">{title}</div>
 				<div className="current-prise__prise">
 					{chartLoaded ? prise + '%' : null}
 				</div>
@@ -15,10 +17,11 @@ function CurrentPrise({ prise, date, chartLoaded }) {
 	)
 }
 
-CurrentPrise.propTypes = {
+DisplayCard.propTypes = {
+	title: PropTypes.string,
 	prise: PropTypes.number,
 	date: PropTypes.string,
 	chartLoaded: PropTypes.bool.isRequired,
 }
 
-export default CurrentPrise
+export default DisplayCard

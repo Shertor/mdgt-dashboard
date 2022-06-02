@@ -3,7 +3,7 @@ import Context from '../../context'
 
 import NotLogged from '../NotLogged/NotLogged'
 import PriseChart from './PriseChart'
-import CurrentPrise from './CurrentPrise'
+import DisplayCard from '../DisplayCard/DisplayCard'
 
 import './Prise.css'
 
@@ -77,7 +77,8 @@ export default function Prise() {
 							<div className="blank-page-ar-2"></div>
 						)}
 					</div>
-					<CurrentPrise
+					<DisplayCard
+						title={'Текущая премия'}
 						prise={prises.prises[prises.prises.length - 1]}
 						date={prises.dates[prises.prises.length - 1]}
 						chartLoaded={chartLoaded}
