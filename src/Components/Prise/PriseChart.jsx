@@ -24,7 +24,7 @@ ChartJS.register(
 export default function PriseChart({ dataset }) {
 	const options = {
 		responsive: true,
-		// maintainAspectRatio: false,
+		maintainAspectRatio: false,
 		plugins: {
 			title: {
 				display: false,

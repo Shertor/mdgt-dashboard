@@ -138,8 +138,8 @@ img {
 
 .chart-card {
 	position: relative;
-	min-height: 16vh;
-	min-width: 9vw;
+	min-height: 32vh;
+	min-width: 18vw;
 
 	display: flex;
 	align-items: center;
