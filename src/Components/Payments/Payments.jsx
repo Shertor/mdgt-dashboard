@@ -8,7 +8,11 @@ export default function Payments() {
 
 	return (
 		<React.Fragment>
-			{isLogged ? <div className="card-item"></div> : <NotLogged />}
+			{isLogged ? (
+				<div className="card-item">This is a Payments page!</div>
+			) : (
+				<NotLogged />
+			)}
 		</React.Fragment>
 	)
 }

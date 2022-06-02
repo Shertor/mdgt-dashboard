@@ -48,8 +48,8 @@ export default function LogInBar() {
 		console.log(password.value())
 		event.preventDefault()
 
-		login(user.value(), password.value()).then((response) => {
-			setTimeout(() => {
+		login(user.value(), password.value())
+			.then((response) => {
 				console.log(response)
 				if (response) {
 					setUserName(user.value())
@@ -65,9 +65,10 @@ export default function LogInBar() {
 					clearInput()
 					pending = false
 				}
-			}, 0)
-		})
-		pending = false
+			})
+			.finally(() => {
+				pending = false
+			})
 	}
 
 	function onLogOutBtn() {

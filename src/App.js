@@ -8,18 +8,20 @@ import Navigation from './Components/Navigation/Navigation'
 import Context from './context'
 
 function App() {
-	const [isLogged, setLogged] = useState(false)
+	const [isLogged, setLogged] = useState(true)
 
 	return (
-		<Context.Provider value={{ isLogged, setLogged }}>
-			<div className="content-wrapper">
-				<LogInBar />
-				<div className="content">
-					<Navigation />
+		<>
+			<Context.Provider value={{ isLogged, setLogged }}>
+				<div className="content-wrapper">
+					<LogInBar />
+					<div className="content">
+						<Navigation />
+					</div>
+					<p className="footer__copy"> &#169; by MDGT </p>
 				</div>
-				<p className="footer__copy"> &#169; by MDGT </p>
-			</div>
-		</Context.Provider>
+			</Context.Provider>
+		</>
 	)
 }
 

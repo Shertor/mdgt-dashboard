@@ -8,7 +8,11 @@ export default function Summary() {
 
 	return (
 		<React.Fragment>
-			{isLogged ? <div className="card-item"></div> : <NotLogged />}
+			{isLogged ? (
+				<div className="card-item">This is a Summary page!</div>
+			) : (
+				<NotLogged />
+			)}
 		</React.Fragment>
 	)
 }

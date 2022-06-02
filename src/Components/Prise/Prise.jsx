@@ -1,8 +1,10 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import Context from '../../context'
 
 import NotLogged from '../NotLogged/NotLogged'
 import PriseChart from './PriseChart'
+
+import './Prise.css'
 
 async function getPrises() {
 	return {
@@ -29,26 +31,43 @@ async function getPrises() {
 
 export default function Prise() {
 	const { isLogged } = useContext(Context)
-	const [prises, setPrises] = React.useState({ prises: [], dates: [] })
+	const [prises, setPrises] = useState({ prises: [], dates: [] })
 
 	useEffect(() => {
-		if (isLogged) {
-			getPrises().then((response) => {
-				console.log(response)
-				setPrises(response)
-			})
+		console.log('useEffect ')
+		const interval = setInterval(() => {
+			if (isLogged) {
+				setTimeout(() => {
+					getPrises().then((response) => {
+						console.log(response)
+						setPrises(response)
+					})
+				}, 1000)
+			}
+		}, 5000)
+
+		return () => {
+			clearInterval(interval)
+		}
+	}, [isLogged])
+
+	useEffect(() => {
+		if (!isLogged) {
+			setPrises({ prises: [], dates: [] })
 		}
 	}, [isLogged])
 
 	return (
-		<React.Fragment>
+		<>
 			{isLogged ? (
-				<div className="card-item">
-					<PriseChart dataset={prises} />
+				<div className="transparent-item">
+					<div className="prise-chart-card card-item">
+						<PriseChart dataset={prises} />
+					</div>
 				</div>
 			) : (
 				<NotLogged />
 			)}
-		</React.Fragment>
+		</>
 	)
 }

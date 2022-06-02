@@ -8,7 +8,11 @@ export default function Reports() {
 
 	return (
 		<React.Fragment>
-			{isLogged ? <div className="card-item"></div> : <NotLogged />}
+			{isLogged ? (
+				<div className="card-item">This is a Reports page!</div>
+			) : (
+				<NotLogged />
+			)}
 		</React.Fragment>
 	)
 }

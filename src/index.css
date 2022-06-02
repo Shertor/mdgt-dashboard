@@ -121,3 +121,17 @@ img {
 	box-shadow: 1px 0px 4px hsla(var(--hue), 24%, 15%, 0.1),
 		-1px 0px 4px hsla(var(--hue), 24%, 15%, 0.1);
 }
+
+.transparent-item {
+	width: 100%;
+	height: 100%;
+
+	display: grid;
+
+	align-items: flex-start;
+
+	row-gap: var(--row-gap);
+	column-gap: var(--col-gap);
+
+	background-color: transparent;
+}
