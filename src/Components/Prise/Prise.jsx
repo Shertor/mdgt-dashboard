@@ -77,7 +77,11 @@ export default function Prise() {
 							<div className="blank-page-ar-2"></div>
 						)}
 					</div>
-					<CurrentPrise prises={prises} chartLoaded={chartLoaded} />
+					<CurrentPrise
+						prise={prises.prises[prises.prises.length - 1]}
+						date={prises.dates[prises.prises.length - 1]}
+						chartLoaded={chartLoaded}
+					/>
 				</div>
 			) : (
 				<NotLogged />

@@ -2,6 +2,9 @@ import React, { useContext } from 'react'
 import Context from '../../context'
 
 import NotLogged from '../NotLogged/NotLogged'
+import CurrentPrise from '../Prise/CurrentPrise'
+
+import './Summary.css'
 
 export default function Summary() {
 	const { isLogged } = useContext(Context)
@@ -9,7 +12,9 @@ export default function Summary() {
 	return (
 		<React.Fragment>
 			{isLogged ? (
-				<div className="card-item">This is a Summary page!</div>
+				<div className="transparent-item">
+					<CurrentPrise prise={300} date={'07.2022'} chartLoaded={true} />
+				</div>
 			) : (
 				<NotLogged />
 			)}
