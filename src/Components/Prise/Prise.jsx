@@ -19,15 +19,7 @@ async function getPrises() {
 			Math.round(Math.random() * range),
 			Math.round(Math.random() * range),
 		],
-		dates: [
-			'01.2022',
-			'02.2022',
-			'03.2022',
-			'04.2022',
-			'05.2022',
-			'06.2022',
-			'07.2022',
-		],
+		dates: ['янв', 'февр', 'мар', 'апр', 'май', 'июнь', 'июль'],
 	}
 }
 
@@ -71,11 +63,14 @@ export default function Prise() {
 			{isLogged ? (
 				<div className="transparent-item prise-grid">
 					<div className="chart-card card-item">
-						{chartLoaded ? (
-							<PriseChart dataset={prises} />
-						) : (
-							<div className="blank-page-ar-2"></div>
-						)}
+						<h1 className="chart-card__header">Динамика премии в процентах</h1>
+						<div className="chart-card__chart">
+							{chartLoaded ? (
+								<PriseChart dataset={prises} />
+							) : (
+								<div className="blank-page-ar-2"></div>
+							)}
+						</div>
 					</div>
 					<DisplayCard
 						title={'Текущая премия'}

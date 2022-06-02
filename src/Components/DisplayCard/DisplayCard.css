@@ -11,16 +11,25 @@
 }
 
 .current-prise__title {
-	font-size: var(--h3-font-size);
-	color: var(--text-color);
+	font-size: var(--h2-font-size);
+
+	color: var(--title-color);
 
 	font-weight: var(--font-medium);
 }
 
 .current-prise__prise {
 	font-size: calc(var(--h1-font-size)+4.5rem);
-	color: var(--title-color);
+	color: var(--text-color);
 	align-self: center;
+}
+
+.current-prise__prise.good {
+	color: var(--color-good-info);
+}
+
+.current-prise__prise.bad {
+	color: var(--color-bad-info);
 }
 
 .current-prise__date {
@@ -29,6 +38,9 @@
 
 @media screen and (max-width: 425px) {
 	.current-prise {
+		max-width: 180px;
+		min-height: 200px;
+
 		padding: 0.5rem;
 	}
 	.current-prise__prise {

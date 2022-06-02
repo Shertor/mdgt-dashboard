@@ -12,13 +12,22 @@ export default function Summary() {
 	return (
 		<React.Fragment>
 			{isLogged ? (
-				<div className="transparent-item">
+				<div className="transparent-item summary-grid">
 					<DisplayCard
 						title="Текущая премия"
 						prise={300}
 						date={'07.2022'}
 						chartLoaded={true}
+						type={'good'}
+						unit={'%'}
 					/>
+					<DisplayCard
+						title="Отчеты"
+						prise={14}
+						chartLoaded={true}
+						type={'bad'}
+					/>
+					<DisplayCard title="Выплата" prise={123} chartLoaded={true} />
 				</div>
 			) : (
 				<NotLogged />

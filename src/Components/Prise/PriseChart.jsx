@@ -45,15 +45,18 @@ export default function PriseChart({ dataset }) {
 				},
 				ticks: {
 					color: 'black',
+					font: {
+						size: 18,
+					},
 				},
 			},
 			y: {
 				display: true,
 				title: {
-					display: true,
+					display: false,
 					text: 'Премия, %',
 					font: {
-						size: 14,
+						size: 18,
 					},
 					color: 'black',
 				},
@@ -61,6 +64,9 @@ export default function PriseChart({ dataset }) {
 				suggestedMax: Math.max(...dataset.prises),
 				ticks: {
 					color: 'black',
+					font: {
+						size: 18,
+					},
 				},
 			},
 		},

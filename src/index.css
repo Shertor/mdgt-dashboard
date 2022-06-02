@@ -16,6 +16,9 @@
 	--body-color: hsl(var(--hue), 4%, 97%);
 	--container-color: #fff;
 
+	--color-good-info: hsl(var(--hue), 66%, 48%);
+	--color-bad-info: #d90429;
+
 	/* FONTS */
 	/* .5 rem = 8px; 1rem = 16px */
 	--body-font: 'Roboto', sans-serif;
@@ -138,14 +141,25 @@ img {
 
 .chart-card {
 	position: relative;
-	min-height: 32vh;
-	min-width: 18vw;
+	min-width: 40vw;
+	min-height: 40vh;
+
+	display: grid;
+	grid-template-columns: 100%;
+
+	row-gap: 1rem;
+
+	padding: 1.15rem 1.15rem 0 1.15rem;
+}
+
+.chart-card__chart {
+	position: relative;
+	height: 100%;
+	width: 100%;
 
 	display: flex;
 	align-items: center;
 	justify-content: center;
-
-	padding: 1.15rem 1.15rem 0 1.15rem;
 }
 
 @media screen and (max-width: 425px) {
