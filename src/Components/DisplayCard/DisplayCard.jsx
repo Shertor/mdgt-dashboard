@@ -13,7 +13,6 @@ function DisplayCard({ title, prize, date, chartLoaded, type, unit }) {
 
 	if (Object.keys(colors).includes(type)) {
 		colorClass = colors[type]
-		console.log(colorClass)
 	}
 
 	return (

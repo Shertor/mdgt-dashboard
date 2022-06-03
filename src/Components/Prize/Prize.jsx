@@ -29,7 +29,6 @@ export default function prize() {
 
 		updatePrizeChart()
 
-		console.log('useEffect ')
 		const interval = setInterval(updatePrizeChart, 100000)
 
 		return () => {

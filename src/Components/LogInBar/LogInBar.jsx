@@ -48,12 +48,20 @@ export default function LogInBar() {
 		console.log(password.value())
 		event.preventDefault()
 
-		login(user.value(), password.value())
+		fetch('http://192.168.0.200/authorization/sign-in/', {
+			method: 'POST',
+			headers: {
+				accept: 'application/json',
+				'Content-Type': 'application/x-www-form-urlencoded',
+			},
+			username: user.value(),
+			password: password.value(),
+		})
 			.then((response) => {
 				console.log(response)
-				if (response) {
+				if (response.ok) {
 					setUserName(user.value())
-					setLogged(response)
+					setLogged(true)
 					setErrClass('')
 					clearInput()
 					pending = false

@@ -94,8 +94,6 @@ export default function prizeChart({ dataset }) {
 
 	const labels = inputData.dates
 
-	console.log(labels)
-
 	const data = {
 		labels,
 		datasets: [

@@ -1,5 +1,3 @@
-import React from 'react'
-
 export function parsePrizes(data) {
 	const options = { year: 'numeric', month: 'short' }
 
