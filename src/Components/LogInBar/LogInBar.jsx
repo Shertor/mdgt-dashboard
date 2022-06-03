@@ -54,8 +54,7 @@ export default function LogInBar() {
 				accept: 'application/json',
 				'Content-Type': 'application/x-www-form-urlencoded',
 			},
-			username: user.value(),
-			password: password.value(),
+			body: [`username=${user.value()}&password=${password.value()}`],
 		})
 			.then((response) => {
 				console.log(response)
@@ -81,9 +80,12 @@ export default function LogInBar() {
 
 	function onLogOutBtn() {
 		console.log('logout')
-
-		setLogged(false)
-		setUserName('')
+		fetch('http://192.168.0.200/authorization/sign-out/').then((response) => {
+			if (response.ok) {
+				setLogged(false)
+				setUserName('')
+			}
+		})
 	}
 
 	return (
