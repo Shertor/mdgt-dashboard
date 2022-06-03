@@ -21,7 +21,13 @@ function DisplayCard({ title, prize, date, chartLoaded, type, unit }) {
 			<div className="current-prize card-item">
 				{title ? <div className="current-prize__title">{title}</div> : null}
 				<div className={'current-prize__prize ' + colorClass}>
-					{chartLoaded ? prize + (unit ? unit : '') : null}
+					{chartLoaded ? (
+						<>
+							{Math.round(prize)}
+							<p id="not-int-unit-part">.35</p>
+							<p>{unit ? unit : ''}</p>
+						</>
+					) : null}
 				</div>
 				<div className="current-prize__date">{date}</div>
 			</div>

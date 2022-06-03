@@ -6,3 +6,20 @@
 	width: 100%;
 	height: 100%;
 }
+
+.display-cards-wrapper__title {
+	padding: 1.15rem 1.15rem 0 1.15rem;
+}
+
+.display-cards-wrapper__cards {
+	display: flex;
+	flex-wrap: wrap;
+
+	align-items: center;
+
+	justify-content: space-between;
+}
+
+.display-cards-wrapper__cards .card-item {
+	box-shadow: none;
+}

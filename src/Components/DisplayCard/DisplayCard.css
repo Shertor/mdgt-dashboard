@@ -1,5 +1,5 @@
 .current-prize {
-	max-width: 220px;
+	max-width: 240px;
 	min-height: 230px;
 
 	padding: 1rem 1.5rem;
@@ -19,12 +19,25 @@
 }
 
 .current-prize__prize {
-	font-size: calc(var(--h1-font-size)+4.5rem);
+	display: inline-flex;
+	align-items: baseline;
+
+	font-size: calc(var(--h1-font-size)+3.5rem);
 	color: var(--text-color);
 	align-self: center;
 }
 
+.current-prize__prize #not-int-unit-part {
+	font-size: var(--h1-font-size);
+	color: var(--text-color-light);
+}
+
 .current-prize__prize.good {
+	color: var(--color-good-info);
+}
+
+.current-prize__prize.good #not-int-unit-part {
+	opacity: 0.6;
 	color: var(--color-good-info);
 }
 
@@ -32,7 +45,13 @@
 	color: var(--color-bad-info);
 }
 
+.current-prize__prize.bad #not-int-unit-part {
+	opacity: 0.6;
+	color: var(--color-bad-info);
+}
+
 .current-prize__date {
+	min-height: var(--normal-font-size);
 	color: var(--text-color-light);
 }
 
