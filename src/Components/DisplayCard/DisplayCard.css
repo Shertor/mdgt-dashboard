@@ -1,4 +1,4 @@
-.current-prise {
+.current-prize {
 	max-width: 220px;
 	min-height: 230px;
 
@@ -10,7 +10,7 @@
 	justify-content: space-between;
 }
 
-.current-prise__title {
+.current-prize__title {
 	font-size: var(--h2-font-size);
 
 	color: var(--title-color);
@@ -18,32 +18,32 @@
 	font-weight: var(--font-medium);
 }
 
-.current-prise__prise {
+.current-prize__prize {
 	font-size: calc(var(--h1-font-size)+4.5rem);
 	color: var(--text-color);
 	align-self: center;
 }
 
-.current-prise__prise.good {
+.current-prize__prize.good {
 	color: var(--color-good-info);
 }
 
-.current-prise__prise.bad {
+.current-prize__prize.bad {
 	color: var(--color-bad-info);
 }
 
-.current-prise__date {
+.current-prize__date {
 	color: var(--text-color-light);
 }
 
 @media screen and (max-width: 425px) {
-	.current-prise {
+	.current-prize {
 		max-width: 180px;
 		min-height: 200px;
 
 		padding: 0.5rem;
 	}
-	.current-prise__prise {
+	.current-prize__prize {
 		font-size: calc(var(--h1-font-size)+2.5rem);
 
 		align-self: center;

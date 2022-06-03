@@ -4,7 +4,7 @@ import { Routes, Route, NavLink } from 'react-router-dom'
 import './Navigation.css'
 
 import Summary from '../Summary/Summary'
-import Prise from '../Prise/Prise'
+import Prize from '../Prize/Prize'
 import Reports from '../Reports/Reports'
 import Payments from '../Payments/Payments'
 import NotFound from '../NotFound/NotFound'
@@ -25,7 +25,7 @@ export default function Navigation() {
 					Сводка
 				</NavLink>
 				<NavLink
-					to="/Prise"
+					to="/Prize"
 					className={({ isActive }) =>
 						isActive ? 'nav-link is-active' : 'nav-link'
 					}
@@ -61,7 +61,7 @@ export default function Navigation() {
 
 			<Routes>
 				<Route path="/" element={<Summary />} />
-				<Route path="/Prise" element={<Prise />} />
+				<Route path="/prize" element={<Prize />} />
 				<Route path="/Reports" element={<Reports />} />
 				<Route path="/Payments" element={<Payments />} />
 

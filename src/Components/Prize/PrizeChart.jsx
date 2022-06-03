@@ -21,7 +21,9 @@ ChartJS.register(
 	Legend
 )
 
-export default function PriseChart({ dataset }) {
+export default function prizeChart({ dataset }) {
+	const inputData = { prizes: [...dataset.prizes], dates: [...dataset.dates] }
+
 	const options = {
 		responsive: true,
 		maintainAspectRatio: false,
@@ -46,7 +48,7 @@ export default function PriseChart({ dataset }) {
 				ticks: {
 					color: 'black',
 					font: {
-						size: 18,
+						size: 16,
 					},
 				},
 			},
@@ -56,30 +58,50 @@ export default function PriseChart({ dataset }) {
 					display: false,
 					text: 'Премия, %',
 					font: {
-						size: 18,
+						size: 16,
 					},
 					color: 'black',
+					align: 'center',
 				},
 				suggestedMin: 0,
-				suggestedMax: Math.max(...dataset.prises),
+				suggestedMax: Math.max(...inputData.prizes),
 				ticks: {
 					color: 'black',
 					font: {
-						size: 18,
+						size: 16,
 					},
 				},
 			},
 		},
 	}
 
-	const labels = dataset.dates
+	const dates = [...inputData.dates]
+
+	let prevYear = parseFloat(dates[0].split(' ')[1])
+	dates[0] = dates[0].split(' ')
+	for (let i = 1; i < dates.length; i++) {
+		const currentDate = dates[i].split(' ')
+
+		if (parseFloat(currentDate[1]) > prevYear) {
+			prevYear = parseFloat(currentDate[1])
+			dates[i] = [currentDate[0].slice(0, 3), currentDate[1]]
+		} else {
+			dates[i] = currentDate[0].slice(0, 3)
+		}
+	}
+
+	inputData.dates = dates
+
+	const labels = inputData.dates
+
+	console.log(labels)
 
 	const data = {
 		labels,
 		datasets: [
 			{
 				label: 'Премия',
-				data: dataset.prises,
+				data: inputData.prizes,
 				borderColor: 'hsl(221, 24%, 32%)',
 				fill: false,
 				cubicInterpolationMode: 'monotone',

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import './DisplayCard.css'
 
-function DisplayCard({ title, prise, date, chartLoaded, type, unit }) {
+function DisplayCard({ title, prize, date, chartLoaded, type, unit }) {
 	const colors = { good: 'good', bad: 'bad', neutral: '' }
 	let colorClass = ''
 
@@ -18,12 +18,12 @@ function DisplayCard({ title, prise, date, chartLoaded, type, unit }) {
 
 	return (
 		<>
-			<div className="current-prise card-item">
-				{title ? <div className="current-prise__title">{title}</div> : null}
-				<div className={'current-prise__prise ' + colorClass}>
-					{chartLoaded ? prise + (unit ? unit : '') : null}
+			<div className="current-prize card-item">
+				{title ? <div className="current-prize__title">{title}</div> : null}
+				<div className={'current-prize__prize ' + colorClass}>
+					{chartLoaded ? prize + (unit ? unit : '') : null}
 				</div>
-				<div className="current-prise__date">{date}</div>
+				<div className="current-prize__date">{date}</div>
 			</div>
 		</>
 	)
@@ -31,7 +31,7 @@ function DisplayCard({ title, prise, date, chartLoaded, type, unit }) {
 
 DisplayCard.propTypes = {
 	title: PropTypes.string,
-	prise: PropTypes.number,
+	prize: PropTypes.number,
 	date: PropTypes.string,
 	chartLoaded: PropTypes.bool.isRequired,
 	type: PropTypes.string,
