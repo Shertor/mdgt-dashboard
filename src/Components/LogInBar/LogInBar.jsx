@@ -1,4 +1,6 @@
 import React, { useState, useContext } from 'react'
+import axios from 'axios'
+
 import './LogInBar.css'
 
 import Context from '../../context'
@@ -48,18 +50,26 @@ export default function LogInBar() {
 		console.log(password.value())
 		event.preventDefault()
 
-		fetch('http://192.168.0.200/authorization/sign-in/', {
-			method: 'POST',
-			headers: {
-				accept: 'application/json',
-				'Content-Type': 'application/x-www-form-urlencoded',
+		axios.interceptors.request.use(
+			(config) => {
+				// Код, необходимый до отправки запроса
+				config.method = 'post'
+				return config
 			},
-			credentials: 'same-origin',
-			body: [`username=${user.value()}&password=${password.value()}`],
-		})
+			(error) => {
+				// Обработка ошибки из запроса
+				return Promise.reject(error)
+			}
+		)
+
+		axios
+			.post(
+				'http://192.168.0.200/authorization/sign-in/',
+				`username=${user.value()}&password=${password.value()}`
+			)
 			.then((response) => {
 				console.log(response)
-				if (response.ok) {
+				if (response.status === 200) {
 					setUserName(user.value())
 					setLogged(true)
 					setErrClass('')
@@ -77,6 +87,36 @@ export default function LogInBar() {
 			.finally(() => {
 				pending = false
 			})
+
+		// fetch('http://192.168.0.200/authorization/sign-in/', {
+		// 	method: 'POST',
+		// 	headers: {
+		// 		accept: 'application/json',
+		// 		'Content-Type': 'application/x-www-form-urlencoded',
+		// 	},
+		// 	credentials: 'same-origin',
+		// 	body: [`username=${user.value()}&password=${password.value()}`],
+		// })
+		// 	.then((response) => {
+		// 		console.log(response)
+		// 		if (response.ok) {
+		// 			setUserName(user.value())
+		// 			setLogged(true)
+		// 			setErrClass('')
+		// 			clearInput()
+		// 			pending = false
+		// 		} else {
+		// 			setErrClass('login-err')
+		// 			setTimeout(() => {
+		// 				setErrClass('')
+		// 			}, 2000)
+		// 			clearInput()
+		// 			pending = false
+		// 		}
+		// 	})
+		// 	.finally(() => {
+		// 		pending = false
+		// 	})
 	}
 
 	function onLogOutBtn() {
@@ -86,7 +126,7 @@ export default function LogInBar() {
 			headers: {
 				accept: 'application/json',
 			},
-			credentials: 'include',
+			credentials: 'same-origin',
 		}).then((response) => {
 			if (response.ok) {
 				setLogged(false)
