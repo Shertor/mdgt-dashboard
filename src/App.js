@@ -8,7 +8,7 @@ import Navigation from './Components/Navigation/Navigation'
 import Context from './context'
 
 function App() {
-	const [isLogged, setLogged] = useState(false)
+	const [isLogged, setLogged] = useState(true)
 
 	return (
 		<>

@@ -6,9 +6,9 @@ import Context from '../../context'
 import NotLogged from '../NotLogged/NotLogged'
 import PrizeChart from './PrizeChart'
 import DisplayCard from '../DisplayCard/DisplayCard'
-import { parsePrizes } from '../utils'
+import { parsePrizes, getPrizes } from '../utils'
 
-export default function prize() {
+export default function Prize() {
 	const { isLogged } = useContext(Context)
 	const [prizes, setPrizes] = useState({ prizes: [], dates: [] })
 
@@ -17,8 +17,8 @@ export default function prize() {
 	useEffect(() => {
 		function updatePrizeChart() {
 			if (isLogged) {
-				fetch('http://192.168.0.200/prizes/')
-					.then((response) => response.json())
+				getPrizes('http://192.168.0.200/prizes/')
+					// .then((response) => response.json())
 					.then((data) => {
 						const resultData = parsePrizes(data)
 						setPrizes(resultData)

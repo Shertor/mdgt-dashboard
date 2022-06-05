@@ -50,6 +50,16 @@ export default function LogInBar() {
 		console.log(password.value())
 		event.preventDefault()
 
+
+		setErrClass('login-err')
+		setTimeout(() => {
+			setErrClass('')
+		}, 2000)
+		clearInput()
+		pending = false
+		return
+		
+
 		axios.interceptors.request.use(
 			(config) => {
 				// Код, необходимый до отправки запроса
