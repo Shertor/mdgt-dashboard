@@ -29,6 +29,7 @@
 .nav-link.is-active svg {
 	fill: var(--title-color);
 	color: var(--title-color);
+	font-weight: var(--font-semi-bold);
 }
 
 .nav-link:hover svg {

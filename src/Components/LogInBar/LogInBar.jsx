@@ -85,36 +85,6 @@ export default function LogInBar() {
 			.finally(() => {
 				pending = false
 			})
-
-		// fetch('http://192.168.0.200/authorization/sign-in/', {
-		// 	method: 'POST',
-		// 	headers: {
-		// 		accept: 'application/json',
-		// 		'Content-Type': 'application/x-www-form-urlencoded',
-		// 	},
-		// 	credentials: 'same-origin',
-		// 	body: [`username=${user.value()}&password=${password.value()}`],
-		// })
-		// 	.then((response) => {
-		// 		console.log(response)
-		// 		if (response.ok) {
-		// 			setUserName(user.value())
-		// 			setLogged(true)
-		// 			setErrClass('')
-		// 			clearInput()
-		// 			pending = false
-		// 		} else {
-		// 			setErrClass('login-err')
-		// 			setTimeout(() => {
-		// 				setErrClass('')
-		// 			}, 2000)
-		// 			clearInput()
-		// 			pending = false
-		// 		}
-		// 	})
-		// 	.finally(() => {
-		// 		pending = false
-		// 	})
 	}
 
 	function onLogOutBtn() {

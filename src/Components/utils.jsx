@@ -43,3 +43,7 @@ export async function login(username, password) {
 	}
 	return false
 }
+
+export function parseReports(data) {
+	console.log(data)
+}
