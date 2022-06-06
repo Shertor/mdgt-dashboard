@@ -5,7 +5,7 @@ import axios from 'axios'
 import NotLogged from '../NotLogged/NotLogged'
 
 export default function Payments() {
-	const { isLogged } = useContext(Context)
+	const { isLogged, api } = useContext(Context)
 
 	useEffect(() => {
 		const instance2 = axios.create()
@@ -24,7 +24,7 @@ export default function Payments() {
 		function updatePayments() {
 			if (isLogged) {
 				instance2
-					.get('http://192.168.0.76:8000/pay/', {
+					.get(`${api}pay/`, {
 						method: 'get',
 						withCredentials: true,
 					})

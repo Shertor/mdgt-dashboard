@@ -9,7 +9,7 @@ import DisplayCard from '../DisplayCard/DisplayCard'
 import { parsePrizes } from '../utils'
 
 export default function Prize() {
-	const { isLogged } = useContext(Context)
+	const { isLogged, api } = useContext(Context)
 	const [prizes, setPrizes] = useState({ prizes: [], dates: [] })
 
 	const [chartLoaded, setChartLoaded] = useState(false)
@@ -17,7 +17,7 @@ export default function Prize() {
 	useEffect(() => {
 		function updatePrizeChart() {
 			if (isLogged) {
-				fetch('http://192.168.0.76:8000/prizes/')
+				fetch(`${api}prizes/`)
 					.then((response) => response.json())
 					.then((data) => {
 						const resultData = parsePrizes(data)

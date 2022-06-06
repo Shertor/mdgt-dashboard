@@ -21,7 +21,7 @@ function useInputValue(defaultValue = '') {
 export default function LogInBar() {
 	const client = axios.create()
 
-	const { isLogged, setLogged } = useContext(Context)
+	const { isLogged, setLogged, api } = useContext(Context)
 
 	const [userName, setUserName] = useState('')
 	const [errClass, setErrClass] = useState('')
@@ -62,7 +62,7 @@ export default function LogInBar() {
 
 		client
 			.post(
-				'http://192.168.0.200/authorization/sign-in/',
+				`${api}authorization/sign-in/`,
 				`username=${user.value()}&password=${password.value()}`
 			)
 			.then((response) => {
