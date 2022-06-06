@@ -15,7 +15,7 @@ export default function Summary() {
 				<div className="transparent-item summary-grid">
 					<DisplayCard
 						title="Текущая премия"
-						prize={300}
+						prize={300.21}
 						date={'07.2022'}
 						chartLoaded={true}
 						type={'good'}
@@ -27,7 +27,7 @@ export default function Summary() {
 						chartLoaded={true}
 						type={'bad'}
 					/>
-					<DisplayCard title="Выплата" prize={123} chartLoaded={true} />
+					<DisplayCard title="Выплата" prize={123.83651} chartLoaded={true} />
 				</div>
 			) : (
 				<NotLogged />
