@@ -8,21 +8,51 @@ import {
 	Title,
 	Tooltip,
 	Legend,
+	BarElement,
 } from 'chart.js'
-import { Line } from 'react-chartjs-2'
+import { Bar } from 'react-chartjs-2'
 
 ChartJS.register(
 	CategoryScale,
 	LinearScale,
 	PointElement,
 	LineElement,
+	BarElement,
 	Title,
 	Tooltip,
 	Legend
 )
 
-export default function prizeChart({ dataset }) {
-	const inputData = { prizes: [...dataset.prizes], dates: [...dataset.dates] }
+export default function ReportsBarChart({ dataset }) {
+	const inputData = { ...dataset.reports }
+
+	const reportsDatasets = []
+	const labels = []
+
+	const labelsNames = {
+		python_all: 'Питон',
+		mathcad_report: 'Маткад',
+		physical_statement: 'Физика',
+		mechanics_statement: 'Механика',
+	}
+
+	const types = Object.keys(labelsNames)
+	types.forEach((type) => {
+		reportsDatasets.push(inputData[type])
+		labels.push(labelsNames[type])
+	})
+
+	const typesColors = ['hsl(221, 24%, 32%)', '#3D84A8', '#46CDCF', '#ABEDD8']
+
+	function colorize() {
+		return (ctx) => {
+			const type = ctx.parsed.x
+			console.log(type)
+			const c = typesColors[type]
+
+			return c
+		}
+	}
 
 	const options = {
 		responsive: true,
@@ -35,9 +65,6 @@ export default function prizeChart({ dataset }) {
 			legend: {
 				display: false,
 			},
-		},
-		interaction: {
-			intersect: false,
 		},
 		scales: {
 			x: {
@@ -56,7 +83,7 @@ export default function prizeChart({ dataset }) {
 				display: true,
 				title: {
 					display: false,
-					text: 'Премия, %',
+					text: 'Число протоколов',
 					font: {
 						size: 16,
 					},
@@ -64,7 +91,7 @@ export default function prizeChart({ dataset }) {
 					align: 'center',
 				},
 				suggestedMin: 0,
-				suggestedMax: Math.max(...inputData.prizes),
+				suggestedMax: Math.max(...reportsDatasets),
 				ticks: {
 					color: 'black',
 					font: {
@@ -73,44 +100,30 @@ export default function prizeChart({ dataset }) {
 				},
 			},
 		},
+		elements: {
+			bar: {
+				backgroundColor: colorize(),
+				borderColor: colorize(),
+				borderWidth: 0,
+				borderRadius: 5,
+				borderSkipped: true,
+			},
+		},
 	}
-
-	const dates = [...inputData.dates]
-
-	let prevYear = parseFloat(dates[0].split(' ')[1])
-	dates[0] = dates[0].split(' ')
-	for (let i = 1; i < dates.length; i++) {
-		const currentDate = dates[i].split(' ')
-
-		if (parseFloat(currentDate[1]) > prevYear) {
-			prevYear = parseFloat(currentDate[1])
-			dates[i] = [currentDate[0].slice(0, 3), currentDate[1]]
-		} else {
-			dates[i] = currentDate[0].slice(0, 3)
-		}
-	}
-
-	inputData.dates = dates
-
-	const labels = inputData.dates
 
 	const data = {
 		labels,
 		datasets: [
 			{
-				label: 'Премия',
-				data: inputData.prizes,
-				borderColor: 'hsl(221, 24%, 32%)',
-				fill: false,
-				cubicInterpolationMode: 'monotone',
-				tension: 0.4,
+				label: 'Количество',
+				data: reportsDatasets,
 			},
 		],
 	}
 
 	return (
 		<React.Fragment>
-			<Line options={options} data={data} />
+			<Bar options={options} data={data} />
 		</React.Fragment>
 	)
 }

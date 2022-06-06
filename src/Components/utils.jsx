@@ -45,5 +45,27 @@ export async function login(username, password) {
 }
 
 export function parseReports(data) {
-	console.log(data)
+	const options = { year: 'numeric', month: 'short' }
+
+	const reports = []
+	const dates = []
+
+	const items = Object.keys(data)
+
+	if (items.length > 0) {
+		items.forEach((item) => {
+			const reportItem = { ...data[item] }
+			delete reportItem.date
+			reports.push(reportItem)
+			const date = new Intl.DateTimeFormat('ru-RU', options)
+				.format(new Date(data[item].date))
+				.replace(' г.', '')
+
+			dates.push(date)
+		})
+	}
+
+	const resultData = { reports: reports, dates: dates }
+
+	return resultData
 }
