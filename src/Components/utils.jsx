@@ -67,5 +67,7 @@ export function parseReports(data) {
 
 	const resultData = { reports: reports, dates: dates }
 
+	console.log(resultData)
+
 	return resultData
 }

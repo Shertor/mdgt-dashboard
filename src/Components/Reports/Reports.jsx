@@ -4,7 +4,8 @@ import './Reports.css'
 
 import NotLogged from '../NotLogged/NotLogged'
 import { parseReports } from '../utils'
-import ReportsBarChart from './ReportsChart'
+import ReportsBarChart from './ReportsBarChart'
+import ReportsDoughnut from './ReportsDoughnut'
 
 export default function Reports() {
 	const { isLogged, api } = useContext(Context)
@@ -40,7 +41,7 @@ export default function Reports() {
 				<div className="transparent-item reports-grid">
 					<div className="chart-card card-item">
 						<h1 className="chart-card__header">
-							Выдано протоколов за {reports.dates[reports.dates.length - 1]}
+							Выдано за {reports.dates[reports.dates.length - 1]}
 						</h1>
 						<div className="chart-card__chart">
 							{reportsLoaded ? (
@@ -54,7 +55,18 @@ export default function Reports() {
 							)}
 						</div>
 					</div>
-					<div className="chart-card card-item"></div>
+					<div className="chart-card card-item reports-doughnut-item">
+						<h1 className="reports-doughnut-item__title">
+							Протоколы на Python
+						</h1>
+						<div className="reports-doughnut-item__doughnut">
+							<ReportsDoughnut
+								dataset={{
+									reports: reports.reports[reports.reports.length - 1],
+								}}
+							/>
+						</div>
+					</div>
 				</div>
 			) : (
 				<NotLogged />

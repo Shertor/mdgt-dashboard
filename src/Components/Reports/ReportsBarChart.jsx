@@ -47,7 +47,6 @@ export default function ReportsBarChart({ dataset }) {
 	function colorize() {
 		return (ctx) => {
 			const type = ctx.parsed.x
-			console.log(type)
 			const c = typesColors[type]
 
 			return c
