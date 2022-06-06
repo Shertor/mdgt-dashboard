@@ -35,6 +35,12 @@ export default function Reports({ toSummary }) {
 		}
 	}, [isLogged])
 
+	useEffect(() => {
+		if (!isLogged) {
+			setReports({ reports: [], dates: [] })
+		}
+	}, [isLogged])
+
 	return (
 		<>
 			{toSummary ? (
