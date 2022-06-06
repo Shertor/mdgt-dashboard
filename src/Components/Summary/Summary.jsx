@@ -1,25 +1,63 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Context from '../../context'
 
 import NotLogged from '../NotLogged/NotLogged'
 import DisplayCard from '../DisplayCard/DisplayCard'
+import { parsePrizes } from '../utils'
 
 import './Summary.css'
 
 export default function Summary() {
-	const { isLogged } = useContext(Context)
+	const { isLogged, api } = useContext(Context)
+
+	const [prizes, setPrizes] = useState({ prizes: [], dates: [] })
+
+	const [prizeLoaded, setPrizeLoaded] = useState(false)
+
+	useEffect(() => {
+		function updatePrizeChart() {
+			if (isLogged) {
+				fetch(`${api}prizes/`)
+					.then((response) => response.json())
+					.then((data) => {
+						const resultData = parsePrizes(data)
+						setPrizes(resultData)
+						setPrizeLoaded(true)
+					})
+			}
+		}
+
+		updatePrizeChart()
+
+		const interval = setInterval(updatePrizeChart, 100000)
+
+		return () => {
+			clearInterval(interval)
+		}
+	}, [isLogged])
+
+	useEffect(() => {
+		if (!isLogged) {
+			setPrizes({ prizes: [], dates: [] })
+		}
+	}, [isLogged])
 
 	return (
 		<React.Fragment>
 			{isLogged ? (
-				<div className="transparent-item summary-grid">
+				<div className="transparent-item summary-flex">
 					<DisplayCard
-						title="Текущая премия"
-						prize={300.21}
-						date={'07.2022'}
-						chartLoaded={true}
-						type={'good'}
+						title={'Текущая премия'}
+						prize={prizes.prizes[prizes.prizes.length - 1]}
+						date={prizes.dates[prizes.prizes.length - 1]}
+						chartLoaded={prizeLoaded}
 						unit={'%'}
+						type={
+							prizes.prizes[prizes.prizes.length - 1] <
+							Math.max(...prizes.prizes)
+								? 'bad'
+								: ''
+						}
 					/>
 					<DisplayCard
 						title="Отчеты"
