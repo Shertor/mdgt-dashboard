@@ -1,6 +1,8 @@
 .summary-flex {
-	display: flex;
+	grid-template-rows: min-content min-content;
+
+	/* display: flex;
 	align-items: flex-start;
 	align-content: flex-start;
-	flex-wrap: wrap;
+	flex-wrap: wrap; */
 }
