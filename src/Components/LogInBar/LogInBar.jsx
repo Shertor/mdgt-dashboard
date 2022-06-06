@@ -18,14 +18,9 @@ function useInputValue(defaultValue = '') {
 	}
 }
 
-async function login(username, password) {
-	if (username === 'test' && password === '911') {
-		return true
-	}
-	return false
-}
-
 export default function LogInBar() {
+	const client = axios.create()
+
 	const { isLogged, setLogged } = useContext(Context)
 
 	const [userName, setUserName] = useState('')
@@ -50,20 +45,13 @@ export default function LogInBar() {
 		console.log(password.value())
 		event.preventDefault()
 
-
-		setErrClass('login-err')
-		setTimeout(() => {
-			setErrClass('')
-		}, 2000)
-		clearInput()
-		pending = false
-		return
-		
-
-		axios.interceptors.request.use(
+		client.interceptors.request.use(
 			(config) => {
 				// Код, необходимый до отправки запроса
 				config.method = 'post'
+				config.headers['Access-Control-Allow-Origin'] =
+					'http://192.168.0.76:8000/'
+				config.withCredentials = true
 				return config
 			},
 			(error) => {
@@ -72,7 +60,7 @@ export default function LogInBar() {
 			}
 		)
 
-		axios
+		client
 			.post(
 				'http://192.168.0.200/authorization/sign-in/',
 				`username=${user.value()}&password=${password.value()}`

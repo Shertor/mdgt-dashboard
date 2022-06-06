@@ -36,3 +36,10 @@ export async function getPrizes() {
 		dates: ['янв', 'февр', 'мар', 'апр', 'май', 'июнь', 'июль'],
 	}
 }
+
+export async function login(username, password) {
+	if (username === 'test' && password === '911') {
+		return true
+	}
+	return false
+}

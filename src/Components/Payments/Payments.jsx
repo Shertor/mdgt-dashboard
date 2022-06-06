@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react'
 import Context from '../../context'
+import axios from 'axios'
 
 import NotLogged from '../NotLogged/NotLogged'
 
@@ -7,18 +8,41 @@ export default function Payments() {
 	const { isLogged } = useContext(Context)
 
 	useEffect(() => {
+		const instance2 = axios.create()
+		instance2.interceptors.request.use(
+			(config) => {
+				// Код, необходимый до отправки запроса
+				config.method = 'get'
+				return config
+			},
+			(error) => {
+				// Обработка ошибки из запроса
+				return Promise.reject(error)
+			}
+		)
+
 		function updatePayments() {
 			if (isLogged) {
-				fetch('http://192.168.0.200/pay/', {
-					headers: {
-						accept: 'application/json',
-					},
-					credentials: 'include',
-				})
+				instance2
+					.get('http://192.168.0.76:8000/pay/', {
+						method: 'get',
+						withCredentials: true,
+					})
 					.then((response) => response.json())
 					.then((data) => {
 						console.log(data)
 					})
+
+				// fetch('http://192.168.0.200/pay/', {
+				// 	headers: {
+				// 		accept: 'application/json',
+				// 	},
+				// 	credentials: 'include',
+				// })
+				// 	.then((response) => response.json())
+				// 	.then((data) => {
+				// 		console.log(data)
+				// 	})
 			}
 		}
 
