@@ -1,4 +1,6 @@
 .current-prize {
+	position: relative;
+
 	width: 240px;
 	height: 230px;
 
@@ -53,6 +55,32 @@
 .current-prize__date {
 	min-height: var(--normal-font-size);
 	color: var(--text-color-light);
+}
+
+.current-prize__close-btn {
+	position: absolute;
+
+	top: 0.5rem;
+	right: 0.5rem;
+
+	width: 1.25rem;
+	height: 1.25rem;
+
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+
+	background-color: transparent;
+}
+
+.current-prize__close-btn svg {
+	color: var(--text-color);
+	fill: var(--text-color);
+
+	text-decoration: none;
+
+	transition: 0.4s;
 }
 
 @media screen and (max-width: 425px) {

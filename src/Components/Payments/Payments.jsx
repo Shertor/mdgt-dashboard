@@ -1,11 +1,19 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Context from '../../context'
 import axios from 'axios'
 
-import NotLogged from '../NotLogged/NotLogged'
+import './Payments.css'
 
-export default function Payments() {
+import NotLogged from '../NotLogged/NotLogged'
+import DisplayCard from '../DisplayCard/DisplayCard'
+import PaymentsChart from './PaymentsChart'
+import { parsePayments } from '../utils'
+
+export default function Payments({ toSummary }) {
 	const { isLogged, api } = useContext(Context)
+
+	const [payments, setPayments] = useState({ payments: [], dates: [] })
+	const [paymentsLoaded, setPaymentsLoaded] = useState(false)
 
 	useEffect(() => {
 		const instance2 = axios.create()
@@ -28,7 +36,9 @@ export default function Payments() {
 					.get(`${api}pay/`)
 					.then((response) => response.data)
 					.then((data) => {
-						console.log(data)
+						const resultData = parsePayments(data)
+						setPayments(resultData)
+						setPaymentsLoaded(true)
 					})
 			}
 		}
@@ -43,12 +53,69 @@ export default function Payments() {
 	}, [isLogged])
 
 	return (
-		<React.Fragment>
-			{isLogged ? (
-				<div className="card-item">This is a Payments page!</div>
+		<>
+			{toSummary ? (
+				<React.Fragment>
+					<div className="chart-card card-item chart-card_payments">
+						<h1 className="chart-card__header_">Динамика выплат</h1>
+						<div className="chart-card__chart">
+							{paymentsLoaded ? (
+								<PaymentsChart
+									dataset={{
+										payments: payments.summ,
+										dates: payments.dates,
+									}}
+								/>
+							) : (
+								<div className="blank-page-payments"></div>
+							)}
+						</div>
+					</div>
+				</React.Fragment>
 			) : (
-				<NotLogged />
+				<React.Fragment>
+					{isLogged ? (
+						<div className="transparent-item payments-grid unselectable">
+							<div className="chart-card card-item chart-card_payments">
+								<h1 className="chart-card__header_">Динамика выплат</h1>
+								<div className="chart-card__chart">
+									{paymentsLoaded ? (
+										<PaymentsChart
+											dataset={{
+												payments: payments.summ,
+												dates: payments.dates,
+											}}
+										/>
+									) : (
+										<div className="blank-page-payments"></div>
+									)}
+								</div>
+							</div>
+							{paymentsLoaded ? (
+								<div className="display-cards-wrapper">
+									{Object.keys(payments.payments).map((element) => (
+										<DisplayCard
+											title={element}
+											prize={
+												payments.payments[element][
+													payments.payments[element].length - 1
+												]
+											}
+											date={
+												payments.dates[payments.payments[element].length - 1]
+											}
+											chartLoaded={paymentsLoaded}
+											key={element}
+										/>
+									))}
+								</div>
+							) : null}
+						</div>
+					) : (
+						<NotLogged />
+					)}
+				</React.Fragment>
 			)}
-		</React.Fragment>
+		</>
 	)
 }

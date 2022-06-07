@@ -69,3 +69,59 @@ export function parseReports(data) {
 
 	return resultData
 }
+
+export function parsePayments(data) {
+	const options = { year: 'numeric', month: 'short' }
+
+	if (data.length < 1) {
+		return { payments: null, dates: null, summ: null }
+	}
+	const payments = {}
+	const dates = []
+
+	// Сначала заполняем всех людей какие вообще могут быть в данных
+	for (let i = 0; i < data.length; i++) {
+		const keys = Object.keys(data[i])
+		keys
+			.filter((v) => v !== 'data')
+			.forEach((key) => {
+				if (!(key in payments)) {
+					payments[key] = []
+				}
+			})
+	}
+
+	const summ = []
+	const keys = Object.keys(payments)
+	// Проходим по всем датам
+	for (let i = 0; i < data.length; i++) {
+		// Для каждого ключа у нас или есть значение или его нет
+		// Необходимо для того, что если позднее появится новый ключ
+		//  которого нет в предыдущих данных все не упало
+		keys.forEach((key) => {
+			if (key in data[i]) {
+				payments[key].push(data[i][key])
+			} else {
+				payments[key].push(null)
+			}
+		})
+
+		// Сумму посчитаем сразу
+		let sumVal = 0
+		keys.forEach((key) => {
+			sumVal = sumVal + payments[key][i]
+		})
+		summ.push(sumVal)
+
+		// И оформим даты
+		const date = new Intl.DateTimeFormat('ru-RU', options)
+			.format(new Date(data[i].data))
+			.replace(' г.', '')
+
+		dates.push(date)
+	}
+
+	const resultData = { payments: payments, dates: dates, summ: summ }
+
+	return resultData
+}

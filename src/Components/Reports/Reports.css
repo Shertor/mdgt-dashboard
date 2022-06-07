@@ -50,6 +50,10 @@
 	height: 100%;
 }
 
+.chart-card_reports {
+	min-height: 30vh !important;
+}
+
 @media screen and (max-width: 768px) {
 	.reports-grid {
 		grid-template-columns: 1fr;

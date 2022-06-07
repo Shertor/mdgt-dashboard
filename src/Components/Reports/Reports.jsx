@@ -47,7 +47,7 @@ export default function Reports({ toSummary }) {
 			{toSummary ? (
 				/* ФРАГМЕНТ ДЛЯ ЭКСПОРТА В SUMMARY */
 				<React.Fragment>
-					<div className="chart-card card-item">
+					<div className="chart-card card-item chart-card_reports">
 						<h1 className="chart-card__header">
 							Выдано за {reports.dates[reports.dates.length - 1]}
 						</h1>
