@@ -67,6 +67,7 @@ export default function ReportsChart({ dataset }) {
 			label: linesNames[type],
 			data: lineData,
 			borderColor: typesColors[type],
+			backgroundColor: typesColors[type],
 			fill: false,
 			cubicInterpolationMode: 'monotone',
 			tension: 0.4,
@@ -114,7 +115,6 @@ export default function ReportsChart({ dataset }) {
 					align: 'center',
 				},
 				suggestedMin: 0,
-				// suggestedMax: Math.max(...inputData.prizes),
 				ticks: {
 					color: 'black',
 					font: {
