@@ -83,7 +83,7 @@ export default function Reports({ toSummary }) {
 								</div>
 							</div>
 							<div className="chart-card card-item reports-doughnut-item">
-								<h1 className="reports-doughnut-item__title">
+								<h1 className="reports-doughnut-item__title unselectable">
 									Протоколы на Python
 								</h1>
 								<div className="reports-doughnut-item__doughnut">

@@ -17,7 +17,7 @@ function DisplayCard({ title, prize, date, chartLoaded, type, unit }) {
 
 	return (
 		<>
-			<div className="current-prize card-item">
+			<div className="current-prize card-item unselectable">
 				{title ? <div className="current-prize__title">{title}</div> : null}
 				<div className={'current-prize__prize ' + colorClass}>
 					{chartLoaded ? (

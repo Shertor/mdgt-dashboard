@@ -22,7 +22,7 @@ export default function ReportsDoughnut({ dataset }) {
 		labels.push(labelsNames[type])
 	})
 
-	const typesColors = ['hsl(221, 24%, 32%)', '#3D84A8', '#46CDCF', '#ABEDD8']
+	const typesColors = ['#293462', '#F24C4C', '#EC9B3B', '#F7D716']
 
 	const options = {
 		responsive: true,
