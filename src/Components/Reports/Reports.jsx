@@ -6,6 +6,7 @@ import NotLogged from '../NotLogged/NotLogged'
 import { parseReports } from '../utils'
 import ReportsBarChart from './ReportsBarChart'
 import ReportsDoughnut from './ReportsDoughnut'
+import ReportsChart from './ReportsChart'
 
 export default function Reports({ toSummary }) {
 	const { isLogged, api } = useContext(Context)
@@ -44,6 +45,7 @@ export default function Reports({ toSummary }) {
 	return (
 		<>
 			{toSummary ? (
+				/* ФРАГМЕНТ ДЛЯ ЭКСПОРТА В SUMMARY */
 				<React.Fragment>
 					<div className="chart-card card-item">
 						<h1 className="chart-card__header">
@@ -63,6 +65,7 @@ export default function Reports({ toSummary }) {
 					</div>
 				</React.Fragment>
 			) : (
+				/* ФРАГМЕНТ СТРАНИЦЫ С ОТЧЕТАМИ */
 				<React.Fragment>
 					{isLogged ? (
 						<div className="transparent-item reports-grid">
@@ -82,16 +85,39 @@ export default function Reports({ toSummary }) {
 									)}
 								</div>
 							</div>
-							<div className="chart-card card-item reports-doughnut-item">
-								<h1 className="reports-doughnut-item__title unselectable">
+							<div className="chart-card card-item reports-small-item">
+								<h1 className="reports-small-item__title unselectable">
 									Протоколы на Python
 								</h1>
-								<div className="reports-doughnut-item__doughnut">
-									<ReportsDoughnut
-										dataset={{
-											reports: reports.reports[reports.reports.length - 1],
-										}}
-									/>
+								<div className="reports-small-item__doughnut">
+									{reportsLoaded ? (
+										<ReportsDoughnut
+											dataset={{
+												reports: reports.reports[reports.reports.length - 1],
+											}}
+										/>
+									) : (
+										<div className="blank-page-ar-2"></div>
+									)}
+								</div>
+							</div>
+							<div className="chart-card card-item reports-small-item">
+								<h1 className="reports-small-item__title unselectable">
+									Статистика
+								</h1>
+								<div className="chart-card__chart ">
+									{reportsLoaded ? (
+										<ReportsChart
+											dataset={{
+												reports: reports.reports,
+												dates: reports.dates,
+											}}
+											array_key="python_all"
+											title="Питон"
+										/>
+									) : (
+										<div className="blank-page-ar-2"></div>
+									)}
 								</div>
 							</div>
 						</div>
