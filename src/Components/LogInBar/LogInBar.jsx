@@ -49,9 +49,9 @@ export default function LogInBar() {
 			(config) => {
 				// Код, необходимый до отправки запроса
 				config.method = 'post'
-				// config.headers['Access-Control-Allow-Origin'] =
-				// 	'http://192.168.0.41:3000/'
-				// config.withCredentials = true
+				config.headers['Access-Control-Allow-Origin'] =
+					'http://192.168.0.41:3000/'
+				config.withCredentials = true
 				return config
 			},
 			(error) => {
@@ -99,12 +99,12 @@ export default function LogInBar() {
 		setUserName('')
 
 		console.log('logout')
-		fetch('http://192.168.0.200/authorization/sign-out/', {
+		fetch(`${api}authorization/sign-out/`, {
 			method: 'GET',
 			headers: {
 				accept: 'application/json',
 			},
-			credentials: 'same-origin',
+			credentials: 'include',
 		}).then((response) => {
 			if (response.ok) {
 				setLogged(false)

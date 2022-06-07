@@ -13,6 +13,7 @@ export default function Payments() {
 			(config) => {
 				// Код, необходимый до отправки запроса
 				config.method = 'get'
+				config.withCredentials = true
 				return config
 			},
 			(error) => {
@@ -24,11 +25,8 @@ export default function Payments() {
 		function updatePayments() {
 			if (isLogged) {
 				instance2
-					.get(`${api}pay/`, {
-						method: 'get',
-						withCredentials: true,
-					})
-					.then((response) => response.json())
+					.get(`${api}pay/`)
+					.then((response) => response.data)
 					.then((data) => {
 						console.log(data)
 					})

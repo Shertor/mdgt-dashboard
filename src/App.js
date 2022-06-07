@@ -9,7 +9,7 @@ import Context from './context'
 
 function App() {
 	const [isLogged, setLogged] = useState(false)
-	const [api, setApi] = useState('http://192.168.0.200/')
+	const [api, setApi] = useState('http://192.168.0.41:8000/')
 
 	return (
 		<>
