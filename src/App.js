@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 
 import './App.css'
 
@@ -9,11 +9,11 @@ import Context from './context'
 
 function App() {
 	const [isLogged, setLogged] = useState(false)
-	const [api, setApi] = useState('http://192.168.0.41:8000/')
+	const api = useRef('http://192.168.0.41:8000/')
 
 	return (
 		<>
-			<Context.Provider value={{ isLogged, setLogged, api }}>
+			<Context.Provider value={{ isLogged, setLogged, api: api.current }}>
 				<div className="content-wrapper">
 					<LogInBar />
 					<div className="content">

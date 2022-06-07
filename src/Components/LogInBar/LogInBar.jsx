@@ -39,10 +39,10 @@ export default function LogInBar() {
 	function onFormSubmit(event) {
 		if (pending) return
 
+		if (!user.value() || !password.value()) return
+
 		pending = true
 
-		console.log(user.value())
-		console.log(password.value())
 		event.preventDefault()
 
 		client.interceptors.request.use(
@@ -55,50 +55,45 @@ export default function LogInBar() {
 				return config
 			},
 			(error) => {
-				// Обработка ошибки из запроса
-				setErrClass('login-err')
-				setTimeout(() => {
-					setErrClass('')
-				}, 2000)
-				clearInput()
-				pending = false
-
-				return Promise.reject(error)
+				// Обработка ошибки до запроса
+				return { status: error.status }
 			}
 		)
 
-		client
-			.post(
-				`${api}authorization/sign-in/`,
-				`username=${user.value()}&password=${password.value()}`
-			)
-			.then((response) => {
-				console.log(response)
+		// Add a response interceptor
+		client.interceptors.response.use(
+			function(response) {
 				if (response.status === 200) {
 					setUserName(user.value())
 					setLogged(true)
 					setErrClass('')
 					clearInput()
 					pending = false
-				} else {
-					setErrClass('login-err')
-					setTimeout(() => {
-						setErrClass('')
-					}, 2000)
-					clearInput()
-					pending = false
 				}
-			})
-			.finally(() => {
+				return response
+			},
+			function(error) {
+				// Do something with response error
+				setErrClass('login-err')
+				setTimeout(() => {
+					setErrClass('')
+				}, 2000)
+				clearInput()
 				pending = false
-			})
+				return { status: error.status }
+			}
+		)
+
+		client.post(
+			`${api}authorization/sign-in/`,
+			`username=${user.value()}&password=${password.value()}`
+		)
 	}
 
 	function onLogOutBtn() {
 		setLogged(false)
 		setUserName('')
 
-		console.log('logout')
 		fetch(`${api}authorization/sign-out/`, {
 			method: 'GET',
 			headers: {

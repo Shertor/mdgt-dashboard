@@ -30,17 +30,6 @@ export default function Payments() {
 					.then((data) => {
 						console.log(data)
 					})
-
-				// fetch('http://192.168.0.200/pay/', {
-				// 	headers: {
-				// 		accept: 'application/json',
-				// 	},
-				// 	credentials: 'include',
-				// })
-				// 	.then((response) => response.json())
-				// 	.then((data) => {
-				// 		console.log(data)
-				// 	})
 			}
 		}
 
