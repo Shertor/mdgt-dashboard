@@ -112,8 +112,6 @@ export default function Reports({ toSummary }) {
 												reports: reports.reports,
 												dates: reports.dates,
 											}}
-											array_key="python_all"
-											title="Питон"
 										/>
 									) : (
 										<div className="blank-page-ar-2"></div>
