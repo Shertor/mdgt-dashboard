@@ -9,7 +9,7 @@ import Context from './context'
 
 function App() {
 	const [isLogged, setLogged] = useState(false)
-	const api = useRef('http://192.168.0.41:8000/')
+	const api = useRef('http://192.168.0.200:8000/')
 
 	const [hidedCards, setHidedCards] = useState({})
 
