@@ -1,4 +1,6 @@
 .navigation {
+	position: relative;
+
 	height: 100%;
 	display: flex;
 	flex-direction: column;
@@ -8,6 +10,8 @@
 	padding: 1.5rem 1.25rem;
 
 	font-size: var(--h1-font-size);
+
+	transition: all 0.4s;
 }
 
 .nav-link {
@@ -23,14 +27,14 @@
 	user-select: none;
 }
 
-.nav-link,
-.nav-link svg {
+.navigation.card-item .nav-link,
+.navigation.card-item svg {
 	color: var(--text-color);
 	fill: var(--text-color);
 
 	text-decoration: none;
 
-	transition: 0.4s;
+	transition: all 0.4s;
 }
 
 .nav-link.is-active,
@@ -42,4 +46,21 @@
 
 .nav-link:hover svg {
 	transform: translateY(-0.2rem);
+}
+
+.expand-collapse-btn {
+	position: absolute;
+	top: 50%;
+	right: 0.5rem;
+
+	background-color: transparent;
+	transition: 0.4s;
+}
+
+.expand-collapse-btn:hover .arrow-left {
+	transform: translateX(-0.2rem);
+}
+
+.expand-collapse-btn:hover .arrow-right {
+	transform: translateX(0.2rem);
 }
