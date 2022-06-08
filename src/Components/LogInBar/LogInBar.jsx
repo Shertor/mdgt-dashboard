@@ -85,8 +85,6 @@ export default function LogInBar() {
 			(config) => {
 				// Код, необходимый до отправки запроса
 				config.method = 'post'
-				config.headers['Access-Control-Allow-Origin'] =
-					'http://192.168.0.41:3000/'
 				config.withCredentials = true
 				return config
 			},
