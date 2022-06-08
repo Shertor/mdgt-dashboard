@@ -1,5 +1,5 @@
 .summary-flex {
-	grid-template-rows: 1fr 1fr 1fr;
+	grid-template-rows: min-content min-content min-content;
 
 	align-content: space-between;
 }

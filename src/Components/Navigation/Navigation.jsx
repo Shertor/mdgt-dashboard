@@ -9,13 +9,29 @@ import Reports from '../Reports/Reports'
 import Payments from '../Payments/Payments'
 import NotFound from '../NotFound/NotFound'
 import { useState } from 'react'
+import { useEffect } from 'react'
+import useWindowDimensions from '../windowResizeHook'
+import { useRef } from 'react'
 
 export default function Navigation() {
 	const [collapsed, setCollapsed] = useState(false)
+	const forceCollapsed = useRef(false)
 
 	function onExpandBtn() {
+		forceCollapsed.current = true
 		setCollapsed(!collapsed)
 	}
+
+	const { width } = useWindowDimensions()
+
+	useEffect(() => {
+		if (forceCollapsed.current) return
+		if (width <= 768) {
+			setCollapsed(true)
+		} else {
+			setCollapsed(false)
+		}
+	}, [width])
 
 	return (
 		<>
