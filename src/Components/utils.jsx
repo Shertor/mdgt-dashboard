@@ -6,15 +6,27 @@ export function parsePrizes(data) {
 
 	const items = Object.keys(data)
 
+	let lastDate = null
+
 	if (items.length > 0) {
 		items.forEach((item) => {
 			prizes.push(data[item].prize)
+			lastDate = new Date(data[item].date)
 			const date = new Intl.DateTimeFormat('ru-RU', options)
 				.format(new Date(data[item].date))
 				.replace(' г.', '')
 
 			dates.push(date)
 		})
+	}
+	const currentDate = new Date()
+	if (currentDate.getMonth() > lastDate.getMonth()) {
+		prizes.push(0)
+		dates.push(
+			new Intl.DateTimeFormat('ru-RU', options)
+				.format(currentDate)
+				.replace(' г.', '')
+		)
 	}
 
 	const resultData = { prizes: prizes, dates: dates }
