@@ -21,7 +21,6 @@ function DisplayCard({
 	function onCloseBtn() {
 		setHidedCards(() => {
 			hidedCards[id] = true
-			console.log(hidedCards)
 			return hidedCards
 		})
 		if (id in hidedCards) {
