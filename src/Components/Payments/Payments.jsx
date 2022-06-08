@@ -92,7 +92,7 @@ export default function Payments({ toSummary }) {
 								</div>
 							</div>
 							{paymentsLoaded ? (
-								<div className="display-cards-wrapper">
+								<div className="display-cards-wrapper_payments">
 									{Object.keys(payments.payments).map((element) => (
 										<DisplayCard
 											title={element}

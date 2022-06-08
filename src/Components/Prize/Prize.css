@@ -2,6 +2,13 @@
 	grid-template-rows: min-content min-content;
 }
 
+.display-cards-wrapper {
+	display: flex;
+	flex-direction: column;
+
+	height: 100%;
+}
+
 .display-cards-wrapper__title {
 	padding: 1.15rem 1.15rem 0 1.15rem;
 }

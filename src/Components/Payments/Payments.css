@@ -2,7 +2,7 @@
 	grid-template-rows: min-content auto;
 }
 
-.display-cards-wrapper {
+.display-cards-wrapper_payments {
 	display: flex;
 	flex-wrap: wrap;
 
