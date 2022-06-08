@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Context from '../../context'
 import './DisplayCard.css'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 
 function DisplayCard({
 	title,
@@ -12,11 +13,20 @@ function DisplayCard({
 	type,
 	unit,
 	closeBtn,
+	id,
 }) {
-	const [visible, setVisible] = useState(true)
+	const [isHided, setIsHided] = useState(false)
+	const { hidedCards, setHidedCards } = useContext(Context)
 
 	function onCloseBtn() {
-		setVisible(false)
+		setHidedCards(() => {
+			hidedCards[id] = true
+			console.log(hidedCards)
+			return hidedCards
+		})
+		if (id in hidedCards) {
+			setIsHided(true)
+		}
 	}
 
 	const colors = { good: 'good', bad: 'bad', neutral: '' }
@@ -32,7 +42,7 @@ function DisplayCard({
 
 	return (
 		<>
-			{visible ? (
+			{id in hidedCards || isHided ? null : (
 				<div className="current-prize card-item unselectable">
 					{title ? <div className="current-prize__title">{title}</div> : null}
 					<div className={'current-prize__prize ' + colorClass}>
@@ -57,7 +67,7 @@ function DisplayCard({
 						</button>
 					) : null}
 				</div>
-			) : null}
+			)}
 		</>
 	)
 }

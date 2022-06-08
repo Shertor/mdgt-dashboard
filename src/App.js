@@ -11,9 +11,19 @@ function App() {
 	const [isLogged, setLogged] = useState(false)
 	const api = useRef('http://192.168.0.41:8000/')
 
+	const [hidedCards, setHidedCards] = useState({})
+
 	return (
 		<>
-			<Context.Provider value={{ isLogged, setLogged, api: api.current }}>
+			<Context.Provider
+				value={{
+					isLogged,
+					setLogged,
+					api: api.current,
+					hidedCards,
+					setHidedCards,
+				}}
+			>
 				<div className="content-wrapper">
 					<LogInBar />
 					<div className="content">

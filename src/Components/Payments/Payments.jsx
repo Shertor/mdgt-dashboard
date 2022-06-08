@@ -107,6 +107,7 @@ export default function Payments({ toSummary }) {
 											chartLoaded={paymentsLoaded}
 											key={element}
 											closeBtn={true}
+											id={element}
 										/>
 									))}
 								</div>
