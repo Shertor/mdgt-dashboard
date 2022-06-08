@@ -18,7 +18,7 @@
 
 	--color-good-info: hsl(var(--hue), 66%, 48%);
 	--color-good-info-light: hsl(var(--hue), 66%, 68%);
-	--color-bad-info: #d90429;
+	--color-bad-info: #f24c4c;
 
 	/* FONTS */
 	/* .5 rem = 8px; 1rem = 16px */
