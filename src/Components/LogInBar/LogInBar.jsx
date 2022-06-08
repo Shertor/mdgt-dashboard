@@ -4,6 +4,7 @@ import axios from 'axios'
 import './LogInBar.css'
 
 import Context from '../../context'
+import { useEffect } from 'react'
 
 function useInputValue(defaultValue = '') {
 	const [value, setValue] = useState(defaultValue)
@@ -20,6 +21,7 @@ function useInputValue(defaultValue = '') {
 
 export default function LogInBar() {
 	const client = axios.create()
+	const requestCurrenUser = axios.create()
 
 	const { isLogged, setLogged, api } = useContext(Context)
 
@@ -35,6 +37,40 @@ export default function LogInBar() {
 		user.clear()
 		password.clear()
 	}
+
+	requestCurrenUser.interceptors.request.use(
+		(config) => {
+			// Код, необходимый до отправки запроса
+			config.method = 'get'
+			config.headers['Access-Control-Allow-Origin'] =
+				'http://192.168.0.41:3000/'
+			config.withCredentials = true
+			return config
+		},
+		(error) => {
+			// Обработка ошибки до запроса
+			return { status: error.status }
+		}
+	)
+	requestCurrenUser.interceptors.response.use(
+		function(response) {
+			if (response.status === 200) {
+				setUserName(response.data.username)
+				setLogged(true)
+				setErrClass('')
+				clearInput()
+				pending = false
+			}
+			return response
+		},
+		function(error) {
+			// Do something with response error
+			return { status: error.status }
+		}
+	)
+	useEffect(() => {
+		requestCurrenUser.get(`${api}authorization/user/`)
+	}, [])
 
 	function onFormSubmit(event) {
 		if (pending) return
