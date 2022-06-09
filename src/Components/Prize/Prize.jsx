@@ -123,19 +123,14 @@ export default function Prize({ toSummary }) {
 										unit={'%'}
 										type={
 											prizes.prizes[prizes.prizes.length - 1] <
-											Math.max(...prizes.prizes)
+											getMean(prizes.prizes)
 												? 'bad'
 												: ''
 										}
 									/>
 									<DisplayCard
 										title={'Средняя'}
-										prize={
-											prizes.prizes.length > 0
-												? prizes.prizes.reduce((a, b) => a + b) /
-												  prizes.prizes.length
-												: null
-										}
+										prize={getMean(prizes.prizes)}
 										chartLoaded={chartLoaded}
 										unit={'%'}
 									/>
