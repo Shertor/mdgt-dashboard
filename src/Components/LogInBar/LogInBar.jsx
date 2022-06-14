@@ -147,7 +147,7 @@ export default function LogInBar() {
 					<div className="login-form">
 						<div className="login-user unselectable">{userName}</div>
 						<button onClick={onLogOutBtn} className="form-submit">
-							Выйти
+							ВЫЙТИ
 						</button>
 					</div>
 				) : (
@@ -170,7 +170,7 @@ export default function LogInBar() {
 							placeholder="Пароль"
 						/>
 						<button type="submit" className="form-submit">
-							Войти
+							ВОЙТИ
 						</button>
 					</form>
 				)}
