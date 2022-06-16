@@ -12,7 +12,7 @@ export default function Staff() {
 	const [currentBD, setCurrentBD] = useState(0)
 
 	const currentMonth = useRef(new Date().getMonth() + 1)
-	// const currentMonth = useRef(1 + 1)
+	// const currentMonth = useRef(5)
 
 	useEffect(() => {
 		if (!isLogged) {
@@ -32,7 +32,6 @@ export default function Staff() {
 							'birthday' in data[0] &&
 							data[0].birthday.split('-').length === 3
 						) {
-							console.log(data)
 							setBirthdays(data)
 							setLoaded(true)
 						}
@@ -93,7 +92,7 @@ export default function Staff() {
 						? `${birthdays[currentBD].birthday.split('-')[2]} - ${
 								birthdays[currentBD].full_name
 						  }`
-						: 'Их нет. Но вы можете это исправить.'}
+						: 'Отсутствуют'}
 				</div>
 			</div>
 		</>
