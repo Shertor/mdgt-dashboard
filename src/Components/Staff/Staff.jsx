@@ -75,6 +75,18 @@ export default function Staff() {
 		}
 	}, [birthdays])
 
+	function formDay(day) {
+		let formattedDay = day.split('-')
+		if (formattedDay.length > 2) {
+			formattedDay = formattedDay[2]
+			if (formattedDay.startsWith('0')) {
+				formattedDay = formattedDay.slice(1)
+			}
+			return formattedDay
+		}
+		return ''
+	}
+
 	return (
 		<>
 			<div className="staff-item card-item">
@@ -82,7 +94,7 @@ export default function Staff() {
 				<div
 					className={`staff__name ${isHided} ${
 						loaded &&
-						birthdays[currentBD].birthday.split('-')[2].replace('0', '') ===
+						formDay(birthdays[currentBD].birthday) ===
 							new Date().getDate().toString()
 							? 'current'
 							: ''

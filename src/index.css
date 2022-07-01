@@ -55,7 +55,9 @@
 	--z-fixed: 100;
 
 	/* app width */
-	--app-max-width: 1024px;
+	/* --app-max-width: 1024px; */
+
+	--chart-min-height: 300px;
 }
 
 *,
@@ -136,6 +138,8 @@ img {
 	/* border: none; */
 	box-shadow: 1px 0px 4px hsla(var(--hue), 24%, 15%, 0.1),
 		-1px 0px 4px hsla(var(--hue), 24%, 15%, 0.1);
+
+	/* max-width: 768px; */
 }
 
 .transparent-item {
@@ -157,6 +161,8 @@ img {
 	min-width: 40vw;
 	min-height: 40vh;
 
+	height: fit-content;
+
 	display: grid;
 	grid-template-columns: 100%;
 
@@ -169,6 +175,8 @@ img {
 	position: relative;
 	height: 100%;
 	width: 100%;
+
+	min-height: var(--chart-min-height);
 
 	display: flex;
 	align-items: center;

@@ -51,105 +51,74 @@ export default function Prize({ toSummary }) {
 		return 0
 	}
 
+	function divInPecent(prizes) {
+		if (prizes.length > 2) {
+			const percent =
+				((prizes[prizes.length - 1] - prizes[prizes.length - 2]) /
+					prizes[prizes.length - 2]) *
+				100
+			const key = percent > 0 ? 'good' : 'bad'
+			return { value: Math.round(percent), key: key }
+		}
+		return { '': 0 }
+	}
+
 	return (
 		<>
-			{toSummary ? (
-				<React.Fragment>
-					<div className="display-cards-wrapper card-item">
-						<h1 className="display-cards-wrapper__title">Премия в цифрах</h1>
-						<div className="display-cards-wrapper__cards">
-							<DisplayCard
-								title={'Текущая'}
-								prize={prizes.prizes[prizes.prizes.length - 1]}
-								date={prizes.dates[prizes.prizes.length - 1]}
-								chartLoaded={chartLoaded}
-								unit={'%'}
-								type={
-									prizes.prizes[prizes.prizes.length - 1] <
-									getMean(prizes.prizes)
-										? 'bad'
-										: ''
-								}
-							/>
-							<DisplayCard
-								title={'Средняя'}
-								prize={getMean(prizes.prizes)}
-								chartLoaded={chartLoaded}
-								unit={'%'}
-							/>
-							<DisplayCard
-								title={'Максимальная'}
-								prize={Math.max(...prizes.prizes)}
-								date={
-									prizes.dates[
-										prizes.prizes.indexOf(Math.max(...prizes.prizes))
-									]
-								}
-								chartLoaded={chartLoaded}
-								type={'good'}
-								unit={'%'}
-							/>
+			<React.Fragment>
+				{isLogged ? (
+					<div className="transparent-item prize-grid">
+						<div className="display-cards-wrapper card-item">
+							<h1 className="display-cards-wrapper__title">Премия в цифрах</h1>
+							<div className="display-cards-wrapper__cards">
+								<DisplayCard
+									title={'Текущая'}
+									prize={prizes.prizes[prizes.prizes.length - 1]}
+									date={prizes.dates[prizes.prizes.length - 1]}
+									chartLoaded={chartLoaded}
+									unit={'%'}
+									type={
+										prizes.prizes[prizes.prizes.length - 1] <
+										getMean(prizes.prizes)
+											? 'bad'
+											: 'good'
+									}
+									divInfo={divInPecent(prizes.prizes)}
+								/>
+								<DisplayCard
+									title={'Средняя'}
+									prize={getMean(prizes.prizes)}
+									chartLoaded={chartLoaded}
+									unit={'%'}
+								/>
+								<DisplayCard
+									title={'Максимальная'}
+									prize={Math.max(...prizes.prizes)}
+									date={
+										prizes.dates[
+											prizes.prizes.indexOf(Math.max(...prizes.prizes))
+										]
+									}
+									chartLoaded={chartLoaded}
+									unit={'%'}
+								/>
+							</div>
+						</div>
+						<div className="chart-card card-item">
+							<h1 className="">Динамика премии в процентах</h1>
+							<div className="chart-card__chart">
+								{chartLoaded ? (
+									<PrizeChart dataset={prizes} />
+								) : (
+									<div className="blank-page-ar-2"></div>
+								)}
+							</div>
 						</div>
 					</div>
-				</React.Fragment>
-			) : (
-				<React.Fragment>
-					{isLogged ? (
-						<div className="transparent-item prize-grid">
-							<div className="chart-card card-item">
-								<h1 className="">Динамика премии в процентах</h1>
-								<div className="chart-card__chart">
-									{chartLoaded ? (
-										<PrizeChart dataset={prizes} />
-									) : (
-										<div className="blank-page-ar-2"></div>
-									)}
-								</div>
-							</div>
-							<div className="display-cards-wrapper card-item">
-								<h1 className="display-cards-wrapper__title">
-									Премия в цифрах
-								</h1>
-								<div className="display-cards-wrapper__cards">
-									<DisplayCard
-										title={'Текущая'}
-										prize={prizes.prizes[prizes.prizes.length - 1]}
-										date={prizes.dates[prizes.prizes.length - 1]}
-										chartLoaded={chartLoaded}
-										unit={'%'}
-										type={
-											prizes.prizes[prizes.prizes.length - 1] <
-											getMean(prizes.prizes)
-												? 'bad'
-												: ''
-										}
-									/>
-									<DisplayCard
-										title={'Средняя'}
-										prize={getMean(prizes.prizes)}
-										chartLoaded={chartLoaded}
-										unit={'%'}
-									/>
-									<DisplayCard
-										title={'Максимальная'}
-										prize={Math.max(...prizes.prizes)}
-										date={
-											prizes.dates[
-												prizes.prizes.indexOf(Math.max(...prizes.prizes))
-											]
-										}
-										chartLoaded={chartLoaded}
-										type={'good'}
-										unit={'%'}
-									/>
-								</div>
-							</div>
-						</div>
-					) : (
-						<NotLogged />
-					)}
-				</React.Fragment>
-			)}
+				) : (
+					<NotLogged />
+				)}
+			</React.Fragment>
 		</>
 	)
 }

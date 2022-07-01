@@ -5,7 +5,6 @@ import NotLogged from '../NotLogged/NotLogged'
 
 import Prize from '../Prize/Prize'
 import Reports from '../Reports/Reports'
-import Payments from '../Payments/Payments'
 import Staff from '../Staff/Staff'
 
 import './Summary.css'
@@ -16,12 +15,14 @@ export default function Summary() {
 	return (
 		<>
 			{isLogged ? (
-				<div className="transparent-item summary-flex">
-					<Staff />
-					<Prize toSummary={true} />
-					<Reports toSummary={true} />
-					<Payments toSummary={true} />
-				</div>
+				<>
+					<div className="transparent-item summary-flex">
+						<Staff />
+						<Prize toSummary={false} />
+						<div className="transparent-item test-item"></div>
+						<Reports toSummary={true} />
+					</div>
+				</>
 			) : (
 				<NotLogged />
 			)}

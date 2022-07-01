@@ -26,7 +26,7 @@ export default function Navigation() {
 
 	useEffect(() => {
 		if (forceCollapsed.current) return
-		if (width <= 768) {
+		if (width <= 1024) {
 			setCollapsed(true)
 		} else {
 			setCollapsed(false)
