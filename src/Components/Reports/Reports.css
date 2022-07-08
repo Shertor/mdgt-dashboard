@@ -26,6 +26,9 @@
 .reports-charts__item {
 	position: relative;
 
+	width: 100%;
+	height: 100%;
+
 	display: flex;
 	flex-direction: column;
 
@@ -51,17 +54,36 @@
 	height: 100%;
 }
 
+.reports-charts .chart-card__chart {
+	min-height: unset;
+}
+
 @media screen and (min-width: 1024px) {
 	.reports-charts {
 		grid-template-columns: minmax(100px, 1fr) minmax(100px, 1fr) minmax(
 				100px,
 				1fr
 			);
+
+		min-height: unset;
+		height: 373px;
+	}
+
+	.reports-charts .chart-card__chart {
+		min-height: unset;
+		height: 100%;
 	}
 }
 
 @media screen and (max-width: 768px) {
 	.reports-grid {
 		grid-template-columns: 1fr;
+	}
+	.reports-charts {
+		min-height: unset;
+		height: fit-content;
+	}
+	.reports-charts .chart-card__chart {
+		min-height: unset;
 	}
 }

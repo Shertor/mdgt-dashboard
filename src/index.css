@@ -55,7 +55,7 @@
 	--z-fixed: 100;
 
 	/* app width */
-	/* --app-max-width: 1024px; */
+	--app-max-width: 1920px;
 
 	--chart-min-height: 300px;
 }
@@ -201,10 +201,17 @@ img {
 }
 
 ::-webkit-scrollbar {
-	width: 0.7rem;
-	background: hsl(var(--hue), 4%, 53%);
+	width: 0.3rem;
+	height: 0.3rem;
+	/* background: hsl(var(--hue), 4%, 53%); */
 }
 
 ::-webkit-scrollbar-thumb {
+	background: hsl(var(--hue), 4%, 69%);
+	border-radius: 0.3rem;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
 	background: hsl(var(--hue), 4%, 29%);
 }

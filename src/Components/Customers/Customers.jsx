@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useRef } from 'react'
 
 import './Customers.css'
 
@@ -6,13 +6,14 @@ import Context from '../../context'
 import NotLogged from '../NotLogged/NotLogged'
 
 import Loader from '../Loader/Loader'
-import { element } from 'prop-types'
 
 export default function Customers() {
-	const { isLogged, api } = useContext(Context)
+	const { isLogged, api_customers } = useContext(Context)
 	const [customers, setCustomers] = useState([{}])
 
 	const [loaded, setLoaded] = useState(false)
+
+	const currentMonth = useRef(new Date().getMonth() + 1)
 
 	useEffect(() => {
 		if (!isLogged) {
@@ -23,23 +24,15 @@ export default function Customers() {
 
 		function updateCustomers() {
 			if (isLogged) {
-				fetch(`${api}prizes/`)
+				fetch(
+					`${api_customers}customers/month_birthday/?month=${currentMonth.current}`
+				)
 					.then((response) => response.json())
 					.then((data) => {
-						setTimeout(() => {
-							const resultData = [
-								{
-									full_name: 'Смирнова Ирина Сергеевна',
-									phone_number: 79091112232,
-									email: 'example2@mail.ru',
-									birthday: '1994-06-04',
-									organization: 'Мосводоканал',
-									level: 'middle',
-								},
-							]
-							setCustomers(resultData)
+						if (data && data.length > 0) {
+							setCustomers(data)
 							setLoaded(true)
-						}, 5000)
+						}
 					})
 			}
 		}
@@ -53,7 +46,48 @@ export default function Customers() {
 				{isLogged ? (
 					<div className="card-item customers-item">
 						{loaded ? (
-							customers.map((customer) => customer.full_name)
+							<>
+								<h1 className="customers-table__caption">
+									Дни рождения заказчиков
+								</h1>
+								<div className="customers-table__wrapper">
+									<table className="customers-table">
+										<thead className="customers-table__head">
+											<tr>
+												<th scope="col">Имя</th>
+												<th className="date" scope="col">
+													Дата
+												</th>
+												<th scope="col">Организация</th>
+												<th className="phone" scope="col">
+													Телефон
+												</th>
+											</tr>
+										</thead>
+										<tbody>
+											{customers.map((customer) => (
+												<tr className="customers-table__row" key={customer.id}>
+													<td>
+														<div className="customer__name">
+															<img
+																className="customer__icon"
+																src={
+																	'https://avatarko.ru/img/kartinka/33/multfilm_lyagushka_32117.jpg'
+																}
+																alt=""
+															></img>
+															{customer.full_name}
+														</div>
+													</td>
+													<td className="date">{customer.birthday}</td>
+													<td>{customer.organization}</td>
+													<td className="phone">{customer.phone_number}</td>
+												</tr>
+											))}
+										</tbody>
+									</table>
+								</div>
+							</>
 						) : (
 							<Loader />
 						)}
