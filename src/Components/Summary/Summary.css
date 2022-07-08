@@ -18,9 +18,8 @@
 		grid-template-rows: 220px 280px auto;
 	}
 
-	.stuff {
+	.staff-item {
 		grid-area: stuff;
-		background-color: red;
 	}
 
 	.summary-flex .display-cards-wrapper {

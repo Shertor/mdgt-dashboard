@@ -19,7 +19,7 @@ export default function Summary() {
 				<>
 					<div className="transparent-item summary-flex">
 						<Prize toSummary={true} />
-						<div className="stuff"></div>
+						<Staff />
 						<Customers />
 						<Reports toSummary={true} />
 					</div>
