@@ -73,9 +73,9 @@
 
 .customers-table__head th.phone,
 .customers-table__row td.phone {
-	min-width: 130px;
-	width: 130px;
-	max-width: 130px;
+	min-width: 150px;
+	width: 150px;
+	max-width: 150px;
 }
 
 .customers-table__row {

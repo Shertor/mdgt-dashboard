@@ -137,3 +137,18 @@ export function parsePayments(data) {
 
 	return resultData
 }
+
+export function phoneFormatter(phoneNumber) {
+	let formattedNumber = `${phoneNumber}`
+
+	if (formattedNumber.startsWith('8') || formattedNumber.startsWith('7')) {
+		formattedNumber = formattedNumber.slice(1, formattedNumber.length)
+	}
+	return `+7 (${formattedNumber.slice(0, 3)}) ${formattedNumber.slice(
+		3,
+		6
+	)} ${formattedNumber.slice(6, 8)} ${formattedNumber.slice(
+		8,
+		formattedNumber.length
+	)}`
+}
