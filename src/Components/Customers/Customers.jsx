@@ -4,7 +4,7 @@ import './Customers.css'
 
 import Context from '../../context'
 import NotLogged from '../NotLogged/NotLogged'
-
+import stock from './stock.png'
 import Loader from '../Loader/Loader'
 
 export default function Customers() {
@@ -40,6 +40,10 @@ export default function Customers() {
 		updateCustomers()
 	}, [isLogged])
 
+	function getImg(id) {
+		return `${api_customers}customers/get_photo/${id}`
+	}
+
 	return (
 		<>
 			<React.Fragment>
@@ -71,10 +75,12 @@ export default function Customers() {
 														<div className="customer__name">
 															<img
 																className="customer__icon"
-																src={
-																	'https://avatarko.ru/img/kartinka/33/multfilm_lyagushka_32117.jpg'
-																}
-																alt=""
+																src={getImg(customer.id)}
+																alt="User Image"
+																onError={({ currentTarget }) => {
+																	currentTarget.onerror = null // prevents looping
+																	currentTarget.src = stock
+																}}
 															></img>
 															{customer.full_name}
 														</div>
