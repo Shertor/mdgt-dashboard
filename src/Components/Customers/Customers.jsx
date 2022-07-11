@@ -76,7 +76,7 @@ export default function Customers() {
 															<img
 																className="customer__icon"
 																src={getImg(customer.id)}
-																alt="User Image"
+																alt="User"
 																onError={({ currentTarget }) => {
 																	currentTarget.onerror = null // prevents looping
 																	currentTarget.src = stock
