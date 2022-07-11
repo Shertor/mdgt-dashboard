@@ -5,11 +5,13 @@ import Context from '../../context'
 import './Staff.css'
 
 export default function Staff() {
-	const { isLogged, api } = useContext(Context)
+	const { api } = useContext(Context)
 	const [birthdays, setBirthdays] = useState([])
 	const [loaded, setLoaded] = useState(false)
 
 	const currentMonth = useRef(new Date().getMonth() + 1)
+
+	const isLogged = true
 
 	useEffect(() => {
 		if (!isLogged) {

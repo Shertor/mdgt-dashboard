@@ -8,7 +8,8 @@ import stock from './stock.png'
 import Loader from '../Loader/Loader'
 
 export default function Customers() {
-	const { isLogged, api_customers } = useContext(Context)
+	const { api_customers } = useContext(Context)
+	const isLogged = true
 	const [customers, setCustomers] = useState([{}])
 
 	const [loaded, setLoaded] = useState(false)
