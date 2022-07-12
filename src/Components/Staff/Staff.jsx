@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useRef } from 'react'
 import Context from '../../context'
+import { formDay } from '../utils'
 
 import './Staff.css'
 
@@ -47,12 +48,6 @@ export default function Staff() {
 			clearInterval(interval)
 		}
 	}, [isLogged])
-
-	function formDay(day) {
-		const options = { day: 'numeric', month: 'long' }
-		const date = new Intl.DateTimeFormat('ru-RU', options).format(new Date(day))
-		return date
-	}
 
 	function fromName(fullname) {
 		const splitName = fullname.split(' ')

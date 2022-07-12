@@ -152,3 +152,9 @@ export function phoneFormatter(phoneNumber) {
 		formattedNumber.length
 	)}`
 }
+
+export function formDay(day) {
+	const options = { day: 'numeric', month: 'long' }
+	const date = new Intl.DateTimeFormat('ru-RU', options).format(new Date(day))
+	return date
+}

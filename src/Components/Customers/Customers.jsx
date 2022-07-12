@@ -6,7 +6,7 @@ import Context from '../../context'
 import NotLogged from '../NotLogged/NotLogged'
 import stock from './stock.png'
 import Loader from '../Loader/Loader'
-import { phoneFormatter } from '../utils'
+import { phoneFormatter, formDay } from '../utils'
 
 export default function Customers() {
 	const { api_customers } = useContext(Context)
@@ -87,7 +87,7 @@ export default function Customers() {
 															{customer.full_name}
 														</div>
 													</td>
-													<td className="date">{customer.birthday}</td>
+													<td className="date">{formDay(customer.birthday)}</td>
 													<td>{customer.organization}</td>
 													<td className="phone">
 														{phoneFormatter(customer.phone_number)}
