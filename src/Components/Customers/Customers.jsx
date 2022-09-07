@@ -29,10 +29,13 @@ export default function Customers() {
 				fetch(
 					`${api_customers}customers/month_birthday/?month=${currentMonth.current}`
 				)
-					.then((response) => response.json())
+					.then((response) => {
+						if (response.ok) return response.json()
+						return null
+					})
 					.then((data) => {
-						if (data && data.length > 0) {
-							setCustomers(data)
+						if (data) {
+							if (data.length > 0) setCustomers(data)
 							setLoaded(true)
 						}
 					})
