@@ -89,6 +89,7 @@ input,
 textarea {
 	font-family: var(--body-font);
 	font-size: var(--normal-font-size);
+	-webkit-appearance: none;
 }
 
 button {
