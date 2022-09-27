@@ -10,7 +10,7 @@ export function parsePrizes(data) {
 
 	if (items.length > 0) {
 		items.forEach((item) => {
-			prizes.push(data[item].prize)
+			prizes.push(data[item].value)
 			lastDate = new Date(data[item].date)
 			const date = new Intl.DateTimeFormat('ru-RU', options)
 				.format(new Date(data[item].date))
@@ -63,6 +63,8 @@ export function parseReports(data) {
 	const dates = []
 
 	const items = Object.keys(data)
+
+	console.log(data);
 
 	if (items.length > 0) {
 		items.forEach((item) => {

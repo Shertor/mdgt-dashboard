@@ -67,7 +67,7 @@ export default function LogInBar() {
 		}
 	)
 	useEffect(() => {
-		requestCurrenUser.get(`${api}authorization/user/`)
+		requestCurrenUser.get(`${api}staff/user/`)
 	}, [])
 
 	function onFormSubmit(event) {
@@ -115,10 +115,11 @@ export default function LogInBar() {
 				return { status: error.status }
 			}
 		)
-
+		
+		console.log(user.value());
 		client.post(
-			`${api}authorization/sign-in/`,
-			`username=${user.value()}&password=${password.value()}`
+			`${api}staff/sign-in/`,
+			`username=${encodeURI(user.value())}&password=${password.value()}`
 		)
 	}
 
@@ -126,7 +127,7 @@ export default function LogInBar() {
 		setLogged(false)
 		setUserName('')
 
-		fetch(`${api}authorization/sign-out/`, {
+		fetch(`${api}staff/sign-out/`, {
 			method: 'GET',
 			headers: {
 				accept: 'application/json',

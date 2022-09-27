@@ -21,7 +21,7 @@ export default function Summary() {
 						<Prize toSummary={true} />
 						<Staff />
 						<Customers />
-						<Reports toSummary={true} />
+						{/* <Reports toSummary={true} /> */}
 					</div>
 				</>
 			) : (
