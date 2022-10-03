@@ -53,7 +53,7 @@ export default function LogInBar() {
 	requestCurrenUser.interceptors.response.use(
 		function(response) {
 			if (response.status === 200) {
-				setUserName(response.data.username)
+				setUserName(response.data.full_name)
 				setLogged(true)
 				setErrClass('')
 				clearInput()
@@ -116,7 +116,6 @@ export default function LogInBar() {
 			}
 		)
 		
-		console.log(user.value());
 		client.post(
 			`${api}staff/sign-in/`,
 			`username=${encodeURI(user.value())}&password=${password.value()}`

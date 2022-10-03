@@ -1,0 +1,26 @@
+.account__general-wrapper{
+	display: flex;
+	column-gap: calc(var(--col-gap) * 2);
+	width: 100%;
+}
+.account__general{
+	position: relative;
+
+	width: 236px;
+	height: 170px;
+	min-width: fit-content;
+
+	padding: 1rem 1.5rem;
+}
+
+.account__pays-wrapper{
+	display: flex;
+	width: 100%;
+
+	column-gap: var(--col-gap);
+	justify-content: right;
+}
+
+.account__pays-wrapper .current-prize {
+	width: 100%;
+}

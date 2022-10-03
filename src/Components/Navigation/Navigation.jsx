@@ -6,7 +6,7 @@ import './Navigation.css'
 import Summary from '../Summary/Summary'
 import Prize from '../Prize/Prize'
 import Reports from '../Reports/Reports'
-import Payments from '../Payments/Payments'
+import Account from '../Account/Account'
 // import Customers from '../Customers/Customers'
 import NotFound from '../NotFound/NotFound'
 import { useState } from 'react'
@@ -74,7 +74,7 @@ export default function Navigation() {
 					{collapsed ? null : 'Отчёты'}
 				</NavLink>
 				<NavLink
-					to="/Payments"
+					to="/Account"
 					className={({ isActive }) =>
 						isActive ? 'nav-link is-active' : 'nav-link'
 					}
@@ -129,7 +129,7 @@ export default function Navigation() {
 				<Route path="/" element={<Summary />} />
 				<Route path="/Prize" element={<Prize />} />
 				<Route path="/Reports" element={<Reports />} />
-				<Route path="/Payments" element={<Payments />} />
+				<Route path="/Account" element={<Account />} />
 				{/* <Route path="/Customers" element={<Customers />} /> */}
 
 				{/* 404 Page */}
