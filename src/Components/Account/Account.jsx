@@ -8,22 +8,36 @@ import DisplayCard from '../DisplayCard/DisplayCard'
 
 import AccountChart from './AccountChart'
 import AccountCharts from './AccountCharts'
+import NotLogged from '../NotLogged/NotLogged'
+import Table from '../Table/Table'
 
 export default function Account({ toSummary }) {
-	const { isLogged, api, setLogged } = useContext(Context)
+	const { isLogged, api, setLogged, userName } = useContext(Context)
 
 	const [payments, setPayments] = useState()
 	const [generalPays, setGeneralPays] = useState({ prizes: [], dates: [] })
+	const [accountData, setAccountData] = useState({})
+	const [accountLoaded, setAccountLoaded] = useState(false)
+
+	const [workTypes, setWorkTypes] = useState([])
+	const [tableLoaded, setTableLoaded] = useState(false)
+
+
+	const [reports, setReports] = useState({ reports: [], dates: [] })
 	const [paysLoaded, setPaysLoaded] = useState(false)
 
 	const [currentDate, setCurrentDate] = useState(null)
-	const [accountLoaded, setAccountLoaded] = useState(false)
 
+	/*
+		Запрос и заполнение данных пользователя и выплат за текущий месяц
+	*/
 	useEffect(() => {
 		if (!isLogged) {
 			setAccountLoaded(false)
 			setPayments()
 			setGeneralPays({ prizes: [], dates: [] })
+			setWorkTypes([])
+			setAccountData({})
 			setPaysLoaded(false)
 			return
 		}
@@ -67,7 +81,6 @@ export default function Account({ toSummary }) {
 					)
 					.then((response) => {
 						if (response.status === 200) {
-							console.log(response)
 							const data = response.data
 							if (data) {
 								// const resultData = parsePayments(data)
@@ -75,6 +88,16 @@ export default function Account({ toSummary }) {
 								setAccountLoaded(true)
 							}
 						}
+					})
+					.then(() => {
+						paymentsRequestor
+							.get(`${api}staff/${userName}`)
+							.then((response) => {
+								if (response.status === 200) {
+									console.log(response.data[0])
+									setAccountData(response.data[0])
+								}
+							})
 					})
 			}
 		}
@@ -88,12 +111,17 @@ export default function Account({ toSummary }) {
 		}
 	}, [isLogged])
 
+	/*
+		Запрос и заполнение графиков по выплатам и отчетам
+	*/
 	useEffect(() => {
 		if (!isLogged) {
 			setAccountLoaded(false)
 			setPayments()
 			setGeneralPays({ prizes: [], dates: [] })
 			setPaysLoaded(false)
+			setReports({ reports: [], dates: [] })
+			setTableLoaded(false)
 			return
 		}
 
@@ -126,6 +154,7 @@ export default function Account({ toSummary }) {
 		async function getGeneralPays() {
 			const month = [6, 5, 4, 3, 2, 1, 0]
 			const _generalPaysPrizes = []
+			const _generalReports = []
 			const _generalPaysDates = []
 
 			for (const i of month) {
@@ -137,35 +166,96 @@ export default function Account({ toSummary }) {
 					)
 					.then((response) => {
 						if (response.status === 200) {
-							console.log(response)
 							const data = response.data
+
+							console.log(data)
+
 							if (data) {
 								// const resultData = parsePayments(data)
 								_generalPaysPrizes.push(data.general)
+								_generalReports.push({
+									courses:
+										Object.keys(data.courses).length === 0 ? 0 : data.courses,
+									developer: data.developer,
+									reports:
+										Object.keys(data.reports).length === 0 ? 0 : data.reports,
+								})
 
 								const options = { year: 'numeric', month: 'short' }
 								const _date = new Intl.DateTimeFormat('ru-RU', options)
-											.format(date)
-											.replace(' г.', '')
+									.format(date)
+									.replace(' г.', '')
 
 								_generalPaysDates.push(_date)
 							}
 						}
 					})
 			}
-			setGeneralPays({prizes: _generalPaysPrizes, dates: _generalPaysDates})
-			setPaysLoaded(true)
+			setGeneralPays({ prizes: _generalPaysPrizes, dates: _generalPaysDates })
+			setReports({ reports: _generalReports, dates: _generalPaysDates })
 		}
 
-		getGeneralPays()
+		getGeneralPays().then(() => {
+			setPaysLoaded(true)
+		})
 	}, [isLogged])
 
+	useEffect(() => {
+		const paymentsRequestor = axios.create()
+		paymentsRequestor.interceptors.request.use(
+			(config) => {
+				// Код, необходимый до отправки запроса
+				config.method = 'get'
+				config.withCredentials = true
+				return config
+			},
+			(error) => {
+				// Обработка ошибки из запроса
+				return Promise.reject(error)
+			}
+		)
+		paymentsRequestor.interceptors.response.use(
+			function(response) {
+				return response
+			},
+			function(error) {
+				// Do something with response error
+				if (error.response.status === 401) {
+					setLogged(false)
+				}
+				return { data: null }
+			}
+		)
 
-	return (
+		paymentsRequestor.get(`${api}works/work-types`).then((response) => {
+			const _workTypes = []
+			if (response.status === 200) {
+				const data = response.data
+				data.forEach((item) => {
+					_workTypes.push({ name: item.work_name, position: item.category, id: item.id })
+				})
+			}
+			setWorkTypes(_workTypes)
+		}).then(()=>{
+			setTableLoaded(true)
+		})
+	}, [isLogged])
+
+	const linesNames = {
+		courses: { title: 'Курсы', color: 'hsl(221, 24%, 32%)' },
+		developer: { title: 'Разработка', color: '#3D84A8' },
+		reports: { title: 'Отчеты', color: '#46CDCF' },
+	}
+
+	return isLogged ? (
 		<div className="account__wrapper">
 			<div className="account__general-wrapper">
 				<div className="account__general card-item">
 					<h2>Пользователь</h2>
+					<div>{accountData.full_name}</div>
+					<div>{accountData.rate}</div>
+					<div>{accountData.calculation_percent}</div>
+					<div>{accountData.developer_percent}</div>
 				</div>
 				<div className="account__pays-wrapper">
 					<DisplayCard
@@ -177,21 +267,33 @@ export default function Account({ toSummary }) {
 					/>
 					<DisplayCard
 						title="Протоколы"
-						prize={accountLoaded ? payments.general : 0}
+						prize={
+							accountLoaded
+								? Object.keys(payments.reports).length === 0
+									? 0
+									: payments.reports
+								: 0
+						}
 						date={currentDate}
 						chartLoaded={accountLoaded}
 						closeBtn={false}
 					/>
 					<DisplayCard
 						title="Разработка"
-						prize={accountLoaded ? payments.general : 0}
+						prize={accountLoaded ? payments.developer : 0}
 						date={currentDate}
 						chartLoaded={accountLoaded}
 						closeBtn={false}
 					/>
 					<DisplayCard
 						title="Курсы"
-						prize={accountLoaded ? payments.general : 0}
+						prize={
+							accountLoaded
+								? Object.keys(payments.courses).length === 0
+									? 0
+									: payments.courses
+								: 0
+						}
 						date={currentDate}
 						chartLoaded={accountLoaded}
 						closeBtn={false}
@@ -212,15 +314,25 @@ export default function Account({ toSummary }) {
 				<div className="chart-card card-item">
 					<h1 className="">Выплаты</h1>
 					<div className="chart-card__chart">
-						{/* {accountLoaded ? (
-							<AccountCharts dataset={prizes} />
+						{paysLoaded ? (
+							<AccountCharts
+								dataset={reports}
+								linesNames={linesNames}
+								reportsKeys={['courses', 'developer', 'reports']}
+							/>
 						) : (
 							<div className="blank-page-ar-2"></div>
-						)} */}
-						<div className="blank-page-ar-2"></div>
+						)}
 					</div>
 				</div>
 			</div>
+			{tableLoaded ? (
+				<Table searchData={workTypes} />
+			) : (
+				<div className="blank-page-ar-2"></div>
+			)}
 		</div>
+	) : (
+		<NotLogged />
 	)
 }

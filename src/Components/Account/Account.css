@@ -1,3 +1,12 @@
+.account__wrapper{
+	display: flex;
+	flex-direction: column;
+
+	width: 100%;
+	min-width: 100%;
+
+	row-gap: calc(var(--row-gap) * 2);
+}
 .account__general-wrapper{
 	display: flex;
 	column-gap: calc(var(--col-gap) * 2);
@@ -22,5 +31,19 @@
 }
 
 .account__pays-wrapper .current-prize {
+	width: 100%;
+}
+
+.account-charts__wrapper{
+	display: flex;
+	align-items: center;
+	width: 100%;
+	max-width: 100%;
+
+	column-gap: var(--col-gap);
+}
+
+.account-charts__wrapper .chart-card{
+	min-width: none;
 	width: 100%;
 }

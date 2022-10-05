@@ -21,6 +21,25 @@ ChartJS.register(
 	Legend
 )
 
+/**
+ * Создает окно с набором графиков
+ *
+ * @param {Object} dataset Словарь с набором графиков и дат к подписям вида
+ *  `{	
+ * 		reports: [{key1: value1, key2: value1},
+ * 				  {key1: value2, key2: value2}],
+ * 	    dates: []
+ *   }`
+ *
+ * @param {Object} reportsKeys Список ключей, графики по которым будут строиться из `dataset`.
+ *  Подав key1 + key2 значения просуммируются по ключам.
+ * 
+ * @param {Object} linesNames Словарь с подписями к графикам и цветами вида
+ * `{
+		key1: { title: '', color: 'hsl(221, 24%, 32%)' },
+	}`
+ */
+
 export default function AccountCharts({ dataset, reportsKeys, linesNames }) {
 	const inputData = { reports: [...dataset.reports], dates: [...dataset.dates] }
 

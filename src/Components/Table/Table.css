@@ -1,0 +1,200 @@
+:root {
+	--table-col-width: 220px;
+}
+
+/*
+ * Сама таблица
+*/
+.dynamic-table__wrapper {
+	display: inline-flex;
+
+	/* margin: 1rem 1.5rem; */
+
+	width: fit-content;
+	max-width: 100%;
+	height: fit-content;
+	min-height: 100px;
+
+	/* overflow-y: auto;
+	overflow-x: auto; */
+
+	border: 1px solid var(--first-color-lighten);
+	border-radius: 4px;
+}
+
+.dynamic-table {
+	width: fit-content;
+	height: fit-content;
+
+	border-collapse: collapse;
+	/* white-space: nowrap; */
+	table-layout: fixed;
+}
+
+/*
+ * Заголовки и настройки строк
+*/
+.dynamic-table__head {
+	position: relative;
+}
+
+.dynamic-table__head,
+.dynamic-table__head th {
+	height: 64px;
+	min-height: 64px;
+}
+
+.dynamic-table__head th {
+	min-height: 100%;
+	text-align: left;
+	font-weight: var(--font-medium);
+}
+
+.dynamic-table__head th,
+.dynamic-table__row td {
+	padding-left: 16px;
+	padding-right: 16px;
+
+	overflow: hidden;
+	/* white-space: nowrap; */
+	text-overflow: ellipsis;
+
+	min-width: var(--table-col-width);
+	width: var(--table-col-width);
+}
+
+.dynamic-table__head th.date,
+.dynamic-table__row td.date {
+	min-width: 160px;
+	width: 160px;
+	max-width: 160px;
+}
+
+.dynamic-table__row {
+	height: 52px;
+
+	border-top: 1px solid var(--first-color-lighten);
+}
+
+/*
+ * Кнопка добавления
+*/
+.dynamic-table__add-btn {
+	display: inline-flex;
+	align-items: center;
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	background-color: #fff;
+	padding: 0.25rem 0.5rem;
+	border-radius: 50%;
+
+	opacity: 0.8;
+
+	cursor: pointer;
+}
+.dynamic-table__add-btn.hidden {
+	display: none;
+}
+
+.dynamic-table__add-btn:hover {
+	opacity: 1;
+	color: var(--title-color);
+}
+.dynamic-table__add-btn:hover .plus-icon {
+	color: #fff;
+	background-color: var(--first-color);
+	border-radius: 50%;
+}
+.dynamic-table__add-btn td {
+	column-gap: 0.25rem;
+}
+.dynamic-table__add-btn td,
+.plus-icon {
+	display: inline-flex;
+	align-items: center;
+}
+.plus-icon {
+	padding: 0.2rem;
+}
+
+/*
+ * Срока с добавлением
+*/
+.dynamic-table__row.dynamic-table__add-row {
+	position: relative;
+	height: 52px;
+	display: none;
+}
+.dynamic-table__row.dynamic-table__add-row.dynamic-table__add-row_show {
+	display: table-row;
+}
+
+.dynamic-table__row.dynamic-table__add-row > td {
+	position: relative;
+	height: 52px;
+	overflow: visible;
+}
+
+.dynamic-table__add-row_bottom {
+	border-top: none;
+}
+
+.dynamic-table__input {
+	border: none;
+
+	padding: 0 5px;
+
+	border-radius: 0.25rem;
+	border: none;
+
+	/* cursor: pointer; */
+}
+.dynamic-table__input:focus-visible {
+	outline: 1px solid var(--text-color);
+	outline-offset: -1px;
+}
+
+.dynamic-table__row.dynamic-table__add-row
+	.dynamic-table__input:not(:disabled) {
+	background-color: var(--body-color);
+	width: 100%;
+	height: 90%;
+}
+
+.dynamic-table__input:disabled {
+	background-color: transparent;
+	opacity: 0.6;
+}
+
+.dynamic-table__btns {
+	display: inline-flex;
+	column-gap: 0.5rem;
+}
+
+.dynamic-table__btns button {
+	font-size: var(--normal-font-size);
+
+	height: var(--login-height);
+	padding: 0.5rem 0.75rem;
+
+	border-radius: 0.5rem;
+
+	width: fit-content;
+}
+
+.dynamic-table__btns button:hover,
+.dynamic-table__btns button:focus-visible {
+	box-shadow: 3px 3px 4px hsla(var(--hue), 24%, 15%, 0.1),
+		-3px -3px 4px hsla(var(--hue), 24%, 15%, 0.1);
+}
+
+.dynamic-table__btns .dynamic-table__btn_submit:hover {
+	background-color: var(--first-color-alt);
+}
+
+.dynamic-table__btns .dynamic-table__btn_submit {
+	background-color: var(--first-color);
+	color: var(--container-color);
+}

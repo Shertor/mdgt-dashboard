@@ -56,7 +56,7 @@ export default function AccountChart({ dataset }) {
 				display: true,
 				title: {
 					display: false,
-					text: 'Премия, %',
+					text: 'Выплата, &#8381;',
 					font: {
 						size: 16,
 					},
@@ -98,7 +98,7 @@ export default function AccountChart({ dataset }) {
 		labels,
 		datasets: [
 			{
-				label: 'Премия',
+				label: 'Выплата',
 				data: inputData.prizes,
 				borderColor: 'hsl(221, 24%, 32%)',
 				fill: false,

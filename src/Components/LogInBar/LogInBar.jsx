@@ -23,9 +23,10 @@ export default function LogInBar() {
 	const client = axios.create()
 	const requestCurrenUser = axios.create()
 
-	const { isLogged, setLogged, api } = useContext(Context)
+	const { isLogged, setLogged, api, userName, setUserName } = useContext(
+		Context
+	)
 
-	const [userName, setUserName] = useState('')
 	const [errClass, setErrClass] = useState('')
 
 	let pending = false
@@ -115,7 +116,7 @@ export default function LogInBar() {
 				return { status: error.status }
 			}
 		)
-		
+
 		client.post(
 			`${api}staff/sign-in/`,
 			`username=${encodeURI(user.value())}&password=${password.value()}`
