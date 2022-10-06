@@ -22,7 +22,6 @@ export default function Account({ toSummary }) {
 	const [workTypes, setWorkTypes] = useState([])
 	const [tableLoaded, setTableLoaded] = useState(false)
 
-
 	const [reports, setReports] = useState({ reports: [], dates: [] })
 	const [paysLoaded, setPaysLoaded] = useState(false)
 
@@ -94,7 +93,6 @@ export default function Account({ toSummary }) {
 							.get(`${api}staff/${userName}`)
 							.then((response) => {
 								if (response.status === 200) {
-									console.log(response.data[0])
 									setAccountData(response.data[0])
 								}
 							})
@@ -168,8 +166,6 @@ export default function Account({ toSummary }) {
 						if (response.status === 200) {
 							const data = response.data
 
-							console.log(data)
-
 							if (data) {
 								// const resultData = parsePayments(data)
 								_generalPaysPrizes.push(data.general)
@@ -200,6 +196,9 @@ export default function Account({ toSummary }) {
 		})
 	}, [isLogged])
 
+	/*
+		Запрос и заполнение данных для таблицы
+	*/
 	useEffect(() => {
 		const paymentsRequestor = axios.create()
 		paymentsRequestor.interceptors.request.use(
@@ -227,20 +226,30 @@ export default function Account({ toSummary }) {
 			}
 		)
 
-		paymentsRequestor.get(`${api}works/work-types`).then((response) => {
-			const _workTypes = []
-			if (response.status === 200) {
-				const data = response.data
-				data.forEach((item) => {
-					_workTypes.push({ name: item.work_name, position: item.category, id: item.id })
-				})
-			}
-			setWorkTypes(_workTypes)
-		}).then(()=>{
-			setTableLoaded(true)
-		})
+		paymentsRequestor
+			.get(`${api}works/work-types`)
+			.then((response) => {
+				const _workTypes = []
+				if (response.status === 200) {
+					const data = response.data
+					data.forEach((item) => {
+						_workTypes.push({
+							name: item.work_name,
+							position: item.category,
+							id: item.id,
+						})
+					})
+				}
+				setWorkTypes(_workTypes)
+			})
+			.then(() => {
+				setTableLoaded(true)
+			})
 	}, [isLogged])
 
+	/*
+	* Подписи к линиям и их цвета на грфике выплат
+	*/
 	const linesNames = {
 		courses: { title: 'Курсы', color: 'hsl(221, 24%, 32%)' },
 		developer: { title: 'Разработка', color: '#3D84A8' },

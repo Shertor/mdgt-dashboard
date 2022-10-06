@@ -1,4 +1,4 @@
-.account__wrapper{
+.account__wrapper {
 	display: flex;
 	flex-direction: column;
 
@@ -7,12 +7,12 @@
 
 	row-gap: calc(var(--row-gap) * 2);
 }
-.account__general-wrapper{
+.account__general-wrapper {
 	display: flex;
 	column-gap: calc(var(--col-gap) * 2);
 	width: 100%;
 }
-.account__general{
+.account__general {
 	position: relative;
 
 	width: 236px;
@@ -22,7 +22,7 @@
 	padding: 1rem 1.5rem;
 }
 
-.account__pays-wrapper{
+.account__pays-wrapper {
 	display: flex;
 	width: 100%;
 
@@ -34,7 +34,7 @@
 	width: 100%;
 }
 
-.account-charts__wrapper{
+.account-charts__wrapper {
 	display: flex;
 	align-items: center;
 	width: 100%;
@@ -43,7 +43,7 @@
 	column-gap: var(--col-gap);
 }
 
-.account-charts__wrapper .chart-card{
+.account-charts__wrapper .chart-card {
 	min-width: none;
 	width: 100%;
 }

@@ -11,21 +11,56 @@ export default function Table({ searchData }) {
 	const [newShow, setNewShow] = useState(false)
 
 	// Данные из заполняемых ячеек в таблице
-	const [inputDate, setInputDate] = useState(new Date())
+	const [inputDate, setInputDate] = useState(new Date().toJSON().slice(0, 10))
 	const [inputType, setInputType] = useState('')
 	const [inputCategory, setInputCategory] = useState('')
-	const [inputCount, setInputCount] = useState(null)
+    const [inputID, setInputID] = useState(null)
+	const [inputCount, setInputCount] = useState('')
 	const [inputAdditional, setInputAdditional] = useState('')
 
-    useEffect(()=>{
-        document.getElementById('search-bar-input-1').addEventListener('change',(event)=>{
-            setInputType(event.target.value)
-        })
-    },[])
+    const [isError, setIsError] = useState(false)
 
-    useEffect(()=>{
-        console.log(inputType);
-    }, [inputType])
+	useEffect(() => {
+		document
+			.getElementById('search-bar-input-1')
+			.addEventListener('change', (event) => {
+				setInputType(event.target.value)
+			})
+	}, [])
+
+	// useEffect(() => {
+	// 	console.log(inputType)
+	// }, [inputType])
+
+	useEffect(() => {
+		const _result = searchData.filter((item) => item.name === inputType)
+		if (_result.length === 1) {
+			setInputCategory(_result[0].position)
+            setInputID(_result[0].id)
+            return
+		}
+        setInputCategory('')
+	}, [inputType])
+
+	function onSubmitClick(event) {
+		event.preventDefault()
+		event.stopPropagation()
+
+		const _result = searchData.filter((item) => item.name === inputType)
+        console.log(_result);
+		if (_result.length !== 1) {
+			submitError('Выберите тип отчета из списка')
+			return
+		}
+	}
+
+    function submitError(text) {
+        console.log(text);
+        setIsError(true)
+        setTimeout(()=>{
+            setIsError(false)
+        }, 1000)
+    }
 
 	const data = searchData
 
@@ -71,12 +106,17 @@ export default function Table({ searchData }) {
 						<tr
 							className={
 								newShow
-									? 'dynamic-table__row dynamic-table__add-row dynamic-table__add-row_show'
+									? `dynamic-table__row dynamic-table__add-row dynamic-table__add-row_show ${isError?'error':''}`
 									: 'dynamic-table__row dynamic-table__add-row'
 							}
 						>
 							<td>
-								<input className="dynamic-table__input" type="date" />
+								<input
+									className="dynamic-table__input"
+									type="date"
+									value={inputDate}
+									onChange={(event) => setInputDate(event.target.value)}
+								/>
 							</td>
 							<td>
 								<Context.Provider value={{ setInputType }}>
@@ -89,6 +129,7 @@ export default function Table({ searchData }) {
 									disabled={true}
 									type="text"
 									placeholder="Автоматически"
+                                    value={inputCategory}
 								/>
 							</td>
 							<td>
@@ -96,6 +137,8 @@ export default function Table({ searchData }) {
 									className="dynamic-table__input"
 									type="number"
 									placeholder="Количество"
+									value={inputCount}
+									onChange={(event) => setInputCount(event.target.value)}
 								/>
 							</td>
 							<td>
@@ -103,6 +146,8 @@ export default function Table({ searchData }) {
 									className="dynamic-table__input"
 									type="text"
 									placeholder="Номер объека и т.п...."
+									value={inputAdditional}
+									onChange={(event) => setInputAdditional(event.target.value)}
 								/>
 							</td>
 						</tr>
@@ -127,7 +172,10 @@ export default function Table({ searchData }) {
 									>
 										Отмена
 									</button>
-									<button className="dynamic-table__btn_submit">
+									<button
+										className="dynamic-table__btn_submit"
+										onClick={onSubmitClick}
+									>
 										Сохранить
 									</button>
 								</div>

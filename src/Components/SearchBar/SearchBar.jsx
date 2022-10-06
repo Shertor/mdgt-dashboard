@@ -1,10 +1,20 @@
 import React, { useState, useEffect } from 'react'
 import './css/SearchBar.css'
+import Context from '../../context'
+import { useContext } from 'react'
 
 function SearchBar({ data }) {
 	const [results, setResults] = useState([])
 	const [keyword, setKeyword] = useState('')
 	const [visible, setVisible] = useState(false)
+
+	const {setInputType} = useContext(Context)
+
+
+	function updateKeyword(text) {
+		setKeyword(text)
+		setInputType(text)
+	}
 
 	//will match keyword with a potenital item in our data array
 	const matchName = (name, keyword) => {
@@ -15,7 +25,7 @@ function SearchBar({ data }) {
 	}
 
 	const updateText = (text) => {
-		setKeyword(text)
+		updateKeyword(text)
 		setVisible(false)
 	}
 	const onSearch = (text) => {
@@ -35,13 +45,13 @@ function SearchBar({ data }) {
 		//update state changes
 		setVisible(_visible)
 		setResults(_results)
-		setKeyword(text)
+		updateKeyword(text)
 	}
 
 	const cancelSearch = () => {
 		setVisible(false)
 		setResults([])
-		setKeyword('')
+		updateKeyword('')
 	}
 
 	useEffect(() => {
@@ -106,7 +116,6 @@ const SearchPreview = ({ name, position, index, updateText }) => {
 	return (
 		<div
 			onClick={(e) => {
-				console.log(e)
 				updateText(name)
 			}}
 			className={`search-preview ${index == 0 ? 'start' : ''}`}
