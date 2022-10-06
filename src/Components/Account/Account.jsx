@@ -336,7 +336,10 @@ export default function Account({ toSummary }) {
 				</div>
 			</div>
 			{tableLoaded ? (
-				<Table searchData={workTypes} />
+				<Context.Provider value={{api, accountData}}>
+					<Table searchData={workTypes} />
+				</Context.Provider>
+				
 			) : (
 				<div className="blank-page-ar-2"></div>
 			)}

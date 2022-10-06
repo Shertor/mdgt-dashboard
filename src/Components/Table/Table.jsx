@@ -1,24 +1,38 @@
-import React from 'react'
-import { useState } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+
+import axios from 'axios'
 
 import './Table.css'
 
 import SearchBar from '../SearchBar/SearchBar'
 import Context from '../../context'
-import { useEffect } from 'react'
 
 export default function Table({ searchData }) {
+	const { api, accountData } = useContext(Context)
+
 	const [newShow, setNewShow] = useState(false)
 
 	// Данные из заполняемых ячеек в таблице
 	const [inputDate, setInputDate] = useState(new Date().toJSON().slice(0, 10))
 	const [inputType, setInputType] = useState('')
 	const [inputCategory, setInputCategory] = useState('')
-    const [inputID, setInputID] = useState(null)
+	const [inputID, setInputID] = useState(-1)
 	const [inputCount, setInputCount] = useState('')
 	const [inputAdditional, setInputAdditional] = useState('')
 
-    const [isError, setIsError] = useState(false)
+	const [isError, setIsError] = useState(false)
+
+
+    function clear() {
+        setNewShow(false)
+        setInputDate(new Date().toJSON().slice(0, 10))
+        setInputType('')
+        setInputCategory('')
+        setInputID(-1)
+        setInputCount('')
+        setInputAdditional('')
+    }
+
 
 	useEffect(() => {
 		document
@@ -36,31 +50,82 @@ export default function Table({ searchData }) {
 		const _result = searchData.filter((item) => item.name === inputType)
 		if (_result.length === 1) {
 			setInputCategory(_result[0].position)
-            setInputID(_result[0].id)
-            return
+			setInputID(_result[0].id)
+			return
 		}
-        setInputCategory('')
+		setInputCategory('')
 	}, [inputType])
 
 	function onSubmitClick(event) {
 		event.preventDefault()
 		event.stopPropagation()
 
+		const postNewData = axios.create()
+		postNewData.interceptors.request.use(
+			(config) => {
+				// Код, необходимый до отправки запроса
+				config.method = 'post'
+				config.headers = { 'Content-Type': 'application/json' }
+				config.withCredentials = true
+				return config
+			},
+			(error) => {
+				// Обработка ошибки из запроса
+				return Promise.reject(error)
+			}
+		)
+		postNewData.interceptors.response.use(
+			function(response) {
+                clear()
+				return response
+			},
+			function(error) {
+				// Do something with response error
+				if (error.response.status === 401) {
+					submitError('Ошибка при отправке данных')
+				}
+				return { data: null }
+			}
+		)
+
 		const _result = searchData.filter((item) => item.name === inputType)
-        console.log(_result);
-		if (_result.length !== 1) {
+
+        if (_result.length !== 1) {
 			submitError('Выберите тип отчета из списка')
 			return
 		}
+		if (inputID < 0) {
+			submitError('Проверьте корректность данных')
+			return
+		}
+		if (
+			inputDate === '' ||
+			inputType === '' ||
+			inputCount === '' ||
+			inputAdditional === ''
+		) {
+			submitError('Пожалуйста, заполните все поля')
+			return
+		}
+        
+
+        // console.log(accountData);
+		postNewData.post(`${api}works/`, {
+			user_id: accountData.id,
+			date: inputDate,
+			object_number: inputAdditional,
+			work_id: inputID,
+			count: inputCount,
+		})
 	}
 
-    function submitError(text) {
-        console.log(text);
-        setIsError(true)
-        setTimeout(()=>{
-            setIsError(false)
-        }, 1000)
-    }
+	function submitError(text) {
+		console.log(text)
+		setIsError(true)
+		setTimeout(() => {
+			setIsError(false)
+		}, 1000)
+	}
 
 	const data = searchData
 
@@ -106,7 +171,9 @@ export default function Table({ searchData }) {
 						<tr
 							className={
 								newShow
-									? `dynamic-table__row dynamic-table__add-row dynamic-table__add-row_show ${isError?'error':''}`
+									? `dynamic-table__row dynamic-table__add-row dynamic-table__add-row_show ${
+											isError ? 'error' : ''
+									  }`
 									: 'dynamic-table__row dynamic-table__add-row'
 							}
 						>
@@ -129,7 +196,7 @@ export default function Table({ searchData }) {
 									disabled={true}
 									type="text"
 									placeholder="Автоматически"
-                                    value={inputCategory}
+									value={inputCategory}
 								/>
 							</td>
 							<td>
