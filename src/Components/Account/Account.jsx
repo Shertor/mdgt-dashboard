@@ -248,8 +248,8 @@ export default function Account({ toSummary }) {
 	}, [isLogged])
 
 	/*
-	* Подписи к линиям и их цвета на грфике выплат
-	*/
+	 * Подписи к линиям и их цвета на грфике выплат
+	 */
 	const linesNames = {
 		courses: { title: 'Курсы', color: 'hsl(221, 24%, 32%)' },
 		developer: { title: 'Разработка', color: '#3D84A8' },
@@ -336,10 +336,9 @@ export default function Account({ toSummary }) {
 				</div>
 			</div>
 			{tableLoaded ? (
-				<Context.Provider value={{api, accountData}}>
+				<Context.Provider value={{ api, accountData }}>
 					<Table searchData={workTypes} />
 				</Context.Provider>
-				
 			) : (
 				<div className="blank-page-ar-2"></div>
 			)}

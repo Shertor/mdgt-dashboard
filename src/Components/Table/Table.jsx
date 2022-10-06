@@ -12,6 +12,8 @@ export default function Table({ searchData }) {
 
 	const [newShow, setNewShow] = useState(false)
 
+	const [works, setWorks] = useState([])
+
 	// Данные из заполняемых ячеек в таблице
 	const [inputDate, setInputDate] = useState(new Date().toJSON().slice(0, 10))
 	const [inputType, setInputType] = useState('')
@@ -22,17 +24,78 @@ export default function Table({ searchData }) {
 
 	const [isError, setIsError] = useState(false)
 
+	function clear() {
+		setNewShow(false)
+		setInputDate(new Date().toJSON().slice(0, 10))
+		setInputType('')
+		setInputCategory('')
+		setInputID(-1)
+		setInputCount('')
+		setInputAdditional('')
+	}
 
-    function clear() {
-        setNewShow(false)
-        setInputDate(new Date().toJSON().slice(0, 10))
-        setInputType('')
-        setInputCategory('')
-        setInputID(-1)
-        setInputCount('')
-        setInputAdditional('')
-    }
+	function setTable() {
+		const tableRequestor = axios.create()
+		tableRequestor.interceptors.request.use(
+			(config) => {
+				// Код, необходимый до отправки запроса
+				config.method = 'get'
+				config.withCredentials = true
+				return config
+			},
+			(error) => {
+				// Обработка ошибки из запроса
+				return Promise.reject(error)
+			}
+		)
+		tableRequestor.interceptors.response.use(
+			function(response) {
+				return response
+			},
+			function(error) {
+				// Do something with response error
+				if (error.response.status === 401) {
+					console.log(error)
+				}
+				return { data: null }
+			}
+		)
+		// [
+		// 	{
+		// 	  "id": 1,
+		// 	  "date": "2022-10-06",
+		// 	  "object_number": "111",
+		// 	  "work_name": "Протокол python",
+		// 	  "work_id": 1,
+		// 	  "count": 1,
+		// 	  "price": 30
+		// 	}
+		//   ]
+		const _date = new Date()
+		tableRequestor
+			.get(
+				`${api}works/?month=${_date.getMonth() + 1}&year=${_date.getFullYear()}`
+			)
+			.then((response) => {
+				if (response.status === 200) {
+					const data = response.data
+					data.forEach((item) => {
+						const _result = searchData.filter((i) => i.name === item.work_name)
+						item['work_category'] = _result[0].position
 
+                        console.log(_result);
+
+						console.log(item.date)
+						const options = { year: 'numeric', month: 'short' }
+						const formatDate = new Intl.DateTimeFormat('ru-RU', options)
+							.format(new Date(item.date))
+							.replace(' г.', '')
+						item.date = formatDate
+					})
+					setWorks(data)
+				}
+			})
+	}
 
 	useEffect(() => {
 		document
@@ -40,6 +103,8 @@ export default function Table({ searchData }) {
 			.addEventListener('change', (event) => {
 				setInputType(event.target.value)
 			})
+
+		setTable()
 	}, [])
 
 	// useEffect(() => {
@@ -76,7 +141,8 @@ export default function Table({ searchData }) {
 		)
 		postNewData.interceptors.response.use(
 			function(response) {
-                clear()
+				clear()
+				setTable()
 				return response
 			},
 			function(error) {
@@ -90,7 +156,7 @@ export default function Table({ searchData }) {
 
 		const _result = searchData.filter((item) => item.name === inputType)
 
-        if (_result.length !== 1) {
+		if (_result.length !== 1) {
 			submitError('Выберите тип отчета из списка')
 			return
 		}
@@ -107,9 +173,8 @@ export default function Table({ searchData }) {
 			submitError('Пожалуйста, заполните все поля')
 			return
 		}
-        
 
-        // console.log(accountData);
+		// console.log(accountData);
 		postNewData.post(`${api}works/`, {
 			user_id: accountData.id,
 			date: inputDate,
@@ -248,15 +313,23 @@ export default function Table({ searchData }) {
 								</div>
 							</td>
 						</tr>
-						<tr className="dynamic-table__row">
-							<td>
-								<div className="date">Окт. 2022</div>
-							</td>
-							<td>Протокол python</td>
-							<td>Протоколы и ведомости</td>
-							<td>42-22 НИИ ЧАВО</td>
-							<td>9000</td>
-						</tr>
+
+						{works.map((item) => {
+							return (
+								<tr
+									className="dynamic-table__row"
+									key={`${item.date}_${item.object_number}`}
+								>
+									<td>
+										<div className="date">{item.date}</div>
+									</td>
+									<td>{item.work_name}</td>
+									<td>{item.work_category}</td>
+									<td>{item.count}</td>
+									<td>{item.object_number}</td>
+								</tr>
+							)
+						})}
 					</tbody>
 				</table>
 			</div>
