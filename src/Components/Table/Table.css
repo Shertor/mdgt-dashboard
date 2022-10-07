@@ -5,6 +5,14 @@
 /*
  * Сама таблица
 */
+
+.dynamic-table-item{
+	display: flex;
+	flex-direction: column;
+	width: fit-content;
+	padding: 1.15rem 1.15rem 1.15rem 1.15rem;
+    row-gap: var(--row-gap);
+}
 .dynamic-table__wrapper {
 	display: inline-flex;
 

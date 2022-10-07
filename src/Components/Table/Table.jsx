@@ -8,7 +8,7 @@ import SearchBar from '../SearchBar/SearchBar'
 import Context from '../../context'
 
 export default function Table({ searchData }) {
-	const { api, accountData } = useContext(Context)
+	const { api, accountData, currentDate } = useContext(Context)
 
 	const [newShow, setNewShow] = useState(false)
 
@@ -195,7 +195,8 @@ export default function Table({ searchData }) {
 	const data = searchData
 
 	return (
-		<div className="card-item">
+		<div className="card-item dynamic-table-item">
+            <h1>{`Выполненные работы за ${currentDate}`}</h1>
 			<div className="dynamic-table__wrapper">
 				<table className="dynamic-table">
 					<thead className="dynamic-table__head">

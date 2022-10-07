@@ -25,7 +25,7 @@ export default function Account({ toSummary }) {
 	const [reports, setReports] = useState({ reports: [], dates: [] })
 	const [paysLoaded, setPaysLoaded] = useState(false)
 
-	const [currentDate, setCurrentDate] = useState(null)
+	const [currentDate, setCurrentDate] = useState('')
 
 	/*
 		Запрос и заполнение данных пользователя и выплат за текущий месяц
@@ -336,7 +336,7 @@ export default function Account({ toSummary }) {
 				</div>
 			</div>
 			{tableLoaded ? (
-				<Context.Provider value={{ api, accountData }}>
+				<Context.Provider value={{ api, accountData, currentDate }}>
 					<Table searchData={workTypes} />
 				</Context.Provider>
 			) : (
