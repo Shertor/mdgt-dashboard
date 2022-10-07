@@ -8,8 +8,7 @@ function SearchBar({ data }) {
 	const [keyword, setKeyword] = useState('')
 	const [visible, setVisible] = useState(false)
 
-	const {setInputType} = useContext(Context)
-
+	const { setInputType } = useContext(Context)
 
 	function updateKeyword(text) {
 		setKeyword(text)
@@ -20,8 +19,8 @@ function SearchBar({ data }) {
 	const matchName = (name, keyword) => {
 		var keyLen = keyword.length
 		name = name.toLowerCase().substring(0, keyLen)
-		if (keyword == '') return false
-		return name == keyword.toLowerCase()
+		if (keyword === '') return false
+		return name === keyword.toLowerCase()
 	}
 
 	const updateText = (text) => {
@@ -35,7 +34,7 @@ function SearchBar({ data }) {
 		//check to see if we found a match, if so, add it to results
 		let _results = []
 		if (text !== '') {
-			_results = data.filter((item) => true == matchName(item.name, text))
+			_results = data.filter((item) => matchName(item.name, text))
 			//if we didnt find any match, hide results div
 			if (results.length < 1) _visible = false
 		} else {
@@ -118,7 +117,7 @@ const SearchPreview = ({ name, position, index, updateText }) => {
 			onClick={(e) => {
 				updateText(name)
 			}}
-			className={`search-preview ${index == 0 ? 'start' : ''}`}
+			className={`search-preview ${index === 0 ? 'start' : ''}`}
 		>
 			<div className="first">
 				<p className="name">{name}</p>

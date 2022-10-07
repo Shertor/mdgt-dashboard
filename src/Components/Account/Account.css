@@ -9,29 +9,50 @@
 }
 .account__general-wrapper {
 	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+
 	column-gap: calc(var(--col-gap) * 2);
+	row-gap: calc(var(--row-gap) * 2);
 	width: 100%;
 }
 .account__general {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	white-space: nowrap;
+	align-items: baseline;
+
+	row-gap: 0.25rem;
+	column-gap: calc(var(--col-gap) * 2);
+
 	position: relative;
 
 	width: 236px;
-	height: 170px;
+	height: fit-content;
 	min-width: fit-content;
 
 	padding: 1rem 1.5rem;
 }
+.account__general div {
+	display: flex;
+	align-items: center;
+}
 
 .account__pays-wrapper {
-	display: flex;
+	display: grid;
+	grid-template-rows: 1fr;
+	grid-template-columns: repeat(4, 1fr);
 	width: 100%;
 
-	column-gap: var(--col-gap);
+	gap: var(--col-gap);
 	justify-content: right;
 }
 
 .account__pays-wrapper .current-prize {
 	width: 100%;
+	min-width: 310px;
 }
 
 .account-charts__wrapper {
@@ -41,9 +62,28 @@
 	max-width: 100%;
 
 	column-gap: var(--col-gap);
+	row-gap: var(--row-gap);
 }
 
 .account-charts__wrapper .chart-card {
 	min-width: none;
 	width: 100%;
+}
+
+@media screen and (max-width: 1440px) {
+	.account__pays-wrapper {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media screen and (max-width: 768px) {
+	.account__pays-wrapper {
+		grid-template-columns: repeat(1, 1fr);
+	}
+	.account-charts__wrapper {
+		flex-direction: column;
+	}
+	.account__pays-wrapper .current-prize {
+		min-width: 210px;
+	}
 }

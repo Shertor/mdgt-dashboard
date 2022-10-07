@@ -261,10 +261,10 @@ export default function Account({ toSummary }) {
 			<div className="account__general-wrapper">
 				<div className="account__general card-item">
 					<h2>Пользователь</h2>
-					<div>{accountData.full_name}</div>
-					<div>{accountData.rate}</div>
-					<div>{accountData.calculation_percent}</div>
-					<div>{accountData.developer_percent}</div>
+					<div>{`${accountData.full_name}`}</div>
+					<div>{`Ставка: ${accountData.rate}`}</div>
+					<div>{`От расчетов: ${accountData.calculation_percent}%`}</div>
+					<div>{`От разработки: ${accountData.developer_percent}%`}</div>
 				</div>
 				<div className="account__pays-wrapper">
 					<DisplayCard
