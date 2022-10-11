@@ -7,7 +7,7 @@ import SearchBar from '../../SearchBar/SearchBar'
 
 import Context from '../../../context'
 
-export default function WorkSubmitter({ searchData, isMobileType }) {
+export default function WorkSubmitter({ searchData, isMobileType = false }) {
 	const { api, newShow, accountData, setNewShow, setTable } = useContext(
 		Context
 	)
@@ -124,7 +124,81 @@ export default function WorkSubmitter({ searchData, isMobileType }) {
 		}, 1000)
 	}
 
-	return isMobileType ? null : (
+	return isMobileType ? (
+		// МОБИЛЬНАЯ ВЕРСИЯ, ИСПОЛЬЗУЕТСЯ ВНЕ! ТАБЛИЦЫ
+		<div className={`mobile-sbmtr__wrapper ${isError ? 'error' : ''}`}>
+			<div className="mobile-sbmtr__input">
+				<label htmlFor="date">Дата</label>
+				<input
+					className="dynamic-table__input"
+					type="date"
+					name="date"
+					value={inputDate}
+					onChange={(event) => setInputDate(event.target.value)}
+				/>
+			</div>
+
+			<div className="mobile-sbmtr__input">
+				<label htmlFor="search">Тип</label>
+				<Context.Provider value={{ setInputType }}>
+					<SearchBar data={searchData} />
+				</Context.Provider>
+			</div>
+
+			<div className="mobile-sbmtr__input">
+				<label htmlFor="category">Категория</label>
+
+				<input
+					className="dynamic-table__input"
+					disabled={true}
+					type="text"
+					name="category"
+					placeholder="Автоматически"
+					value={inputCategory}
+				/>
+			</div>
+
+			<div className="mobile-sbmtr__input">
+				<label htmlFor="count">Количество</label>
+
+				<input
+					className="dynamic-table__input"
+					type="number"
+					placeholder="Количество"
+					name="count"
+					value={inputCount}
+					onChange={(event) => setInputCount(event.target.value)}
+				/>
+			</div>
+
+			<div className="mobile-sbmtr__input">
+				<label htmlFor="additional">Дополнительно</label>
+				<input
+					className="dynamic-table__input"
+					type="text"
+					placeholder="Номер объека и т.п. ..."
+					name="additional"
+					value={inputAdditional}
+					onChange={(event) => setInputAdditional(event.target.value)}
+				/>
+			</div>
+
+			<div className="dynamic-table__btns">
+				<button
+					className="dynamic-table__btn_cancel"
+					onClick={() => {
+						clear()
+					}}
+				>
+					Отмена
+				</button>
+				<button className="dynamic-table__btn_submit" onClick={onSubmitClick}>
+					Сохранить
+				</button>
+			</div>
+		</div>
+	) : (
+		// ОБЫЧНАЯ ВЕРСИЯ, ИСПОЛЬЗУЕТСЯ ВНУТРИ ТАБЛИЦЫ
 		<>
 			<tr
 				className={
@@ -170,7 +244,7 @@ export default function WorkSubmitter({ searchData, isMobileType }) {
 					<input
 						className="dynamic-table__input"
 						type="text"
-						placeholder="Номер объека и т.п...."
+						placeholder="Номер объека и т.п. ..."
 						value={inputAdditional}
 						onChange={(event) => setInputAdditional(event.target.value)}
 					/>

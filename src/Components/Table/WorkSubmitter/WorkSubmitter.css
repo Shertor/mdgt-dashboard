@@ -1,3 +1,4 @@
+/* =================== ДЕСКТОПНАЯ ВЕРСИЯ =================== */
 /*
  * Срока с добавлением
 */
@@ -122,4 +123,41 @@
 		transform: translateX(0px);
 		timing-function: ease-in;
 	}
+}
+
+/* =================== МОБИЛЬНАЯ ВЕРСИЯ =================== */
+.mobile-sbmtr__wrapper {
+	width: 100%;
+	min-height: fit-content;
+
+	display: flex;
+	flex-direction: column;
+	row-gap: calc(var(--row-gap) * 2);
+}
+
+.mobile-sbmtr__wrapper .mobile-sbmtr__input{
+	height: fit-content;
+	width: 100%;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.mobile-sbmtr__wrapper .mobile-sbmtr__input .dynamic-table__input,
+.mobile-sbmtr__wrapper .auto {
+	height: 52px;
+	width: 100%;
+}
+
+.mobile-sbmtr__wrapper > .mobile-sbmtr__input .dynamic-table__input:not(:disabled) {
+	background-color: var(--body-color);
+}
+
+.mobile-sbmtr__wrapper.error input {
+	outline: 1px solid var(--color-bad-info);
+	outline-offset: -1px;
+
+	animation-name: bounce;
+	animation-duration: 0.5s;
+	animation-delay: 0.25s;
 }

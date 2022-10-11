@@ -86,6 +86,7 @@ function SearchBar({ data }) {
 				className="search-bar"
 				placeholder="Выберите из списка"
 				value={keyword}
+				name="search"
 				onFocus={(e) => onSearch(e.target.value)}
 				onChange={(e) => onSearch(e.target.value)}
 				id="search-bar-input-1"

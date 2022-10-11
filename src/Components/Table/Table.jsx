@@ -6,9 +6,14 @@ import './Table.css'
 
 import WorkSubmitter from './WorkSubmitter/WorkSubmitter'
 import Context from '../../context'
+import useWindowDimensions from '../windowResizeHook'
 
 export default function Table({ searchData }) {
 	const { api, accountData, currentDate } = useContext(Context)
+
+	const [mobile, setMobile] = useState(false)
+
+	const { width } = useWindowDimensions()
 
 	const [newShow, setNewShow] = useState(false)
 
@@ -81,9 +86,29 @@ export default function Table({ searchData }) {
 		setTable()
 	}, [])
 
+	useEffect(() => {
+		if (width <= 768) {
+			if (!mobile) setMobile(true)
+		} else {
+			if (mobile) setMobile(false)
+		}
+	}, [width])
+
 	return (
 		<div className="card-item dynamic-table-item">
 			<h1>{`Выполненные работы за ${currentDate}`}</h1>
+			{mobile ? (
+				<Context.Provider
+					value={{ api, accountData, newShow, setNewShow, setTable }}
+				>
+					<h3>Добавление записи</h3>
+					<WorkSubmitter
+						searchData={searchData}
+						isMobileType={true}
+					></WorkSubmitter>
+					<h3>Таблица работ (с прокруткой вправо)</h3>
+				</Context.Provider>
+			) : null}
 			<div className="dynamic-table__wrapper">
 				<table className="dynamic-table">
 					<thead className="dynamic-table__head">
@@ -96,35 +121,39 @@ export default function Table({ searchData }) {
 							<th scope="col">Количество</th>
 							<th scope="col">Дополнительно</th>
 						</tr>
-						<tr
-							className={
-								newShow
-									? 'dynamic-table__add-btn hidden'
-									: 'dynamic-table__add-btn'
-							}
-							onClick={() => {
-								setNewShow(!newShow)
-							}}
-						>
-							<td>
-								<div className="plus-icon">
-									<svg width="13" height="13">
-										<path
-											d="M6 6V.5a.5.5 0 0 1 1 0V6h5.5a.5.5 0 1 1 0 1H7v5.5a.5.5 0 1 1-1 0V7H.5a.5.5 0 0 1 0-1H6z"
-											fill="currentColor"
-											fillRule="evenodd"
-										></path>
-									</svg>
-								</div>
-								Добавить запись
-							</td>
-						</tr>
+						{mobile ? null : (
+							<tr
+								className={
+									newShow
+										? 'dynamic-table__add-btn hidden'
+										: 'dynamic-table__add-btn'
+								}
+								onClick={() => {
+									setNewShow(!newShow)
+								}}
+							>
+								<td>
+									<div className="plus-icon">
+										<svg width="13" height="13">
+											<path
+												d="M6 6V.5a.5.5 0 0 1 1 0V6h5.5a.5.5 0 1 1 0 1H7v5.5a.5.5 0 1 1-1 0V7H.5a.5.5 0 0 1 0-1H6z"
+												fill="currentColor"
+												fillRule="evenodd"
+											></path>
+										</svg>
+									</div>
+									Добавить запись
+								</td>
+							</tr>
+						)}
 					</thead>
 					<tbody>
 						<Context.Provider
 							value={{ api, accountData, newShow, setNewShow, setTable }}
 						>
-							<WorkSubmitter searchData={searchData}></WorkSubmitter>
+							{mobile ? null : (
+								<WorkSubmitter searchData={searchData}></WorkSubmitter>
+							)}
 						</Context.Provider>
 
 						{works.map((item) => {

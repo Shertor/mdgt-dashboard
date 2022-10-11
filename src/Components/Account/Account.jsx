@@ -76,7 +76,7 @@ export default function Account({ toSummary }) {
 				setCurrentDate(date)
 				paymentsRequestor
 					.get(
-						`${api}works/pay/?month=${new Date().getMonth()}&year=${new Date().getFullYear()}`
+						`${api}works/pay/${new Date().getMonth()}${new Date().getFullYear()}`
 					)
 					.then((response) => {
 						if (response.status === 200) {
@@ -159,9 +159,7 @@ export default function Account({ toSummary }) {
 				const date = new Date()
 				date.setMonth(date.getMonth() - i)
 				await paymentsRequestor
-					.get(
-						`${api}works/pay/?month=${date.getMonth()}&year=${date.getFullYear()}`
-					)
+					.get(`${api}works/pay/${date.getMonth()}${date.getFullYear()}`)
 					.then((response) => {
 						if (response.status === 200) {
 							const data = response.data
@@ -187,13 +185,19 @@ export default function Account({ toSummary }) {
 						}
 					})
 			}
-			setGeneralPays({ prizes: _generalPaysPrizes, dates: _generalPaysDates })
-			setReports({ reports: _generalReports, dates: _generalPaysDates })
+			if (_generalPaysPrizes.length !== 0 || _generalPaysDates.length !== 0) {
+				setGeneralPays({ prizes: _generalPaysPrizes, dates: _generalPaysDates })
+				setReports({ reports: _generalReports, dates: _generalPaysDates })
+			} else {
+				throw 422
+			}
 		}
 
-		getGeneralPays().then(() => {
-			setPaysLoaded(true)
-		})
+		getGeneralPays()
+			.then(() => {
+				setPaysLoaded(true)
+			})
+			.catch((error) => {})
 	}, [isLogged])
 
 	/*
