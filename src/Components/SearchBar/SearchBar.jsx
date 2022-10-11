@@ -17,10 +17,11 @@ function SearchBar({ data }) {
 
 	//will match keyword with a potenital item in our data array
 	const matchName = (name, keyword) => {
-		var keyLen = keyword.length
-		name = name.toLowerCase().substring(0, keyLen)
-		if (keyword === '') return false
-		return name === keyword.toLowerCase()
+		// var keyLen = keyword.length
+		// name = name.toLowerCase().substring(0, keyLen)
+		// if (keyword === '') return false
+		// return name === keyword.toLowerCase()
+		return name.toLowerCase().includes(keyword.toLowerCase())
 	}
 
 	const updateText = (text) => {
