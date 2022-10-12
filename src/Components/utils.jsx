@@ -18,19 +18,21 @@ export function parsePrizes(data) {
 
 			dates.push(date)
 		})
-	}
-	const currentDate = new Date()
-	if (currentDate.getMonth() > lastDate.getMonth()) {
-		prizes.push(0)
-		dates.push(
-			new Intl.DateTimeFormat('ru-RU', options)
-				.format(currentDate)
-				.replace(' г.', '')
-		)
+
+		const currentDate = new Date()
+		if (currentDate.getMonth() > lastDate.getMonth()) {
+			prizes.push(0)
+			dates.push(
+				new Intl.DateTimeFormat('ru-RU', options)
+					.format(currentDate)
+					.replace(' г.', '')
+			)
+		}
+		const resultData = { prizes: prizes, dates: dates }
+		return resultData
 	}
 
-	const resultData = { prizes: prizes, dates: dates }
-	return resultData
+	return { prizes: [], dates: [] }
 }
 
 export async function getPrizes() {
@@ -64,7 +66,7 @@ export function parseReports(data) {
 
 	const items = Object.keys(data)
 
-	console.log(data);
+	console.log(data)
 
 	if (items.length > 0) {
 		items.forEach((item) => {

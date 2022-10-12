@@ -14,17 +14,48 @@ import Table from '../Table/Table'
 export default function Account({ toSummary }) {
 	const { isLogged, api, setLogged, userName } = useContext(Context)
 
-	const [payments, setPayments] = useState()
+	// Выплаты по пользователю за месяц, заполняется из /works/pay
+	const [payments, setPayments] = useState({
+		reports: [],
+		courses: [],
+		developer: 0,
+	})
+
+	// Выплаты по пользоватлю за последние 6 месяцев из /works/pay
 	const [generalPays, setGeneralPays] = useState({ prizes: [], dates: [] })
-	const [accountData, setAccountData] = useState({})
+
+	// Данные пользователя из /staff/user/
+	const [accountData, setAccountData] = useState({
+		full_name: '',
+		rate: 0,
+		calculation_percent: 0,
+		developer_percent: 0,
+	})
+
+	//
 	const [accountLoaded, setAccountLoaded] = useState(false)
 
-	const [workTypes, setWorkTypes] = useState([])
+	// Список типов работ с /works/work-types
+	const [workTypes, setWorkTypes] = useState([
+		{
+			id: 0,
+			work_name: '',
+			category: '',
+			price: 0,
+			dev_tips: 0,
+		},
+	])
+
+	//
 	const [tableLoaded, setTableLoaded] = useState(false)
 
+	//
 	const [reports, setReports] = useState({ reports: [], dates: [] })
+
+	//
 	const [paysLoaded, setPaysLoaded] = useState(false)
 
+	//
 	const [currentDate, setCurrentDate] = useState('')
 
 	/*
@@ -74,28 +105,35 @@ export default function Account({ toSummary }) {
 					.format(new Date())
 					.replace(' г.', '')
 				setCurrentDate(date)
+
 				paymentsRequestor
-					.get(
-						`${api}works/pay/${new Date().getMonth()}${new Date().getFullYear()}`
-					)
+					.get(`${api}staff/${userName}`)
 					.then((response) => {
 						if (response.status === 200) {
-							const data = response.data
-							if (data) {
-								// const resultData = parsePayments(data)
-								setPayments(data)
-								setAccountLoaded(true)
-							}
+							setAccountData(response.data[0])
+							return response.data[0]
 						}
+						return null
 					})
-					.then(() => {
-						paymentsRequestor
-							.get(`${api}staff/${userName}`)
-							.then((response) => {
-								if (response.status === 200) {
-									setAccountData(response.data[0])
-								}
-							})
+					.then((_accountData) => {
+						if (_accountData) {
+							paymentsRequestor
+								.get(
+									`${api}works/pay/${
+										_accountData.id
+									}?month=${new Date().getMonth()}&year=${new Date().getFullYear()}`
+								)
+								.then((response) => {
+									if (response.status === 200) {
+										const data = response.data
+										if (data) {
+											// const resultData = parsePayments(data)
+											setPayments(data)
+											setAccountLoaded(true)
+										}
+									}
+								})
+						}
 					})
 			}
 		}
@@ -159,7 +197,10 @@ export default function Account({ toSummary }) {
 				const date = new Date()
 				date.setMonth(date.getMonth() - i)
 				await paymentsRequestor
-					.get(`${api}works/pay/${date.getMonth()}${date.getFullYear()}`)
+					.get(
+						`${api}works/pay/?month=${date.getMonth() +
+							1}&year=${date.getFullYear()}`
+					)
 					.then((response) => {
 						if (response.status === 200) {
 							const data = response.data
