@@ -3,8 +3,7 @@ import React from 'react'
 import NotLogged from '../NotLogged/NotLogged'
 
 import Prize from '../Prize/Prize'
-/* Deprecated */
-// import Reports from '../Reports/Reports'
+import Reports from '../Reports/Reports'
 import Staff from '../Staff/Staff'
 import Customers from '../Customers/Customers'
 
@@ -22,8 +21,7 @@ export default function Summary() {
 						<Prize toSummary={true} />
 						<Staff />
 						<Customers />
-						{/* Deprecated */}
-						{/* <Reports toSummary={true} /> */}
+						<Reports toSummary={true} />
 					</div>
 				</>
 			) : (

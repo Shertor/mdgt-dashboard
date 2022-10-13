@@ -234,7 +234,6 @@ export default function Account({ toSummary }) {
 					.then((response) => {
 						if (response.status === 200) {
 							const data = response.data
-							console.log(data);
 							if (data) {
 								// const resultData = parsePayments(data)
 								_generalPaysPrizes.push(data.general)
