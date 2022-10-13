@@ -70,7 +70,6 @@ export default function Table({ searchData }) {
 
 						console.log(_result)
 
-						console.log(item.date)
 						const options = { year: 'numeric', month: 'short', day: 'numeric' }
 						const formatDate = new Intl.DateTimeFormat('ru-RU', options)
 							.format(new Date(item.date))
@@ -160,7 +159,7 @@ export default function Table({ searchData }) {
 							return (
 								<tr
 									className="dynamic-table__row"
-									key={`${item.date}_${item.object_number}`}
+									key={`${item.date}_${item.object_number}_${item.id}`}
 								>
 									<td>
 										<div className="date">{item.date}</div>

@@ -121,14 +121,50 @@ export default function Account({ toSummary }) {
 								.get(
 									`${api}works/pay/${
 										_accountData.id
-									}?month=${new Date().getMonth()}&year=${new Date().getFullYear()}`
+									}?month=${new Date().getMonth() +
+										1}&year=${new Date().getFullYear()}`
 								)
 								.then((response) => {
 									if (response.status === 200) {
 										const data = response.data
 										if (data) {
 											// const resultData = parsePayments(data)
-											setPayments(data)
+											const _payments = {}
+											if (Object.keys(data).includes('reports')) {
+												let _reports_summ = 0
+												Object.keys(data.reports).forEach((report_type) => {
+													_reports_summ += data.reports[report_type].payment
+												})
+												_payments['reports'] = _reports_summ
+											} else {
+												_payments['reports'] = 0
+											}
+											if (Object.keys(data).includes('base')) {
+												_payments['base'] = data.base
+											} else {
+												_payments['base'] = 0
+											}
+
+											if (Object.keys(data).includes('general')) {
+												_payments['general'] = data.general
+											} else {
+												_payments['general'] = 0
+											}
+
+											if (Object.keys(data).includes('developer'))
+												_payments['developer'] = data.developer
+											else _payments['developer'] = 0
+
+											if (Object.keys(data).includes('courses')) {
+												let _courses_summ = 0
+												Object.keys(data.courses).forEach((report_type) => {
+													_courses_summ += data.reports[report_type].payment
+												})
+												_payments['courses'] = _courses_summ
+											} else {
+												_payments['courses'] = 0
+											}
+											setPayments(_payments)
 											setAccountLoaded(true)
 										}
 									}
@@ -151,13 +187,7 @@ export default function Account({ toSummary }) {
 		Запрос и заполнение графиков по выплатам и отчетам
 	*/
 	useEffect(() => {
-		if (!isLogged) {
-			setAccountLoaded(false)
-			setPayments()
-			setGeneralPays({ prizes: [], dates: [] })
-			setPaysLoaded(false)
-			setReports({ reports: [], dates: [] })
-			setTableLoaded(false)
+		if (!accountLoaded) {
 			return
 		}
 
@@ -198,23 +228,45 @@ export default function Account({ toSummary }) {
 				date.setMonth(date.getMonth() - i)
 				await paymentsRequestor
 					.get(
-						`${api}works/pay/?month=${date.getMonth() +
+						`${api}works/pay/${accountData.id}?month=${date.getMonth() +
 							1}&year=${date.getFullYear()}`
 					)
 					.then((response) => {
 						if (response.status === 200) {
 							const data = response.data
-
+							console.log(data);
 							if (data) {
 								// const resultData = parsePayments(data)
 								_generalPaysPrizes.push(data.general)
-								_generalReports.push({
-									courses:
-										Object.keys(data.courses).length === 0 ? 0 : data.courses,
-									developer: data.developer,
-									reports:
-										Object.keys(data.reports).length === 0 ? 0 : data.reports,
-								})
+
+								const _generalPays_item = {}
+								if (Object.keys(data).includes('reports')) {
+									let _reports_summ = 0
+									Object.keys(data.reports).forEach((report_type) => {
+										_reports_summ += data.reports[report_type].payment
+									})
+									_generalPays_item['reports'] = _reports_summ
+								} else {
+									_generalPays_item['reports'] = 0
+								}
+
+								if (Object.keys(data).includes('developer')) {
+									_generalPays_item['developer'] = data.developer
+								} else {
+									_generalPays_item['developer'] = 0
+								}
+
+								if (Object.keys(data).includes('courses')) {
+									let _courses_summ = 0
+									Object.keys(data.courses).forEach((report_type) => {
+										_courses_summ += data.reports[report_type].payment
+									})
+									_generalPays_item['courses'] = _courses_summ
+								} else {
+									_generalPays_item['courses'] = 0
+								}
+
+								_generalReports.push(_generalPays_item)
 
 								const options = { year: 'numeric', month: 'short' }
 								const _date = new Intl.DateTimeFormat('ru-RU', options)
@@ -230,7 +282,7 @@ export default function Account({ toSummary }) {
 				setGeneralPays({ prizes: _generalPaysPrizes, dates: _generalPaysDates })
 				setReports({ reports: _generalReports, dates: _generalPaysDates })
 			} else {
-				throw 422
+				throw new Error(422)
 			}
 		}
 
@@ -239,7 +291,7 @@ export default function Account({ toSummary }) {
 				setPaysLoaded(true)
 			})
 			.catch((error) => {})
-	}, [isLogged])
+	}, [accountLoaded])
 
 	/*
 		Запрос и заполнение данных для таблицы
@@ -313,7 +365,7 @@ export default function Account({ toSummary }) {
 				</div>
 				<div className="account__pays-wrapper">
 					<DisplayCard
-						title="База"
+						title="Выплата"
 						prize={accountLoaded ? payments.general : 0}
 						date={currentDate}
 						chartLoaded={accountLoaded}
@@ -321,13 +373,7 @@ export default function Account({ toSummary }) {
 					/>
 					<DisplayCard
 						title="Протоколы"
-						prize={
-							accountLoaded
-								? Object.keys(payments.reports).length === 0
-									? 0
-									: payments.reports
-								: 0
-						}
+						prize={accountLoaded ? payments.reports : 0}
 						date={currentDate}
 						chartLoaded={accountLoaded}
 						closeBtn={false}
@@ -341,13 +387,7 @@ export default function Account({ toSummary }) {
 					/>
 					<DisplayCard
 						title="Курсы"
-						prize={
-							accountLoaded
-								? Object.keys(payments.courses).length === 0
-									? 0
-									: payments.courses
-								: 0
-						}
+						prize={accountLoaded ? payments.courses : 0}
 						date={currentDate}
 						chartLoaded={accountLoaded}
 						closeBtn={false}
