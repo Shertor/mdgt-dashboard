@@ -5,13 +5,13 @@ import { useContext } from 'react'
 
 function SearchBar({ data }) {
 	const [results, setResults] = useState([])
-	const [keyword, setKeyword] = useState('')
+	// const [keyword, setKeyword] = useState('')
 	const [visible, setVisible] = useState(false)
 
-	const { setInputType } = useContext(Context)
+	const { inputType, setInputType } = useContext(Context)
 
 	function updateKeyword(text) {
-		setKeyword(text)
+		// setKeyword(text)
 		setInputType(text)
 	}
 
@@ -86,7 +86,7 @@ function SearchBar({ data }) {
 			<input
 				className="search-bar"
 				placeholder="Выберите из списка"
-				value={keyword}
+				value={inputType}
 				name="search"
 				onFocus={(e) => onSearch(e.target.value)}
 				onChange={(e) => onSearch(e.target.value)}

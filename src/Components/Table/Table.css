@@ -14,7 +14,7 @@
 	padding: 1.15rem 1.15rem 1.15rem 1.15rem;
 	row-gap: calc(var(--row-gap) * 4);
 
-	overflow-x: auto;
+	/* overflow-x: auto; */
 }
 .dynamic-table__wrapper {
 	display: inline-flex;

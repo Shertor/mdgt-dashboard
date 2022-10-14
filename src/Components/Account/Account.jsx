@@ -66,14 +66,37 @@ export default function Account({ toSummary }) {
 	*/
 	useEffect(() => {
 		if (!isLogged) {
-			setAccountLoaded(false)
-			setPayments()
+			setPayments({
+				reports: [],
+				courses: [],
+				developer: 0,
+			})
 			setGeneralPays({ prizes: [], dates: [] })
-			setWorkTypes([])
-			setAccountData({})
+
+			setAccountData({
+				full_name: '',
+				rate: 0,
+				calculation_percent: 0,
+				developer_percent: 0,
+			})
+			setAccountLoaded(false)
+			setWorkTypes([
+				{
+					id: 0,
+					work_name: '',
+					category: '',
+					price: 0,
+					dev_tips: 0,
+				},
+			])
+			setTableLoaded(false)
+			setReports({ reports: [], dates: [] })
 			setPaysLoaded(false)
+			setCurrentDate('')
+			setReloadData(true)
 			return
 		}
+
 		if (!reloadData) return
 
 		const paymentsRequestor = axios.create()
@@ -194,6 +217,7 @@ export default function Account({ toSummary }) {
 		if (!accountLoaded) {
 			return
 		}
+
 		if (!reloadData) return
 
 		const paymentsRequestor = axios.create()
@@ -304,7 +328,9 @@ export default function Account({ toSummary }) {
 		if (!accountLoaded) {
 			return
 		}
+
 		if (!reloadData) return
+
 		const paymentsRequestor = axios.create()
 		paymentsRequestor.interceptors.request.use(
 			(config) => {
@@ -349,6 +375,7 @@ export default function Account({ toSummary }) {
 			})
 			.then(() => {
 				setTableLoaded(true)
+				console.log('false')
 				setReloadData(false)
 			})
 	}, [accountLoaded, reloadData])
@@ -365,13 +392,31 @@ export default function Account({ toSummary }) {
 	return isLogged ? (
 		<div className="account__wrapper">
 			<div className="account__general-wrapper">
-				<div className="account__general card-item">
-					<h2>Пользователь</h2>
-					<div>{`${accountData.full_name}`}</div>
-					<div>{`Ставка: ${accountData.rate}`}</div>
-					<div>{`От расчетов: ${accountData.calculation_percent}%`}</div>
-					<div>{`От разработки: ${accountData.developer_percent}%`}</div>
-				</div>
+				{accountLoaded ? (
+					<div className="card-item account__general">
+						<div className="account__general-item">
+							<h3 className="account__general-value">
+								{accountData.full_name.split(' ')[0]}
+							</h3>
+							<div className="account__general-sub">{`${
+								accountData.full_name.split(' ')[1]
+							} ${accountData.full_name.split(' ')[2]}`}</div>
+						</div>
+						<div className="account__general-item">
+							<h3 className="account__general-value">{accountData.rate}</h3>
+							<div className="account__general-sub">Ставка</div>
+						</div>
+						<div className="account__general-item">
+							<h3 className="account__general-value">{`${accountData.calculation_percent}%`}</h3>
+							<div className="account__general-sub">От расчетов</div>
+						</div>
+						<div className="account__general-item">
+							<h3 className="account__general-value">{`${accountData.developer_percent}%`}</h3>
+							<div className="account__general-sub">От разработки</div>
+						</div>
+					</div>
+				) : null}
+
 				<div className="account__pays-wrapper">
 					<DisplayCard
 						title="Выплата"

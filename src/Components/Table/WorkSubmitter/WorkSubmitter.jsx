@@ -27,22 +27,14 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 
 	const [isError, setIsError] = useState(false)
 
-	useEffect(() => {
-		document
-			.getElementById('search-bar-input-1')
-			.addEventListener('change', (event) => {
-				setInputType(event.target.value)
-			})
-	}, [])
-
 	function clear() {
-		setNewShow(false)
 		setInputDate(new Date().toJSON().slice(0, 10))
 		setInputType('')
 		setInputCategory('')
 		setInputID(-1)
 		setInputCount('')
 		setInputAdditional('')
+		setNewShow(false)
 	}
 	// useEffect(() => {
 	// 	console.log(inputType)
@@ -78,9 +70,6 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 		)
 		postNewData.interceptors.response.use(
 			function(response) {
-				clear()
-				setTable()
-				setReloadData(true)
 				return response
 			},
 			function(error) {
@@ -122,7 +111,18 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 				count: inputCount,
 			})
 			.then((response) => {
-				console.log(response)
+				if (response.status === 200) {
+					clear()
+					return false
+				}
+				submitError(response.status)
+				return true
+			})
+			.then((isError) => {
+				if (!isError) {
+					setReloadData(true)
+					setTable()
+				}
 			})
 	}
 
@@ -151,7 +151,7 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 
 			<div className="mobile-sbmtr__input">
 				<label htmlFor="search">Тип</label>
-				<Context.Provider value={{ setInputType }}>
+				<Context.Provider value={{ inputType, setInputType }}>
 					<SearchBar data={searchData} />
 				</Context.Provider>
 			</div>
@@ -229,7 +229,7 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 					/>
 				</td>
 				<td>
-					<Context.Provider value={{ setInputType }}>
+					<Context.Provider value={{ inputType, setInputType }}>
 						<SearchBar data={searchData} />
 					</Context.Provider>
 				</td>
@@ -277,6 +277,7 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 						<button
 							className="dynamic-table__btn_cancel"
 							onClick={() => {
+								clear()
 								setNewShow(false)
 							}}
 						>
