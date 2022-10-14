@@ -12,12 +12,13 @@
 	width: fit-content;
 	max-width: 100%;
 	padding: 1.15rem 1.15rem 1.15rem 1.15rem;
-	row-gap: calc(var(--row-gap) * 2);
+	row-gap: calc(var(--row-gap) * 4);
 
 	overflow-x: auto;
 }
 .dynamic-table__wrapper {
 	display: inline-flex;
+	flex-direction: column;
 
 	/* margin: 1rem 1.5rem; */
 

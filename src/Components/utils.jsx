@@ -66,8 +66,6 @@ export function parseReports(data) {
 
 	const items = Object.keys(data)
 
-	console.log(data)
-
 	if (items.length > 0) {
 		items.forEach((item) => {
 			const reportItem = { ...data[item] }

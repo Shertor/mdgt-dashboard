@@ -58,6 +58,9 @@ export default function Account({ toSummary }) {
 	//
 	const [currentDate, setCurrentDate] = useState('')
 
+	//
+	const [reloadData, setReloadData] = useState(true)
+
 	/*
 		Запрос и заполнение данных пользователя и выплат за текущий месяц
 	*/
@@ -71,6 +74,7 @@ export default function Account({ toSummary }) {
 			setPaysLoaded(false)
 			return
 		}
+		if (!reloadData) return
 
 		const paymentsRequestor = axios.create()
 		paymentsRequestor.interceptors.request.use(
@@ -158,7 +162,7 @@ export default function Account({ toSummary }) {
 											if (Object.keys(data).includes('courses')) {
 												let _courses_summ = 0
 												Object.keys(data.courses).forEach((report_type) => {
-													_courses_summ += data.reports[report_type].payment
+													_courses_summ += data.courses[report_type].payment
 												})
 												_payments['courses'] = _courses_summ
 											} else {
@@ -181,7 +185,7 @@ export default function Account({ toSummary }) {
 		return () => {
 			clearInterval(interval)
 		}
-	}, [isLogged])
+	}, [isLogged, reloadData])
 
 	/*
 		Запрос и заполнение графиков по выплатам и отчетам
@@ -190,6 +194,7 @@ export default function Account({ toSummary }) {
 		if (!accountLoaded) {
 			return
 		}
+		if (!reloadData) return
 
 		const paymentsRequestor = axios.create()
 		paymentsRequestor.interceptors.request.use(
@@ -258,7 +263,7 @@ export default function Account({ toSummary }) {
 								if (Object.keys(data).includes('courses')) {
 									let _courses_summ = 0
 									Object.keys(data.courses).forEach((report_type) => {
-										_courses_summ += data.reports[report_type].payment
+										_courses_summ += data.courses[report_type].payment
 									})
 									_generalPays_item['courses'] = _courses_summ
 								} else {
@@ -290,12 +295,16 @@ export default function Account({ toSummary }) {
 				setPaysLoaded(true)
 			})
 			.catch((error) => {})
-	}, [accountLoaded])
+	}, [accountLoaded, reloadData])
 
 	/*
 		Запрос и заполнение данных для таблицы
 	*/
 	useEffect(() => {
+		if (!accountLoaded) {
+			return
+		}
+		if (!reloadData) return
 		const paymentsRequestor = axios.create()
 		paymentsRequestor.interceptors.request.use(
 			(config) => {
@@ -340,8 +349,9 @@ export default function Account({ toSummary }) {
 			})
 			.then(() => {
 				setTableLoaded(true)
+				setReloadData(false)
 			})
-	}, [isLogged])
+	}, [accountLoaded, reloadData])
 
 	/*
 	 * Подписи к линиям и их цвета на грфике выплат
@@ -420,7 +430,9 @@ export default function Account({ toSummary }) {
 				</div>
 			</div>
 			{tableLoaded ? (
-				<Context.Provider value={{ api, accountData, currentDate }}>
+				<Context.Provider
+					value={{ api, accountData, currentDate, setReloadData }}
+				>
 					<Table searchData={workTypes} />
 				</Context.Provider>
 			) : (

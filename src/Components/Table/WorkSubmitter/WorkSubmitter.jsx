@@ -8,9 +8,14 @@ import SearchBar from '../../SearchBar/SearchBar'
 import Context from '../../../context'
 
 export default function WorkSubmitter({ searchData, isMobileType = false }) {
-	const { api, newShow, accountData, setNewShow, setTable } = useContext(
-		Context
-	)
+	const {
+		api,
+		newShow,
+		accountData,
+		setNewShow,
+		setTable,
+		setReloadData,
+	} = useContext(Context)
 
 	// Данные из заполняемых ячеек в таблице
 	const [inputDate, setInputDate] = useState(new Date().toJSON().slice(0, 10))
@@ -75,6 +80,7 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 			function(response) {
 				clear()
 				setTable()
+				setReloadData(true)
 				return response
 			},
 			function(error) {
@@ -107,13 +113,17 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 		}
 
 		// console.log(accountData);
-		postNewData.post(`${api}works/`, {
-			user_id: accountData.id,
-			date: inputDate,
-			object_number: inputAdditional,
-			work_id: inputID,
-			count: inputCount,
-		})
+		postNewData
+			.post(`${api}works/`, {
+				user_id: accountData.id,
+				date: inputDate,
+				object_number: inputAdditional,
+				work_id: inputID,
+				count: inputCount,
+			})
+			.then((response) => {
+				console.log(response)
+			})
 	}
 
 	function submitError(text) {
@@ -127,6 +137,7 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 	return isMobileType ? (
 		// МОБИЛЬНАЯ ВЕРСИЯ, ИСПОЛЬЗУЕТСЯ ВНЕ! ТАБЛИЦЫ
 		<div className={`mobile-sbmtr__wrapper ${isError ? 'error' : ''}`}>
+			<h3>Добавление записи</h3>
 			<div className="mobile-sbmtr__input">
 				<label htmlFor="date">Дата</label>
 				<input

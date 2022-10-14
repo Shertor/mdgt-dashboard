@@ -9,7 +9,7 @@ import Context from '../../context'
 import useWindowDimensions from '../windowResizeHook'
 
 export default function Table({ searchData }) {
-	const { api, accountData, currentDate } = useContext(Context)
+	const { api, accountData, currentDate, setReloadData } = useContext(Context)
 
 	const [mobile, setMobile] = useState(false)
 
@@ -68,8 +68,6 @@ export default function Table({ searchData }) {
 						const _result = searchData.filter((i) => i.name === item.work_name)
 						item['work_category'] = _result[0].position
 
-						console.log(_result)
-
 						const options = { year: 'numeric', month: 'short', day: 'numeric' }
 						const formatDate = new Intl.DateTimeFormat('ru-RU', options)
 							.format(new Date(item.date))
@@ -86,7 +84,7 @@ export default function Table({ searchData }) {
 	}, [])
 
 	useEffect(() => {
-		if (width <= 768) {
+		if (width <= 1155) {
 			if (!mobile) setMobile(true)
 		} else {
 			if (mobile) setMobile(false)
@@ -98,81 +96,96 @@ export default function Table({ searchData }) {
 			<h1>{`Выполненные работы за ${currentDate}`}</h1>
 			{mobile ? (
 				<Context.Provider
-					value={{ api, accountData, newShow, setNewShow, setTable }}
+					value={{
+						api,
+						accountData,
+						newShow,
+						setNewShow,
+						setTable,
+						setReloadData,
+					}}
 				>
-					<h3>Добавление записи</h3>
 					<WorkSubmitter
 						searchData={searchData}
 						isMobileType={true}
 					></WorkSubmitter>
-					<h3>Таблица работ (с прокруткой вправо)</h3>
 				</Context.Provider>
 			) : null}
-			<div className="dynamic-table__wrapper">
-				<table className="dynamic-table">
-					<thead className="dynamic-table__head">
-						<tr>
-							<th className="date" scope="col">
-								Дата
-							</th>
-							<th scope="col">Тип</th>
-							<th scope="col">Категория</th>
-							<th scope="col">Количество</th>
-							<th scope="col">Дополнительно</th>
-						</tr>
-						{mobile ? null : (
-							<tr
-								className={
-									newShow
-										? 'dynamic-table__add-btn hidden'
-										: 'dynamic-table__add-btn'
-								}
-								onClick={() => {
-									setNewShow(!newShow)
-								}}
-							>
-								<td>
-									<div className="plus-icon">
-										<svg width="13" height="13">
-											<path
-												d="M6 6V.5a.5.5 0 0 1 1 0V6h5.5a.5.5 0 1 1 0 1H7v5.5a.5.5 0 1 1-1 0V7H.5a.5.5 0 0 1 0-1H6z"
-												fill="currentColor"
-												fillRule="evenodd"
-											></path>
-										</svg>
-									</div>
-									Добавить запись
-								</td>
+			<div className="dynamic-table__table-item">
+				{mobile ? <h3>Таблица работ с прокруткой вправо</h3> : null}
+				<div className="dynamic-table__wrapper">
+					<table className="dynamic-table">
+						<thead className="dynamic-table__head">
+							<tr>
+								<th className="date" scope="col">
+									Дата
+								</th>
+								<th scope="col">Тип</th>
+								<th scope="col">Категория</th>
+								<th scope="col">Количество</th>
+								<th scope="col">Дополнительно</th>
 							</tr>
-						)}
-					</thead>
-					<tbody>
-						<Context.Provider
-							value={{ api, accountData, newShow, setNewShow, setTable }}
-						>
 							{mobile ? null : (
-								<WorkSubmitter searchData={searchData}></WorkSubmitter>
-							)}
-						</Context.Provider>
-
-						{works.map((item) => {
-							return (
 								<tr
-									className="dynamic-table__row"
-									key={`${item.date}_${item.object_number}_${item.id}`}
+									className={
+										newShow
+											? 'dynamic-table__add-btn hidden'
+											: 'dynamic-table__add-btn'
+									}
+									onClick={() => {
+										setNewShow(!newShow)
+									}}
 								>
 									<td>
-										<div className="date">{item.date}</div>
+										<div className="plus-icon">
+											<svg width="13" height="13">
+												<path
+													d="M6 6V.5a.5.5 0 0 1 1 0V6h5.5a.5.5 0 1 1 0 1H7v5.5a.5.5 0 1 1-1 0V7H.5a.5.5 0 0 1 0-1H6z"
+													fill="currentColor"
+													fillRule="evenodd"
+												></path>
+											</svg>
+										</div>
+										Добавить запись
 									</td>
-									<td>{item.work_name}</td>
-									<td>{item.work_category}</td>
-									<td>{item.count}</td>
-									<td>{item.object_number}</td>
 								</tr>
-							)
-						})}
-					</tbody>
-				</table>
+							)}
+						</thead>
+						<tbody>
+							<Context.Provider
+								value={{
+									api,
+									accountData,
+									newShow,
+									setNewShow,
+									setTable,
+									setReloadData,
+								}}
+							>
+								{mobile ? null : (
+									<WorkSubmitter searchData={searchData}></WorkSubmitter>
+								)}
+							</Context.Provider>
+
+							{works.map((item) => {
+								return (
+									<tr
+										className="dynamic-table__row"
+										key={`${item.date}_${item.object_number}_${item.id}`}
+									>
+										<td>
+											<div className="date">{item.date}</div>
+										</td>
+										<td>{item.work_name}</td>
+										<td>{item.work_category}</td>
+										<td>{item.count}</td>
+										<td>{item.object_number}</td>
+									</tr>
+								)
+							})}
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	)
