@@ -4,7 +4,9 @@
 
 	width: 100%;
 	min-width: 100%;
-	min-height: 1100px;
+
+	/* Минимальная высота плюс 150 пикселей - это высота серч бара с типами опыта в таблице */
+	min-height: calc(1080px + 150px);
 
 	row-gap: calc(var(--row-gap));
 }

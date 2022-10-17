@@ -58,6 +58,24 @@ export async function login(username, password) {
 	return false
 }
 
+/**
+ * @param {[{}]} data Список со словарями из /works/reports 
+ * содержащий типы отчетов и их количества в виде:
+ * [
+  {
+    "date": "2022-10-25",
+    "python_report": 1613,
+    "python_dynamic_report": 1000254,
+    "python_compression_report": 0,
+    "mathcad_report": 0,
+    "physical_statement": 0,
+    "mechanics_statement": 0,
+    "python_all": 1001867,
+    "python_percent": 100
+  },
+ * ]
+ * @returns {{reports: reports, dates: dates }} resultData
+ */
 export function parseReports(data) {
 	const options = { year: 'numeric', month: 'short' }
 

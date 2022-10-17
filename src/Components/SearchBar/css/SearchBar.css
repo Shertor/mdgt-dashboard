@@ -31,6 +31,8 @@ SearchBar container
 	height: 90%;
 	align-items: center;
 	z-index: 1;
+
+	white-space: normal;
 }
 
 /*Cancel button styles*/

@@ -2,13 +2,18 @@ import React, { useState, useEffect } from 'react'
 import './css/SearchBar.css'
 import Context from '../../context'
 import { useContext } from 'react'
+import { useRef } from 'react'
 
 function SearchBar({ data }) {
 	const [results, setResults] = useState([])
 	// const [keyword, setKeyword] = useState('')
 	const [visible, setVisible] = useState(false)
 
+	const [stopBlur, setStopBlur] = useState(false)
+
 	const { inputType, setInputType } = useContext(Context)
+
+	const toggleContainer = useRef()
 
 	function updateKeyword(text) {
 		// setKeyword(text)
@@ -56,11 +61,8 @@ function SearchBar({ data }) {
 
 	useEffect(() => {
 		function voidCLick(e) {
-			if (
-				e.target.className !== 'search-preview' &&
-				e.target.className !== 'search-preview start' &&
-				e.target.className !== 'search-bar' &&
-				e.target.className !== 'clicker'
+			if (!toggleContainer.current) return
+			if (visible && !toggleContainer.current.contains(e.target)
 			) {
 				if (results.length < 1) {
 					cancelSearch()
@@ -71,7 +73,31 @@ function SearchBar({ data }) {
 		document.addEventListener('click', voidCLick)
 
 		return () => document.removeEventListener('click', voidCLick)
-	})
+	}, [])
+
+	function onInputBlur() {
+		if (!stopBlur) {
+			cancelSearch()
+		}
+	}
+
+	//stateless component to render preview results
+	const SearchPreview = ({ name, position, index, updateText }) => {
+		return (
+			<div
+				onClick={() => updateText(name)}
+				ref={toggleContainer}
+				className={`search-preview ${index === 0 ? 'start' : ''}`}
+				
+			>
+				<div className="first">
+					<p className="name">{name}</p>
+					<p className="sub-header">{position}</p>
+				</div>
+				<div className="clicker"></div>
+			</div>
+		)
+	}
 
 	return (
 		<div className="auto">
@@ -89,12 +115,21 @@ function SearchBar({ data }) {
 				value={inputType}
 				name="search"
 				onFocus={(e) => onSearch(e.target.value)}
+				onBlur={(e) => {
+					e.preventDefault()
+					e.stopPropagation()
+					onInputBlur()
+				}}
 				onChange={(e) => onSearch(e.target.value)}
 				id="search-bar-input-1"
 			/>
 
 			{visible ? (
-				<div className="search-results">
+				<div
+					className="search-results"
+					onMouseEnter={()=>setStopBlur(true)}
+					onMouseLeave={()=>setStopBlur(false)}
+				>
 					{results.map(({ position, name }, index) => {
 						return (
 							<SearchPreview
@@ -108,24 +143,6 @@ function SearchBar({ data }) {
 					})}
 				</div>
 			) : null}
-		</div>
-	)
-}
-
-//stateless component to render preview results
-const SearchPreview = ({ name, position, index, updateText }) => {
-	return (
-		<div
-			onClick={(e) => {
-				updateText(name)
-			}}
-			className={`search-preview ${index === 0 ? 'start' : ''}`}
-		>
-			<div className="first">
-				<p className="name">{name}</p>
-				<p className="sub-header">{position}</p>
-			</div>
-			<div className="clicker"></div>
 		</div>
 	)
 }

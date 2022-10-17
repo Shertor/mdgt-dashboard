@@ -45,17 +45,7 @@ export default function Table({ searchData }) {
 				return { data: null }
 			}
 		)
-		// [
-		// 	{
-		// 	  "id": 1,
-		// 	  "date": "2022-10-06",
-		// 	  "object_number": "111",
-		// 	  "work_name": "Протокол python",
-		// 	  "work_id": 1,
-		// 	  "count": 1,
-		// 	  "price": 30
-		// 	}
-		//   ]
+
 		const _date = new Date()
 		tableRequestor
 			.get(
@@ -63,6 +53,17 @@ export default function Table({ searchData }) {
 			)
 			.then((response) => {
 				if (response.status === 200) {
+					// [
+					// 	{
+					// 	  "id": 1,
+					// 	  "date": "2022-10-06",
+					// 	  "object_number": "111",
+					// 	  "work_name": "Протокол python",
+					// 	  "work_id": 1,
+					// 	  "count": 1,
+					// 	  "price": 30
+					// 	}
+					//   ]
 					const data = response.data
 					data.forEach((item) => {
 						const _result = searchData.filter((i) => i.name === item.work_name)
@@ -83,8 +84,10 @@ export default function Table({ searchData }) {
 		setTable()
 	}, [])
 
+	const mobileWidth = 1155
+
 	useEffect(() => {
-		if (width <= 1155) {
+		if (width <= mobileWidth) {
 			if (!mobile) setMobile(true)
 		} else {
 			if (mobile) setMobile(false)

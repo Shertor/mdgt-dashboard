@@ -16,19 +16,14 @@
 
 	/* overflow-x: auto; */
 }
+
 .dynamic-table__wrapper {
 	display: inline-flex;
 	flex-direction: column;
 
-	/* margin: 1rem 1.5rem; */
-
 	width: fit-content;
-	/* max-width: 100%; */
 	height: fit-content;
 	min-height: 100px;
-
-	/* overflow-y: auto;
-	overflow-x: auto; */
 
 	border: 1px solid var(--first-color-lighten);
 	border-radius: 4px;
@@ -68,7 +63,7 @@
 	padding-right: 16px;
 
 	overflow: hidden;
-	/* white-space: nowrap; */
+	white-space: nowrap;
 	text-overflow: ellipsis;
 
 	min-width: var(--table-col-width);
@@ -129,4 +124,11 @@
 }
 .plus-icon {
 	padding: 0.2rem;
+}
+
+@media screen and (max-width: 1155px) {
+	.dynamic-table__wrapper {
+		max-width: 100%;
+		overflow-x: auto;
+	}
 }

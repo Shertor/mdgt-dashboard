@@ -375,7 +375,6 @@ export default function Account({ toSummary }) {
 			})
 			.then(() => {
 				setTableLoaded(true)
-				console.log('false')
 				setReloadData(false)
 			})
 	}, [accountLoaded, reloadData])

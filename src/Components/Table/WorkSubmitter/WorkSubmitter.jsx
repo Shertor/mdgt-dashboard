@@ -111,6 +111,7 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 				count: inputCount,
 			})
 			.then((response) => {
+				console.log(response);
 				if (response.status === 200) {
 					clear()
 					return false
@@ -203,7 +204,7 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 				>
 					Отмена
 				</button>
-				<button className="dynamic-table__btn_submit" onClick={onSubmitClick}>
+				<button type='submit' className="dynamic-table__btn_submit" onClick={onSubmitClick}>
 					Сохранить
 				</button>
 			</div>
