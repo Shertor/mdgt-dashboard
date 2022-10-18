@@ -12,7 +12,7 @@ import NotLogged from '../NotLogged/NotLogged'
 import Table from '../Table/Table'
 
 export default function Account({ toSummary }) {
-	const { isLogged, api, setLogged, userName } = useContext(Context)
+	const { isLogged, api, setLogged } = useContext(Context)
 
 	// Выплаты по пользователю за месяц, заполняется из /works/pay
 	const [payments, setPayments] = useState({
@@ -134,11 +134,11 @@ export default function Account({ toSummary }) {
 				setCurrentDate(date)
 
 				paymentsRequestor
-					.get(`${api}staff/${userName}`)
+					.get(`${api}staff/user/`)
 					.then((response) => {
 						if (response.status === 200) {
-							setAccountData(response.data[0])
-							return response.data[0]
+							setAccountData(response.data)
+							return response.data
 						}
 						return null
 					})

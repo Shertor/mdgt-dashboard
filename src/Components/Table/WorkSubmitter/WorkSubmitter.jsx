@@ -17,6 +17,9 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 		setReloadData,
 	} = useContext(Context)
 
+	// Блок повторной отправки
+	const [sbmtPressed, setSbmtPressed] = useState(false)
+
 	// Данные из заполняемых ячеек в таблице
 	const [inputDate, setInputDate] = useState(new Date().toJSON().slice(0, 10))
 	const [inputType, setInputType] = useState('')
@@ -25,7 +28,9 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 	const [inputCount, setInputCount] = useState('')
 	const [inputAdditional, setInputAdditional] = useState('')
 
+	// Флаг ошибка исообщение с ошибкой
 	const [isError, setIsError] = useState(false)
+	const [errorText, setErrorText] = useState('')
 
 	function clear() {
 		setInputDate(new Date().toJSON().slice(0, 10))
@@ -53,6 +58,9 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 	function onSubmitClick(event) {
 		event.preventDefault()
 		event.stopPropagation()
+
+		if (sbmtPressed) return
+		setSbmtPressed(true)
 
 		const postNewData = axios.create()
 		postNewData.interceptors.request.use(
@@ -111,7 +119,6 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 				count: inputCount,
 			})
 			.then((response) => {
-				console.log(response);
 				if (response.status === 200) {
 					clear()
 					return false
@@ -125,13 +132,16 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 					setTable()
 				}
 			})
+			.then(() => setSbmtPressed(false))
 	}
 
 	function submitError(text) {
-		console.log(text)
+		setErrorText(text)
 		setIsError(true)
 		setTimeout(() => {
 			setIsError(false)
+			setErrorText('')
+			setSbmtPressed(false)
 		}, 1000)
 	}
 
@@ -204,9 +214,16 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 				>
 					Отмена
 				</button>
-				<button type='submit' className="dynamic-table__btn_submit" onClick={onSubmitClick}>
+				<button
+					type="submit"
+					className="dynamic-table__btn_submit"
+					onClick={onSubmitClick}
+				>
 					Сохранить
 				</button>
+				{isError ? (
+					<div className="dynamic-table__error">{errorText}</div>
+				) : null}
 			</div>
 		</div>
 	) : (
@@ -249,6 +266,7 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 						type="number"
 						placeholder="Количество"
 						value={inputCount}
+						min={1}
 						onChange={(event) => setInputCount(event.target.value)}
 					/>
 				</td>
@@ -272,7 +290,11 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 				<td></td>
 				<td></td>
 				<td></td>
-				<td></td>
+				<td>
+					{isError ? (
+						<div className="dynamic-table__error">{errorText}</div>
+					) : null}
+				</td>
 				<td>
 					<div className="dynamic-table__btns">
 						<button
@@ -287,6 +309,7 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 						<button
 							className="dynamic-table__btn_submit"
 							onClick={onSubmitClick}
+							type="submit"
 						>
 							Сохранить
 						</button>

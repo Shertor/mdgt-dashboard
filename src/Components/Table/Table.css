@@ -1,5 +1,5 @@
 :root {
-	--table-col-width: 220px;
+	--table-col-width: 240px;
 }
 
 /*
@@ -77,10 +77,68 @@
 	max-width: 160px;
 }
 
+.dynamic-table__head th.half-width,
+.dynamic-table__row td.half-width {
+	min-width: 160px;
+	width: 160px;
+	max-width: 160px;
+}
+
 .dynamic-table__row {
+	position: relative;
+
 	height: 52px;
 
 	border-top: 1px solid var(--first-color-lighten);
+}
+
+.dynamic-table__row td.dynamic-table__actions {
+	position: absolute;
+	top: 50%;
+	left: 0.5rem;
+
+	display: inline-flex;
+	column-gap: 0.25rem;
+	align-items: center;
+	justify-content: center;
+
+	width: fit-content;
+	min-width: fit-content;
+	padding: 0.25rem 0.5rem;
+
+	transform: translate(-0%, -50%);
+
+	border-radius: 0.25rem;
+
+	background-color: var(--body-color);
+
+	color: var(--title-color);
+
+	visibility: hidden;
+}
+
+.dynamic-table__row:hover td.dynamic-table__actions {
+	visibility: visible;
+}
+
+.dynamic-table__actions .dynamic-table__actions__del-btn,
+.dynamic-table__actions .dynamic-table__actions__edit-btn {
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+
+	padding: 0.25rem 0.75rem;
+
+	background-color: transparent;
+
+	opacity: 0.6;
+}
+
+.dynamic-table__actions .dynamic-table__actions__del-btn:hover,
+.dynamic-table__actions .dynamic-table__actions__del-btn:focus-visible,
+.dynamic-table__actions .dynamic-table__actions__edit-btn:hover,
+.dynamic-table__actions .dynamic-table__actions__edit-btn:focus-visible {
+	opacity: 1;
 }
 
 /*
