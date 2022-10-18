@@ -140,6 +140,7 @@ export default function Table({ searchData }) {
 
 		requestor.request(`${api}works/?id=${workID}`).then(() => {
 			setTable()
+			setReloadData(true)
 		})
 	}
 
