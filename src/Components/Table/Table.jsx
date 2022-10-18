@@ -289,7 +289,7 @@ export default function Table({ searchData }) {
 											<div className="half-width">{item.count}</div>
 										</td>
 										<td>{item.object_number}</td>
-										<td className="dynamic-table__actions">
+										<td className={`dynamic-table__actions ${mobile?'dynamic-table__actions_mobile':''}`}>
 											<button
 												className="dynamic-table__actions__del-btn"
 												title="Удалить"

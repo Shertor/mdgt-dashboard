@@ -7,6 +7,8 @@
 */
 
 .dynamic-table-item {
+	position: relative;
+
 	display: flex;
 	flex-direction: column;
 	width: fit-content;
@@ -85,7 +87,7 @@
 }
 
 .dynamic-table__row {
-	position: relative;
+	/* position: relative; */
 
 	height: 52px;
 
@@ -94,8 +96,7 @@
 
 .dynamic-table__row td.dynamic-table__actions {
 	position: absolute;
-	top: 50%;
-	left: 0.5rem;
+	right: 1.5rem;
 
 	display: inline-flex;
 	column-gap: 0.25rem;
@@ -106,7 +107,7 @@
 	min-width: fit-content;
 	padding: 0.25rem 0.5rem;
 
-	transform: translate(-0%, -50%);
+	transform: translate(-0%, 1px);
 
 	border-radius: 0.25rem;
 
@@ -114,11 +115,17 @@
 
 	color: var(--title-color);
 
-	visibility: hidden;
+	display: none;
+
+	height: 50px;
 }
 
 .dynamic-table__row:hover td.dynamic-table__actions {
-	visibility: visible;
+	display: inline-flex;
+}
+
+.dynamic-table__row td.dynamic-table__actions.dynamic-table__actions_mobile {
+	display: inline-flex;
 }
 
 .dynamic-table__actions .dynamic-table__actions__del-btn,
