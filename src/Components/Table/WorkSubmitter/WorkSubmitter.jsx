@@ -15,18 +15,34 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 		setNewShow,
 		setTable,
 		setReloadData,
+		inputDate,
+		setInputDate,
+		inputType,
+		setInputType,
+		inputCategory,
+		setInputCategory,
+		inputID,
+		setInputID,
+		inputCount,
+		setInputCount,
+		inputAdditional,
+		setInputAdditional,
+		editMode,
+		setEditMode,
+		workID,
+		setWorkID,
 	} = useContext(Context)
 
 	// Блок повторной отправки
 	const [sbmtPressed, setSbmtPressed] = useState(false)
 
 	// Данные из заполняемых ячеек в таблице
-	const [inputDate, setInputDate] = useState(new Date().toJSON().slice(0, 10))
-	const [inputType, setInputType] = useState('')
-	const [inputCategory, setInputCategory] = useState('')
-	const [inputID, setInputID] = useState(-1)
-	const [inputCount, setInputCount] = useState('')
-	const [inputAdditional, setInputAdditional] = useState('')
+	// const [inputDate, setInputDate] = useState(new Date().toJSON().slice(0, 10))
+	// const [inputType, setInputType] = useState('')
+	// const [inputCategory, setInputCategory] = useState('')
+	// const [inputID, setInputID] = useState(-1)
+	// const [inputCount, setInputCount] = useState('')
+	// const [inputAdditional, setInputAdditional] = useState('')
 
 	// Флаг ошибка исообщение с ошибкой
 	const [isError, setIsError] = useState(false)
@@ -40,6 +56,9 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 		setInputCount('')
 		setInputAdditional('')
 		setNewShow(false)
+		setWorkID(-1)
+
+		setEditMode(false)
 	}
 	// useEffect(() => {
 	// 	console.log(inputType)
@@ -145,6 +164,89 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 		}, 1000)
 	}
 
+	function onEditClick(event) {
+		event.preventDefault()
+		event.stopPropagation()
+
+		if (sbmtPressed) return
+		setSbmtPressed(true)
+
+		const postNewData = axios.create()
+		postNewData.interceptors.request.use(
+			(config) => {
+				// Код, необходимый до отправки запроса
+				config.method = 'put'
+				config.headers = { 'Content-Type': 'application/json' }
+				config.withCredentials = true
+				return config
+			},
+			(error) => {
+				// Обработка ошибки из запроса
+				return Promise.reject(error)
+			}
+		)
+		postNewData.interceptors.response.use(
+			function(response) {
+				return response
+			},
+			function(error) {
+				// Do something with response error
+				if (error.response.status === 401) {
+					submitError('Ошибка при отправке данных')
+				}
+				return { data: null }
+			}
+		)
+
+		const _result = searchData.filter((item) => item.name === inputType)
+
+		if (_result.length !== 1) {
+			submitError('Выберите тип отчета из списка')
+			return
+		}
+		if (inputID < 0) {
+			submitError('Проверьте корректность данных')
+			return
+		}
+		if (
+			inputDate === '' ||
+			inputType === '' ||
+			inputCount === '' ||
+			inputAdditional === ''
+		) {
+			submitError('Пожалуйста, заполните все поля')
+			return
+		}
+		if (workID < 0) {
+			submitError('Работа не найдена в базе')
+			return
+		}
+
+		postNewData
+			.put(`${api}works/?id=${workID}`, {
+				user_id: accountData.id,
+				date: inputDate,
+				object_number: inputAdditional,
+				work_id: inputID,
+				count: inputCount,
+			})
+			.then((response) => {
+				if (response.status === 200) {
+					clear()
+					return false
+				}
+				submitError(response.status)
+				return true
+			})
+			.then((isError) => {
+				if (!isError) {
+					setReloadData(true)
+					setTable()
+				}
+			})
+			.then(() => setSbmtPressed(false))
+	}
+
 	return isMobileType ? (
 		// МОБИЛЬНАЯ ВЕРСИЯ, ИСПОЛЬЗУЕТСЯ ВНЕ! ТАБЛИЦЫ
 		<div className={`mobile-sbmtr__wrapper ${isError ? 'error' : ''}`}>
@@ -217,7 +319,16 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 				<button
 					type="submit"
 					className="dynamic-table__btn_submit"
-					onClick={onSubmitClick}
+					onClick={(e) => {
+						if (!editMode) {
+							onSubmitClick(e)
+							return
+						}
+						if (editMode) {
+							onEditClick(e)
+							return
+						}
+					}}
 				>
 					Сохранить
 				</button>
@@ -308,7 +419,16 @@ export default function WorkSubmitter({ searchData, isMobileType = false }) {
 						</button>
 						<button
 							className="dynamic-table__btn_submit"
-							onClick={onSubmitClick}
+							onClick={(e) => {
+								if (!editMode) {
+									onSubmitClick(e)
+									return
+								}
+								if (editMode) {
+									onEditClick(e)
+									return
+								}
+							}}
 							type="submit"
 						>
 							Сохранить

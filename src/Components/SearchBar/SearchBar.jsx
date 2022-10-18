@@ -62,8 +62,7 @@ function SearchBar({ data }) {
 	useEffect(() => {
 		function voidCLick(e) {
 			if (!toggleContainer.current) return
-			if (visible && !toggleContainer.current.contains(e.target)
-			) {
+			if (visible && !toggleContainer.current.contains(e.target)) {
 				if (results.length < 1) {
 					cancelSearch()
 				} else setVisible(false)
@@ -88,7 +87,6 @@ function SearchBar({ data }) {
 				onClick={() => updateText(name)}
 				ref={toggleContainer}
 				className={`search-preview ${index === 0 ? 'start' : ''}`}
-				
 			>
 				<div className="first">
 					<p className="name">{name}</p>
@@ -127,8 +125,8 @@ function SearchBar({ data }) {
 			{visible ? (
 				<div
 					className="search-results"
-					onMouseEnter={()=>setStopBlur(true)}
-					onMouseLeave={()=>setStopBlur(false)}
+					onMouseEnter={() => setStopBlur(true)}
+					onMouseLeave={() => setStopBlur(false)}
 				>
 					{results.map(({ position, name }, index) => {
 						return (

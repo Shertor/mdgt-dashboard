@@ -134,11 +134,18 @@
 	opacity: 0.6;
 }
 
-.dynamic-table__actions .dynamic-table__actions__del-btn:hover,
-.dynamic-table__actions .dynamic-table__actions__del-btn:focus-visible,
-.dynamic-table__actions .dynamic-table__actions__edit-btn:hover,
-.dynamic-table__actions .dynamic-table__actions__edit-btn:focus-visible {
+.dynamic-table__actions .dynamic-table__actions__del-btn:hover:not(:disabled),
+.dynamic-table__actions
+	.dynamic-table__actions__del-btn:focus-visible:not(:disabled),
+.dynamic-table__actions .dynamic-table__actions__edit-btn:hover:not(:disabled),
+.dynamic-table__actions
+	.dynamic-table__actions__edit-btn:focus-visible:not(:disabled) {
 	opacity: 1;
+}
+
+.dynamic-table__actions .dynamic-table__actions__del-btn:disabled,
+.dynamic-table__actions .dynamic-table__actions__edit-btn:disabled {
+	opacity: 0.2;
 }
 
 /*

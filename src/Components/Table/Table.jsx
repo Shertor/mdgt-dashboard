@@ -19,6 +19,29 @@ export default function Table({ searchData }) {
 
 	const [works, setWorks] = useState([])
 
+	// Данные из заполняемых ячеек в таблице
+	const [inputDate, setInputDate] = useState(new Date().toJSON().slice(0, 10))
+	const [inputType, setInputType] = useState('')
+	const [inputCategory, setInputCategory] = useState('')
+	const [inputID, setInputID] = useState(-1)
+	const [workID, setWorkID] = useState(-1)
+	const [inputCount, setInputCount] = useState('')
+	const [inputAdditional, setInputAdditional] = useState('')
+	const [editMode, setEditMode] = useState(false)
+
+	function clear() {
+		setInputDate(new Date().toJSON().slice(0, 10))
+		setInputType('')
+		setInputCategory('')
+		setInputID(-1)
+		setInputCount('')
+		setInputAdditional('')
+		setNewShow(false)
+		setWorkID(-1)
+
+		setEditMode(false)
+	}
+
 	function setTable() {
 		const tableRequestor = axios.create()
 		tableRequestor.interceptors.request.use(
@@ -65,10 +88,11 @@ export default function Table({ searchData }) {
 					// 	  "price": 30
 					// 	}
 					//   ]
-					const data = response.data
+					let data = response.data
 					data.forEach((item) => {
 						const _result = searchData.filter((i) => i.name === item.work_name)
 						item['work_category'] = _result[0].position
+						item['full_date'] = item.date
 
 						const options = { year: 'numeric', month: 'short', day: 'numeric' }
 						const formatDate = new Intl.DateTimeFormat('ru-RU', options)
@@ -76,6 +100,7 @@ export default function Table({ searchData }) {
 							.replace(' г.', '')
 						item.date = formatDate
 					})
+					data = data.reverse()
 					setWorks(data)
 				}
 			})
@@ -118,6 +143,20 @@ export default function Table({ searchData }) {
 		})
 	}
 
+	function changeWork(date, type, category, id, count, additional) {
+		clear()
+
+		setNewShow(true)
+		setInputDate(date)
+		setInputType(type)
+		setInputCategory(category)
+		setWorkID(id)
+		setInputCount(count)
+		setInputAdditional(additional)
+
+		setEditMode(true)
+	}
+
 	const mobileWidth = 1155
 
 	useEffect(() => {
@@ -140,6 +179,22 @@ export default function Table({ searchData }) {
 						setNewShow,
 						setTable,
 						setReloadData,
+						inputDate,
+						setInputDate,
+						inputType,
+						setInputType,
+						inputCategory,
+						setInputCategory,
+						inputID,
+						setInputID,
+						inputCount,
+						setInputCount,
+						inputAdditional,
+						setInputAdditional,
+						editMode,
+						setEditMode,
+						workID,
+						setWorkID,
 					}}
 				>
 					<WorkSubmitter
@@ -199,6 +254,22 @@ export default function Table({ searchData }) {
 									setNewShow,
 									setTable,
 									setReloadData,
+									inputDate,
+									setInputDate,
+									inputType,
+									setInputType,
+									inputCategory,
+									setInputCategory,
+									inputID,
+									setInputID,
+									inputCount,
+									setInputCount,
+									inputAdditional,
+									setInputAdditional,
+									editMode,
+									setEditMode,
+									workID,
+									setWorkID,
 								}}
 							>
 								{mobile ? null : (
@@ -225,6 +296,7 @@ export default function Table({ searchData }) {
 												onClick={() => {
 													deleteWork(item.id)
 												}}
+												disabled={editMode}
 											>
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
@@ -240,6 +312,16 @@ export default function Table({ searchData }) {
 											<button
 												className="dynamic-table__actions__edit-btn"
 												title="Изменить"
+												onClick={() => {
+													changeWork(
+														item.full_date,
+														item.work_name,
+														item.work_category,
+														item.id,
+														item.count,
+														item.object_number
+													)
+												}}
 											>
 												<svg
 													xmlns="http://www.w3.org/2000/svg"
