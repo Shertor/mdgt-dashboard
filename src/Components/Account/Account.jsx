@@ -57,9 +57,25 @@ export default function Account({ toSummary }) {
 
 	//
 	const [currentDate, setCurrentDate] = useState('')
+	const [tableDate, setTableDate] = useState('')
+	const [tableFullDate, setTableFullDate] = useState(null)
 
 	//
 	const [reloadData, setReloadData] = useState(true)
+
+	function updateTableFullDate(date) {
+		if (date) {
+			setTableFullDate(date)
+			const options = { year: 'numeric', month: 'short' }
+			const formatdate = new Intl.DateTimeFormat('ru-RU', options)
+				.format(date)
+				.replace(' г.', '')
+			setTableDate(formatdate)
+			return
+		}
+		setTableFullDate(null)
+		setTableDate('')
+	}
 
 	/*
 		Запрос и заполнение данных пользователя и выплат за текущий месяц
@@ -92,6 +108,7 @@ export default function Account({ toSummary }) {
 			setTableLoaded(false)
 			setReports({ reports: [], dates: [] })
 			setPaysLoaded(false)
+			updateTableFullDate(null)
 			setCurrentDate('')
 			setReloadData(true)
 			return
@@ -127,11 +144,15 @@ export default function Account({ toSummary }) {
 
 		function updatePayments() {
 			if (isLogged) {
+				const newDate = new Date()
 				const options = { year: 'numeric', month: 'short' }
-				const date = new Intl.DateTimeFormat('ru-RU', options)
-					.format(new Date())
+				const formatdate = new Intl.DateTimeFormat('ru-RU', options)
+					.format(newDate)
 					.replace(' г.', '')
-				setCurrentDate(date)
+
+				setCurrentDate(formatdate)
+				updateTableFullDate(newDate)
+				
 
 				paymentsRequestor
 					.get(`${api}staff/user/`)
@@ -475,7 +496,14 @@ export default function Account({ toSummary }) {
 			</div>
 			{tableLoaded ? (
 				<Context.Provider
-					value={{ api, accountData, currentDate, setReloadData }}
+					value={{
+						api,
+						accountData,
+						tableDate,
+						setReloadData,
+						tableFullDate,
+						updateTableFullDate,
+					}}
 				>
 					<Table searchData={workTypes} />
 				</Context.Provider>

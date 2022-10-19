@@ -40,6 +40,48 @@
 	table-layout: fixed;
 }
 
+.dynamic-table__header {
+	display: inline-flex;
+	column-gap: 0.5rem;
+	row-gap: 0.5rem;
+
+	align-items: center;
+
+	flex-wrap: wrap;
+
+	white-space: nowrap;
+}
+
+.dynamic-table__header h1 {
+	white-space: normal;
+}
+
+.dynamic-table__header__buttons{
+	display: inline-flex;
+	column-gap: 0.5rem;
+
+	align-items: center;
+
+	flex-wrap: wrap;
+
+	white-space: nowrap;
+}
+
+.dynamic-table__header button {
+	background-color: transparent;
+	display: inline-flex;
+	border-radius: 0.25rem;
+	width: fit-content;
+	height: fit-content;
+
+	opacity: 0.6;
+}
+
+.dynamic-table__header button:hover,
+.dynamic-table__header button:focus-visible {
+	opacity: 1;
+}
+
 /*
  * Заголовки и настройки строк
 */
@@ -202,5 +244,13 @@
 	.dynamic-table__wrapper {
 		max-width: 100%;
 		overflow-x: auto;
+	}
+}
+
+
+@media screen and (max-width: 425px) {
+	.dynamic-table__header__buttons {
+		width: 100%;
+		justify-content: center;
 	}
 }

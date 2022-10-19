@@ -9,7 +9,7 @@ import Context from '../../context'
 import useWindowDimensions from '../windowResizeHook'
 
 export default function Table({ searchData }) {
-	const { api, accountData, currentDate, setReloadData } = useContext(Context)
+	const { api, accountData, setReloadData } = useContext(Context)
 
 	const [mobile, setMobile] = useState(false)
 
@@ -18,6 +18,9 @@ export default function Table({ searchData }) {
 	const [newShow, setNewShow] = useState(false)
 
 	const [works, setWorks] = useState([])
+
+	const [tableDate, setTableDate] = useState('')
+	const [tableFullDate, setTableFullDate] = useState(null)
 
 	// Данные из заполняемых ячеек в таблице
 	const [inputDate, setInputDate] = useState(new Date().toJSON().slice(0, 10))
@@ -40,6 +43,24 @@ export default function Table({ searchData }) {
 		setWorkID(-1)
 
 		setEditMode(false)
+	}
+
+	/**
+	 * Обновляет дату для таблицы в формате мес. гггг. в `tableDate` и полную дату в `tableFullDate`
+	 * @param {Date} date Полная дата
+	 */
+	function updateTableFullDate(date) {
+		if (date) {
+			setTableFullDate(date)
+			const options = { year: 'numeric', month: 'short' }
+			const formatdate = new Intl.DateTimeFormat('ru-RU', options)
+				.format(date)
+				.replace(' г.', '')
+			setTableDate(formatdate)
+		} else {
+			setTableFullDate(null)
+			setTableDate('')
+		}
 	}
 
 	function setTable() {
@@ -69,7 +90,12 @@ export default function Table({ searchData }) {
 			}
 		)
 
-		const _date = new Date()
+		const currDate = new Date()
+		let _date = tableFullDate
+		if (!_date) {
+			_date = currDate
+		}
+
 		tableRequestor
 			.get(
 				`${api}works/?month=${_date.getMonth() +
@@ -107,8 +133,12 @@ export default function Table({ searchData }) {
 	}
 
 	useEffect(() => {
-		setTable()
+		updateTableFullDate(new Date())
 	}, [])
+
+	useEffect(() => {
+		setTable()
+	}, [tableDate])
 
 	function deleteWork(workID) {
 		if (workID < 0) return
@@ -170,7 +200,46 @@ export default function Table({ searchData }) {
 
 	return (
 		<div className="card-item dynamic-table-item">
-			<h1>{`Выполненные работы за ${currentDate}`}</h1>
+			<div className="dynamic-table__header">
+				<h1>{`Выполненные работы за`}</h1>
+				<div className="dynamic-table__header__buttons">
+					<button
+						onClick={() => {
+							const date = tableFullDate
+							date.setMonth(date.getMonth() - 1)
+							updateTableFullDate(date)
+						}}
+					>
+						<svg
+							className="arrow-left"
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+						>
+							<path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"></path>
+						</svg>
+					</button>
+					<h1>{tableDate}</h1>
+					<button
+						onClick={() => {
+							const date = tableFullDate
+							date.setMonth(date.getMonth() + 1)
+							updateTableFullDate(date)
+						}}
+						title=""
+					>
+						<svg
+							className="arrow-right"
+							xmlns="http://www.w3.org/2000/svg"
+							width="24"
+							height="24"
+						>
+							<path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"></path>
+						</svg>
+					</button>
+				</div>
+			</div>
+
 			{mobile ? (
 				<Context.Provider
 					value={{
@@ -290,7 +359,11 @@ export default function Table({ searchData }) {
 											<div className="half-width">{item.count}</div>
 										</td>
 										<td>{item.object_number}</td>
-										<td className={`dynamic-table__actions ${mobile?'dynamic-table__actions_mobile':''}`}>
+										<td
+											className={`dynamic-table__actions ${
+												mobile ? 'dynamic-table__actions_mobile' : ''
+											}`}
+										>
 											<button
 												className="dynamic-table__actions__del-btn"
 												title="Удалить"
