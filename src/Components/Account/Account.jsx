@@ -282,6 +282,7 @@ export default function Account({ toSummary }) {
 			const _generalReports = []
 			const _generalPaysDates = []
 			const date = new Date()
+			date.setMonth(date.getMonth() - month[0])
 
 			for (const i of month) {
 				date.setMonth(date.getMonth() - i)
